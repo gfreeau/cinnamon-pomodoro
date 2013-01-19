@@ -44,10 +44,6 @@ MyApplet.prototype = {
         try {
             this._parseConfig();
 
-            this.menuManager = new PopupMenu.PopupMenuManager(this);
-            this.menu = new Applet.AppletPopupMenu(this, orientation);
-            this.menuManager.addMenu(this.menu);
-
             this._timeSpent = -1;
             this._minutes = 0;
             this._seconds = 0;
@@ -62,6 +58,10 @@ MyApplet.prototype = {
 
             // Set default menu
             this._setTimerLabel("[00] 00:00");
+
+            this.menuManager = new PopupMenu.PopupMenuManager(this);
+            this.menu = new Applet.AppletPopupMenu(this, orientation);
+            this.menuManager.addMenu(this.menu);
 
             // Toggle timer state button
             this._timerToggle = new PopupMenu.PopupSwitchMenuItem(_("Pomodoro Timer"), false);
@@ -84,59 +84,7 @@ MyApplet.prototype = {
             this._buildOptionsMenu();
             this.menu.addMenuItem(this._optionsMenu);
 
-            // Dialog
-            this._dialog = new ModalDialog.ModalDialog({ style_class: 'polkit-dialog' });
-
-            let mainContentBox = new St.BoxLayout({ style_class: 'polkit-dialog-main-layout',
-                vertical: false });
-            this._dialog.contentLayout.add(mainContentBox,
-                { x_fill: true,
-                    y_fill: true });
-
-            //let icon = new St.Icon({ icon_name: 'pomodoro-symbolic' });
-            //mainContentBox.add(icon,
-            //                   { x_fill:  true,
-            //                     y_fill:  false,
-            //                     x_align: St.Align.END,
-            //                     y_align: St.Align.START });
-
-            let messageBox = new St.BoxLayout({ style_class: 'polkit-dialog-message-layout',
-                vertical: true });
-            mainContentBox.add(messageBox,
-                { y_align: St.Align.START });
-
-            this._subjectLabel = new St.Label({ style_class: 'polkit-dialog-headline',
-                text: _("Pomodoro Finished!") });
-
-            messageBox.add(this._subjectLabel,
-                { y_fill:  false,
-                    y_align: St.Align.START });
-
-            this._descriptionLabel = new St.Label({ style_class: 'polkit-dialog-description',
-                text: '' });
-            this._descriptionLabel.clutter_text.ellipsize = Pango.EllipsizeMode.NONE;
-            this._descriptionLabel.clutter_text.line_wrap = true;
-
-            messageBox.add(this._descriptionLabel,
-                { y_fill:  true,
-                    y_align: St.Align.START });
-
-            this._dialog.contentLayout.add(this._descriptionLabel,
-                { x_fill: true,
-                    y_fill: true });
-            this._dialog.setButtons([
-                { label: _("Hide"),
-                    action: Lang.bind(this, function(param) {
-                        this._dialog.close();
-                        this._notifyPomodoroEnd(_('Pomodoro finished, take a break!'), true);
-                    }),
-                    key: Clutter.Escape
-                },
-                { label: _("Start a new Pomodoro"),
-                    action: Lang.bind(this, function(param) {
-                        this._startNewPomodoro();
-                    }),
-                },]);
+            this._createDialogWindow();
 
             // Start the timer
             this._refreshTimer();
@@ -148,6 +96,10 @@ MyApplet.prototype = {
 
     on_applet_clicked: function(event) {
         this.menu.toggle();
+    },
+
+    _setTimerLabel: function(text) {
+        this.set_applet_label(text);
     },
 
     // Add whatever options the timer needs to this submenu
@@ -246,8 +198,71 @@ MyApplet.prototype = {
         timerLengthSection.addMenuItem(this._lBreakTimeSlider);
     },
 
-    _setTimerLabel: function(text) {
-        this.set_applet_label(text);
+    _createDialogWindow: function() {
+        this._dialog = new ModalDialog.ModalDialog({ style_class: 'polkit-dialog' });
+
+        let mainContentBox = new St.BoxLayout({
+            style_class: 'polkit-dialog-main-layout',
+            vertical: false
+        });
+
+        this._dialog.contentLayout.add(mainContentBox, {
+            x_fill: true,
+            y_fill: true
+        });
+
+        let messageBox = new St.BoxLayout({
+            style_class: 'polkit-dialog-message-layout',
+            vertical: true
+        });
+
+        mainContentBox.add(messageBox, {
+            y_align: St.Align.START
+        });
+
+        this._subjectLabel = new St.Label({
+            style_class: 'polkit-dialog-headline',
+            text: _("Pomodoro Finished!")
+        });
+
+        messageBox.add(this._subjectLabel, {
+            y_fill:  false,
+            y_align: St.Align.START
+        });
+
+        this._descriptionLabel = new St.Label({
+                style_class: 'polkit-dialog-description',
+                text: '' }
+        );
+        this._descriptionLabel.clutter_text.ellipsize = Pango.EllipsizeMode.NONE;
+        this._descriptionLabel.clutter_text.line_wrap = true;
+
+        messageBox.add(this._descriptionLabel, {
+            y_fill:  true,
+            y_align: St.Align.START
+        });
+
+        this._dialog.contentLayout.add(this._descriptionLabel, {
+            x_fill: true,
+            y_fill: true
+        });
+
+        this._dialog.setButtons([
+            {
+                label: _("Hide"),
+                action: Lang.bind(this, function(param) {
+                    this._dialog.close();
+                    this._notifyPomodoroEnd(_('Pomodoro finished, take a break!'), true);
+                }),
+                key: Clutter.Escape
+            },
+            {
+                label: _("Start a new Pomodoro"),
+                action: Lang.bind(this, function(param) {
+                    this._startNewPomodoro();
+                })
+            }
+        ]);
     },
 
     // Handles option changes in the UI, saves the configuration
