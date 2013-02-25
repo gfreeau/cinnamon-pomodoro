@@ -6,6 +6,7 @@ Installation
 
 In order to install cinnamon-pomodoro you have to execute following steps:
 * Clone the repository
+
     $ git clone https://github.com/gfreeau/cinnamon-pomodoro.git
     Cloning into 'cinnamon-pomodoro'...
     remote: Counting objects: 13, done.
@@ -13,6 +14,7 @@ In order to install cinnamon-pomodoro you have to execute following steps:
     remote: Total 13 (delta 2), reused 13 (delta 2)
     Unpacking objects: 100% (13/13), done.
     $
+
 * Alternatively,  if you don't have GIT installed you can just download zip file from https://github.com/gfreeau/cinnamon-pomodoro/archive/master.zip  and unpack it to any directory
 
 * Now move the applet to ~/.local/share/cinnamon/applets
