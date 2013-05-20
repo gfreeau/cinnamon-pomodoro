@@ -1,5 +1,7 @@
 Cinnamon applet for pomodoro based off of https://github.com/codito/gnome-shell-pomodoro v0.5
 
+This is for Cinnamon 1.8, there is a version available for 1.6 here: https://github.com/gfreeau/cinnamon-pomodoro/tree/1.6
+
 
 Installation
 ============
