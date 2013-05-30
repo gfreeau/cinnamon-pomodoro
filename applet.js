@@ -17,6 +17,7 @@ const appletUUID = 'pomodoro@gregfreeman.org';
 const appletPath = imports.ui.appletManager._find_applet(appletUUID).get_path();
 
 const startSound = 'start.wav';
+const timerSound = 'EggTimer.ogg';
 
 function MyApplet(orientation, panel_height, instance_id) {
     this._init(orientation, panel_height, instance_id);
@@ -248,6 +249,7 @@ MyApplet.prototype = {
         }
 
         this._playNotificationSound();
+        this._playTimerSound();
     },
 
     // Notify user of changes
@@ -269,6 +271,8 @@ MyApplet.prototype = {
         }
         if (this._showDialogMessages && hideDialog != true)
             this._dialog.open();
+            
+        this._stopTimerSound();
     },
 
     _playNotificationSound: function() {
@@ -287,6 +291,24 @@ MyApplet.prototype = {
             global.logError("Pomodoro: Error playing a sound: " + err.message);
         }
     },
+    
+    _playTimerSound: function() {
+        if (GLib.find_program_in_path('play') != null) {
+            Util.trySpawnCommandLine("play -q " + GLib.shell_quote(appletPath + "/" + timerSound) + " repeat 215");
+        }
+        else {
+            global.logError("Pomodoro: Unable to find the 'play' binary. Check 'sox' is well installed.");
+        }
+    },
+    
+    _stopTimerSound: function() {
+        if (GLib.find_program_in_path('pkill') != null) {
+            Util.trySpawnCommandLine("pkill play");
+        }
+        else {
+            global.logError("Pomodoro: Unable to find the 'pkill' binary.");
+        }
+    },
 
     // Toggle timer state
     _toggleTimerState: function(item) {
@@ -298,6 +320,7 @@ MyApplet.prototype = {
             this._stopTimer = true;
             this._isPause = false;
             this._setTimerLabel("[%02d] 00:00".format(this._sessionCount));
+            this._stopTimerSound();
         }
         else {
             this._timeSpent = -1;
@@ -306,6 +329,7 @@ MyApplet.prototype = {
             this._stopTimer = false;
             this._isPause = false;
             this._refreshTimer();
+            this._playTimerSound();
         }
         this._checkTimerState();
     },
