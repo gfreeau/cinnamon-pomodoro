@@ -17,7 +17,7 @@ const appletUUID = 'pomodoro@gregfreeman.org';
 const appletPath = imports.ui.appletManager._find_applet(appletUUID).get_path();
 
 const startSound = 'start.wav';
-const timerSound = 'EggTimer.ogg';
+var timerSound = GLib.shell_quote(appletPath + '/EggTimer.ogg');
 
 function MyApplet(orientation, panel_height, instance_id) {
     this._init(orientation, panel_height, instance_id);
@@ -96,7 +96,15 @@ MyApplet.prototype = {
             "_playSound",
             this.on_settings_changed,
             null
-        ); 
+        );
+        
+        this.settings.bindProperty(Settings.BindingDirection.IN,
+            "timer_sound", "play_timer_sound", this.on_settings_changed, null
+        );
+        
+        this.settings.bindProperty(Settings.BindingDirection.IN,
+            "timer_sound_file", "timer_sound_filepath", this.on_timer_sound_file_changed, null
+        );
         
         // initial values
 
@@ -293,11 +301,14 @@ MyApplet.prototype = {
     },
     
     _playTimerSound: function() {
-        if (GLib.find_program_in_path('play') != null) {
-            Util.trySpawnCommandLine("play -q " + GLib.shell_quote(appletPath + "/" + timerSound) + " repeat 215");
-        }
-        else {
-            global.logError("Pomodoro: Unable to find the 'play' binary. Check 'sox' is well installed.");
+        if (this.play_timer_sound)
+        {
+            if (GLib.find_program_in_path('play') != null) {
+                Util.trySpawnCommandLine("play -q " + timerSound + " repeat 9999");
+            }
+            else {
+                global.logError("Pomodoro: Unable to find the 'play' binary. Check 'sox' is well installed.");
+            }
         }
     },
     
@@ -479,6 +490,13 @@ MyApplet.prototype = {
     on_long_break_duration_changed: function() {
         this._convertLongBreakDurationToSeconds();
         this._resetTimerDurations();
+    },
+    
+    on_timer_sound_file_changed: function() {       
+        let gFile = Gio.file_new_for_path(this.timer_sound_filepath);
+        if(gFile.query_exists(null)) {
+            timerSound = GLib.shell_quote(this.timer_sound_filepath);
+        }
     },
 
     on_applet_removed_from_panel: function() {

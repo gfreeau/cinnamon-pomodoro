@@ -58,6 +58,20 @@
         "type" : "checkbox",
         "description" : "Sound Notifications",
         "default" : true
+    },
+    
+    "timer_sound" : {
+        "type" : "checkbox",
+        "description" : "Timer Sound",
+        "default" : false
+    },
+    
+    "timer_sound_file" : {
+        "type" : "filechooser",
+        "description" : "Timer Sound",
+        "default" : "EggTimer.ogg",
+        "select-dir" : false,
+        "dependency" : "timer_sound"
     }
 }
 
