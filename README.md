@@ -19,8 +19,8 @@ In order to install cinnamon-pomodoro you have to execute following steps:
     $
 </pre>
 * Alternatively, if you don't have GIT installed you can just download zip file from https://github.com/gfreeau/cinnamon-pomodoro/archive/master.zip
-** Unpack it to the `~/.local/share/cinnamon/applets directory` directory
-** Rename the directory `cinnamon-pomodoro-master` into `pomodoro@gregfreeman.org`
+    * Unpack it to the `~/.local/share/cinnamon/applets directory` directory
+    * Rename the directory `cinnamon-pomodoro-master` into `pomodoro@gregfreeman.org`
 
 * Finally, enable the applet by going to Menu->Settings->Applets and selecting Pomodoro
 * Get productive!
