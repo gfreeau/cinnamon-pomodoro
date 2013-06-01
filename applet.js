@@ -210,8 +210,8 @@ MyApplet.prototype = {
     },
     
     // Reset the current running timer
-    _resetTimer: function() {
-        if (!this._stopTimer && this._isPause) {
+    _resetTimer: function() {       
+        if (!this._stopTimer && !this._isPause) {
             this._timeSpent = 0;
             this._updateTimer();
         }
