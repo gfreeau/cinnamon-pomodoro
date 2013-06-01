@@ -29,17 +29,17 @@ MyApplet.prototype = {
     _init: function(orientation, panel_height, instance_id) {
         Applet.TextIconApplet.prototype._init.call(this, orientation, panel_height, instance_id);
 
-        this._timeSpent = -1;
-        this._minutes = 0;
-        this._seconds = 0;
-        this._stopTimer = true;
-        this._isPause = false;
-        this._pauseTime = 0;
+        this._timeSpent = -1; // time spent in seconds, used to check if pomodoro time or break time is over
+        this._minutes = 0; // used to display the minuts spent of pomodoro time
+        this._seconds = 0; // used to display the seconds spent of pomodoro time
+        this._stopTimer = true; // defined if pomodoro timer is running or not
+        this._isPause = false; // defined if break time is in progress or not
+        this._pauseTime = 0; // duration of a break timein seconds, may vary between short and long break
         this._pauseCount = 0; // Number of short pauses so far. Reset every 4 pauses.
         this._sessionCount = 0; // Number of pomodoro sessions completed so far!
-        this._labelMsg = new St.Label({ text: 'Stopped'});
-        this._notification = null;
-        this._dialog = null;
+        this._labelMsg = new St.Label({ text: 'Stopped'}); // unused ?
+        this._notification = null; // the last notification, kept in a variable to delete it when a new one is created
+        this._dialog = null; // the modal dialog window, used to close and open it
 
         this._setTimerLabel("[00] 00:00");
 
@@ -48,73 +48,52 @@ MyApplet.prototype = {
         this.menuManager.addMenu(this.menu);
 
         this.settings = new Settings.AppletSettings(this, appletUUID, instance_id);
+        this._bindSettings();
 
-        this.settings.bindProperty(Settings.BindingDirection.IN,
-            "pomodoro_duration",
-            "_pomodoroTime",
-            this.on_pomodoro_duration_changed,
-            null
-        ); 
-
-        this.settings.bindProperty(Settings.BindingDirection.IN,
-            "short_break_duration",
-            "_shortPauseTime",
-            this.on_short_break_duration_changed,
-            null
-        ); 
-
-        this.settings.bindProperty(Settings.BindingDirection.IN,
-            "long_break_duration",
-            "_longPauseTime",
-            this.on_long_break_duration_changed,
-            null
-        ); 
-
-        this.settings.bindProperty(Settings.BindingDirection.IN,
-            "show_countdown_timer",
-            "_showCountdownTimer",
-            this.on_settings_changed,
-            null
-        ); 
-
-        this.settings.bindProperty(Settings.BindingDirection.IN,
-            "show_notification_messages",
-            "_showNotificationMessages",
-            this.on_settings_changed,
-            null
-        ); 
-
-        this.settings.bindProperty(Settings.BindingDirection.IN,
-            "show_dialog_messages",
-            "_showDialogMessages",
-            this.on_settings_changed,
-            null
-        ); 
-
-        this.settings.bindProperty(Settings.BindingDirection.IN,
-            "sound_notifications",
-            "_playSound",
-            this.on_settings_changed,
-            null
-        );
-        
-        this.settings.bindProperty(Settings.BindingDirection.IN,
-            "timer_sound", "play_timer_sound", this.on_settings_changed, null
-        );
-        
-        this.settings.bindProperty(Settings.BindingDirection.IN,
-            "timer_sound_file", "timer_sound_filepath", this.on_timer_sound_file_changed, null
-        );
-        
-        // initial values
-
-        // configuration of these durations are stored as minutes
+        // convert settings values stored in minutes into seconds
         this._convertPomodoroDurationToSeconds();
         this._convertShortBreakDurationToSeconds();
         this._convertLongBreakDurationToSeconds();
 
-        // Panel menu
+        this._createPanelMenu();
 
+        // creates the modal dialog window
+        this._createDialogWindow();
+
+        // Start the timer
+        this._refreshTimer();
+    },
+    
+    _bindSettings: function() {
+        this.settings.bindProperty(Settings.BindingDirection.IN,
+            "pomodoro_duration", "_pomodoroTime", this.on_pomodoro_duration_changed, null); 
+
+        this.settings.bindProperty(Settings.BindingDirection.IN,
+            "short_break_duration", "_shortPauseTime", this.on_short_break_duration_changed, null); 
+
+        this.settings.bindProperty(Settings.BindingDirection.IN,
+            "long_break_duration", "_longPauseTime", this.on_long_break_duration_changed, null); 
+
+        this.settings.bindProperty(Settings.BindingDirection.IN,
+            "show_countdown_timer", "_showCountdownTimer", this.on_settings_changed, null); 
+
+        this.settings.bindProperty(Settings.BindingDirection.IN, 
+            "show_notification_messages", "_showNotificationMessages", this.on_settings_changed, null); 
+
+        this.settings.bindProperty(Settings.BindingDirection.IN,
+            "show_dialog_messages", "_showDialogMessages", this.on_settings_changed, null); 
+
+        this.settings.bindProperty(Settings.BindingDirection.IN,
+            "sound_notifications", "_playSound", this.on_settings_changed, null);
+        
+        this.settings.bindProperty(Settings.BindingDirection.IN,
+            "timer_sound", "play_timer_sound", this.on_settings_changed, null);
+        
+        this.settings.bindProperty(Settings.BindingDirection.IN,
+            "timer_sound_file", "timer_sound_filepath", this.on_timer_sound_file_changed, null);
+    },
+
+    _createPanelMenu: function() {
         this._timerToggle = new PopupMenu.PopupSwitchMenuItem(_("Pomodoro Timer"), false);
         this._timerToggle.connect("toggled", Lang.bind(this, this._toggleTimerState));
         this.menu.addMenuItem(this._timerToggle);
@@ -129,19 +108,16 @@ MyApplet.prototype = {
         let resetItem = new PopupMenu.PopupMenuItem(_('Reset Counts and Timer'));
         resetItem.connect('activate', Lang.bind(this, this._resetCount));
         this.menu.addMenuItem(resetItem);
+        
+        let resetTimerItem = new PopupMenu.PopupMenuItem(_('Reset Timer'));
+        resetTimerItem.connect('activate', Lang.bind(this, this._resetTimer));
+        this.menu.addMenuItem(resetTimerItem);
 
         let settingsItem = new PopupMenu.PopupMenuItem("Settings");
         settingsItem.connect("activate", Lang.bind(this, function() {
             Util.trySpawnCommandLine("cinnamon-settings applets " + appletUUID);
         }));
         this.menu.addMenuItem(settingsItem);
-        
-        // end menu
-
-        this._createDialogWindow();
-
-        // Start the timer
-        this._refreshTimer();
     },
 
     _createDialogWindow: function() {
@@ -231,6 +207,14 @@ MyApplet.prototype = {
         this._checkTimerState();
         this._updateTimer();
         return false;
+    },
+    
+    // Reset the current running timer
+    _resetTimer: function() {       
+        if (!this._stopTimer && !this._isPause) {
+            this._timeSpent = 0;
+            this._updateTimer();
+        }
     },
 
     _createNotificationSource: function() {
