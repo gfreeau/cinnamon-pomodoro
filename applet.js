@@ -54,28 +54,7 @@ MyApplet.prototype = {
         this._convertShortBreakDurationToSeconds();
         this._convertLongBreakDurationToSeconds();
 
-        // Panel menu
-        this._timerToggle = new PopupMenu.PopupSwitchMenuItem(_("Pomodoro Timer"), false);
-        this._timerToggle.connect("toggled", Lang.bind(this, this._toggleTimerState));
-        this.menu.addMenuItem(this._timerToggle);
-
-        let statsItem = new PopupMenu.PopupMenuItem("Collected", { reactive: false });
-        let bin = new St.Bin({ x_align: St.Align.END });
-        this._sessionCountLabel = new St.Label({ text: "None" });
-        bin.add_actor(this._sessionCountLabel);
-        statsItem.addActor(bin, { expand: true, span: -1, align: St.Align.END });
-        this.menu.addMenuItem(statsItem);
-
-        let resetItem = new PopupMenu.PopupMenuItem(_('Reset Counts and Timer'));
-        resetItem.connect('activate', Lang.bind(this, this._resetCount));
-        this.menu.addMenuItem(resetItem);
-
-        let settingsItem = new PopupMenu.PopupMenuItem("Settings");
-        settingsItem.connect("activate", Lang.bind(this, function() {
-            Util.trySpawnCommandLine("cinnamon-settings applets " + appletUUID);
-        }));
-        this.menu.addMenuItem(settingsItem);
-        // end menu
+        this._createPanelMenu();
 
         // creates the modal dialog window
         this._createDialogWindow();
@@ -113,6 +92,29 @@ MyApplet.prototype = {
         
         this.settings.bindProperty(Settings.BindingDirection.IN,
             "timer_sound_file", "timer_sound_filepath", this.on_timer_sound_file_changed, null);
+    },
+
+    _createPanelMenu: function() {
+        this._timerToggle = new PopupMenu.PopupSwitchMenuItem(_("Pomodoro Timer"), false);
+        this._timerToggle.connect("toggled", Lang.bind(this, this._toggleTimerState));
+        this.menu.addMenuItem(this._timerToggle);
+
+        let statsItem = new PopupMenu.PopupMenuItem("Collected", { reactive: false });
+        let bin = new St.Bin({ x_align: St.Align.END });
+        this._sessionCountLabel = new St.Label({ text: "None" });
+        bin.add_actor(this._sessionCountLabel);
+        statsItem.addActor(bin, { expand: true, span: -1, align: St.Align.END });
+        this.menu.addMenuItem(statsItem);
+
+        let resetItem = new PopupMenu.PopupMenuItem(_('Reset Counts and Timer'));
+        resetItem.connect('activate', Lang.bind(this, this._resetCount));
+        this.menu.addMenuItem(resetItem);
+
+        let settingsItem = new PopupMenu.PopupMenuItem("Settings");
+        settingsItem.connect("activate", Lang.bind(this, function() {
+            Util.trySpawnCommandLine("cinnamon-settings applets " + appletUUID);
+        }));
+        this.menu.addMenuItem(settingsItem);
     },
 
     _createDialogWindow: function() {
