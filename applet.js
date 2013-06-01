@@ -47,6 +47,7 @@ MyApplet.prototype = {
         this.menu = new Applet.AppletPopupMenu(this, orientation);
         this.menuManager.addMenu(this.menu);
 
+        this.settings = new Settings.AppletSettings(this, appletUUID, instance_id);
         this._bindSettings();
 
         // convert settings values stored in minutes into seconds
@@ -64,8 +65,6 @@ MyApplet.prototype = {
     },
     
     _bindSettings: function() {
-        this.settings = new Settings.AppletSettings(this, appletUUID, instance_id);
-
         this.settings.bindProperty(Settings.BindingDirection.IN,
             "pomodoro_duration", "_pomodoroTime", this.on_pomodoro_duration_changed, null); 
 
