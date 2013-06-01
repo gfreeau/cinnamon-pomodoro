@@ -108,6 +108,10 @@ MyApplet.prototype = {
         let resetItem = new PopupMenu.PopupMenuItem(_('Reset Counts and Timer'));
         resetItem.connect('activate', Lang.bind(this, this._resetCount));
         this.menu.addMenuItem(resetItem);
+        
+        let resetTimerItem = new PopupMenu.PopupMenuItem(_('Reset Timer'));
+        resetTimerItem.connect('activate', Lang.bind(this, this._resetTimer));
+        this.menu.addMenuItem(resetTimerItem);
 
         let settingsItem = new PopupMenu.PopupMenuItem("Settings");
         settingsItem.connect("activate", Lang.bind(this, function() {
@@ -203,6 +207,14 @@ MyApplet.prototype = {
         this._checkTimerState();
         this._updateTimer();
         return false;
+    },
+    
+    // Reset the current running timer
+    _resetTimer: function() {
+        if (!this._stopTimer && this._isPause) {
+            this._timeSpent = 0;
+            this._updateTimer();
+        }
     },
 
     _createNotificationSource: function() {
