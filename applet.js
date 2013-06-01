@@ -47,64 +47,7 @@ MyApplet.prototype = {
         this.menu = new Applet.AppletPopupMenu(this, orientation);
         this.menuManager.addMenu(this.menu);
 
-        this.settings = new Settings.AppletSettings(this, appletUUID, instance_id);
-
-        this.settings.bindProperty(Settings.BindingDirection.IN,
-            "pomodoro_duration",
-            "_pomodoroTime",
-            this.on_pomodoro_duration_changed,
-            null
-        ); 
-
-        this.settings.bindProperty(Settings.BindingDirection.IN,
-            "short_break_duration",
-            "_shortPauseTime",
-            this.on_short_break_duration_changed,
-            null
-        ); 
-
-        this.settings.bindProperty(Settings.BindingDirection.IN,
-            "long_break_duration",
-            "_longPauseTime",
-            this.on_long_break_duration_changed,
-            null
-        ); 
-
-        this.settings.bindProperty(Settings.BindingDirection.IN,
-            "show_countdown_timer",
-            "_showCountdownTimer",
-            this.on_settings_changed,
-            null
-        ); 
-
-        this.settings.bindProperty(Settings.BindingDirection.IN,
-            "show_notification_messages",
-            "_showNotificationMessages",
-            this.on_settings_changed,
-            null
-        ); 
-
-        this.settings.bindProperty(Settings.BindingDirection.IN,
-            "show_dialog_messages",
-            "_showDialogMessages",
-            this.on_settings_changed,
-            null
-        ); 
-
-        this.settings.bindProperty(Settings.BindingDirection.IN,
-            "sound_notifications",
-            "_playSound",
-            this.on_settings_changed,
-            null
-        );
-        
-        this.settings.bindProperty(Settings.BindingDirection.IN,
-            "timer_sound", "play_timer_sound", this.on_settings_changed, null
-        );
-        
-        this.settings.bindProperty(Settings.BindingDirection.IN,
-            "timer_sound_file", "timer_sound_filepath", this.on_timer_sound_file_changed, null
-        );
+        this._bindSettings();
 
         // convert settings values stored in minutes into seconds
         this._convertPomodoroDurationToSeconds();
@@ -139,6 +82,37 @@ MyApplet.prototype = {
 
         // Start the timer
         this._refreshTimer();
+    },
+    
+    _bindSettings: function() {
+        this.settings = new Settings.AppletSettings(this, appletUUID, instance_id);
+
+        this.settings.bindProperty(Settings.BindingDirection.IN,
+            "pomodoro_duration", "_pomodoroTime", this.on_pomodoro_duration_changed, null); 
+
+        this.settings.bindProperty(Settings.BindingDirection.IN,
+            "short_break_duration", "_shortPauseTime", this.on_short_break_duration_changed, null); 
+
+        this.settings.bindProperty(Settings.BindingDirection.IN,
+            "long_break_duration", "_longPauseTime", this.on_long_break_duration_changed, null); 
+
+        this.settings.bindProperty(Settings.BindingDirection.IN,
+            "show_countdown_timer", "_showCountdownTimer", this.on_settings_changed, null); 
+
+        this.settings.bindProperty(Settings.BindingDirection.IN, 
+            "show_notification_messages", "_showNotificationMessages", this.on_settings_changed, null); 
+
+        this.settings.bindProperty(Settings.BindingDirection.IN,
+            "show_dialog_messages", "_showDialogMessages", this.on_settings_changed, null); 
+
+        this.settings.bindProperty(Settings.BindingDirection.IN,
+            "sound_notifications", "_playSound", this.on_settings_changed, null);
+        
+        this.settings.bindProperty(Settings.BindingDirection.IN,
+            "timer_sound", "play_timer_sound", this.on_settings_changed, null);
+        
+        this.settings.bindProperty(Settings.BindingDirection.IN,
+            "timer_sound_file", "timer_sound_filepath", this.on_timer_sound_file_changed, null);
     },
 
     _createDialogWindow: function() {
