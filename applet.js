@@ -37,7 +37,6 @@ MyApplet.prototype = {
         this._pauseTime = 0; // duration of a break timein seconds, may vary between short and long break
         this._pauseCount = 0; // Number of short pauses so far. Reset every 4 pauses.
         this._sessionCount = 0; // Number of pomodoro sessions completed so far!
-        this._labelMsg = new St.Label({ text: 'Stopped'}); // unused ?
         this._notification = null; // the last notification, kept in a variable to delete it when a new one is created
         this._dialog = null; // the modal dialog window, used to close and open it
         this._askStart = false; // defined if the user explicitly ask for a new pomodoro, used if _autoStartAfterBreak is set to false
