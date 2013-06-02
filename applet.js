@@ -358,13 +358,6 @@ MyApplet.prototype = {
                         this._notifyPomodoroStart(_('Pause finished, a new pomodoro is starting!'));
                     }
                 }
-                else {
-                    if (this._pauseCount == 0) { // _pauseCount is set to 0 every 4 pauses
-                        this._pauseTime = this._longPauseTime;
-                    } else {
-                        this._pauseTime = this._shortPauseTime;
-                    }
-                }
             }
             else if (this._timeSpent >= this._pomodoroTime) { // if a pomodoro is running and a pause is needed :)
                 this._pauseCount += 1;
