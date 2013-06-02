@@ -116,6 +116,10 @@ MyApplet.prototype = {
         let resetTimerItem = new PopupMenu.PopupMenuItem(_('Reset Timer'));
         resetTimerItem.connect('activate', Lang.bind(this, this._resetTimer));
         this.menu.addMenuItem(resetTimerItem);
+        
+        let endTaskItem = new PopupMenu.PopupMenuItem(_('End Current Pomodoro'));
+        endTaskItem.connect('activate', Lang.bind(this, this._endTask));
+        this.menu.addMenuItem(endTaskItem);
 
         let settingsItem = new PopupMenu.PopupMenuItem("Settings");
         settingsItem.connect("activate", Lang.bind(this, function() {
@@ -220,6 +224,13 @@ MyApplet.prototype = {
         if (!this._stopTimer && !this._isPause) {
             this._timeSpent = 0;
             this._updateTimer();
+        }
+    },
+    
+    _endTask: function() {       
+        if (!this._stopTimer && !this._isPause) {
+            this._timeSpent = 99999;
+            this._checkTimerState();
         }
     },
 
