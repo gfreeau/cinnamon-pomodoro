@@ -116,6 +116,10 @@ MyApplet.prototype = {
         let resetTimerItem = new PopupMenu.PopupMenuItem(_('Reset Timer'));
         resetTimerItem.connect('activate', Lang.bind(this, this._resetTimer));
         this.menu.addMenuItem(resetTimerItem);
+        
+        let endTaskItem = new PopupMenu.PopupMenuItem(_('End Current Pomodoro'));
+        endTaskItem.connect('activate', Lang.bind(this, this._endTask));
+        this.menu.addMenuItem(endTaskItem);
 
         let settingsItem = new PopupMenu.PopupMenuItem("Settings");
         settingsItem.connect("activate", Lang.bind(this, function() {
@@ -210,9 +214,8 @@ MyApplet.prototype = {
         this._isPause = false;
         this._sessionCount = 0;
         this._pauseCount = 0;
-        this._checkTimerState();
+        this._checkTimerState(); // in that case reset the Collected field
         this._updateTimer();
-        return false;
     },
     
     // Reset the current running timer
@@ -220,6 +223,13 @@ MyApplet.prototype = {
         if (!this._stopTimer && !this._isPause) {
             this._timeSpent = 0;
             this._updateTimer();
+        }
+    },
+    
+    _endTask: function() {       
+        if (!this._stopTimer && !this._isPause) {
+            this._timeSpent = 99999;
+            this._checkTimerState();
         }
     },
 
@@ -336,15 +346,12 @@ MyApplet.prototype = {
 
     // Increment timeSpent and call functions to check timer states and update ui_timer
     _refreshTimer: function() {
-        if (this._stopTimer == false) {
+        if (!this._stopTimer) {
             this._timeSpent += 1;
             this._checkTimerState();
             this._updateTimer();
             Mainloop.timeout_add_seconds(1, Lang.bind(this, this._refreshTimer));
         }
-
-        this._updateTimer();
-        return false;
     },
 
     // Checks if timer needs to change state
@@ -410,34 +417,32 @@ MyApplet.prototype = {
 
     // Update timer_ui
     _updateTimer: function() {
-        if (!this._stopTimer) {
-            let seconds = this._timeSpent;
-            
-            if (this._showCountdownTimer) // if timer is used in countdown mode
-                seconds = (this._isPause ? this._pauseTime : this._pomodoroTime) - this._timeSpent;
+        let seconds = this._timeSpent;
+        
+        if (this._showCountdownTimer) // if timer is used in countdown mode
+            seconds = (this._isPause ? this._pauseTime : this._pomodoroTime) - this._timeSpent;
 
-            this._minutes = parseInt(seconds / 60);
-            this._seconds = parseInt(seconds % 60);
+        this._minutes = parseInt(seconds / 60);
+        this._seconds = parseInt(seconds % 60);
 
-            timer_text = "[%02d] ".format(this._sessionCount);
-            if (this._minutes < 0 || this._seconds < 0)
-                timer_text += "-";
-            timer_text += "%02d:%02d".format(Math.abs(this._minutes), Math.abs(this._seconds));
-            this._setTimerLabel(timer_text);
+        timer_text = "[%02d] ".format(this._sessionCount);
+        if (this._minutes < 0 || this._seconds < 0)
+            timer_text += "-";
+        timer_text += "%02d:%02d".format(Math.abs(this._minutes), Math.abs(this._seconds));
+        this._setTimerLabel(timer_text);
 
-            if (this._isPause && this._showDialogMessages)
-            {
-                let remaining_seconds = this._pauseTime - this._timeSpent;
-                let remaining_minutes = parseInt(Math.abs(remaining_seconds) / 60);
-                if (remaining_seconds < -59)
-                    this._descriptionLabel.text = _("You exceeded the break of %d minutes\n").format(remaining_minutes);
-                else if (remaining_seconds < 0)
-                    this._descriptionLabel.text = _("You exceeded the break of %d seconds\n").format(Math.abs(remaining_seconds));
-                else if (remaining_seconds < 60)
-                    this._descriptionLabel.text = _("Take a break! You have %d seconds\n").format(remaining_seconds);
-                else
-                    this._descriptionLabel.text = _("Take a break! You have %d minutes\n").format(remaining_minutes);
-            }
+        if (this._isPause && this._showDialogMessages)
+        {
+            let remaining_seconds = this._pauseTime - this._timeSpent;
+            let remaining_minutes = parseInt(Math.abs(remaining_seconds) / 60);
+            if (remaining_seconds < -59)
+                this._descriptionLabel.text = _("You exceeded the break of %d minutes\n").format(remaining_minutes);
+            else if (remaining_seconds < 0)
+                this._descriptionLabel.text = _("You exceeded the break of %d seconds\n").format(Math.abs(remaining_seconds));
+            else if (remaining_seconds < 60)
+                this._descriptionLabel.text = _("Take a break! You have %d seconds\n").format(remaining_seconds);
+            else
+                this._descriptionLabel.text = _("Take a break! You have %d minutes\n").format(remaining_minutes);
         }
     },
 
