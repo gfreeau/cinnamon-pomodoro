@@ -263,8 +263,6 @@ MyApplet.prototype = {
         }
         if (this._showDialogMessages && hideDialog != true)
             this._dialog.open();
-            
-        this._stopTimerSound();
     },
 
     _playNotificationSound: function() {
@@ -344,28 +342,24 @@ MyApplet.prototype = {
 
     // Checks if timer needs to change state
     _checkTimerState: function() {
-        if (this._stopTimer == false) {
-            // Check if a pause is running..
-            if (this._isPause == true) {
-                // Check if the pause is over
-                if (this._timeSpent >= this._pauseTime) {
+        if (!this._stopTimer) { // if timer is running
+            if (this._isPause) { // if a pause is running
+                if (this._timeSpent >= this._pauseTime) { // if the pause is over
                     this._timeSpent = 0;
                     this._isPause = false;
                     this._notifyPomodoroStart(_('Pause finished, a new pomodoro is starting!'));
                 }
                 else {
-                    if (this._pauseCount == 0) {
+                    if (this._pauseCount == 0) { // _pauseCount is set to 0 every 4 pauses
                         this._pauseTime = this._longPauseTime;
                     } else {
                         this._pauseTime = this._shortPauseTime;
                     }
                 }
             }
-            // ..or if a pomodoro is running and a pause is needed :)
-            else if (this._timeSpent >= this._pomodoroTime) {
+            else if (this._timeSpent >= this._pomodoroTime) { // if a pomodoro is running and a pause is needed :)
                 this._pauseCount += 1;
-                this._pauseTime = this._shortPauseTime;
-
+                
                 // Check if it's time of a longer pause
                 if (this._pauseCount == 4) {
                     this._pauseCount = 0;
@@ -373,6 +367,7 @@ MyApplet.prototype = {
                     this._notifyPomodoroEnd(_('4th pomodoro in a row finished, starting a long pause...'));
                 }
                 else {
+                    this._pauseTime = this._shortPauseTime;
                     this._notifyPomodoroEnd(_('Pomodoro finished, take a break!'));
                 }
 
@@ -381,9 +376,10 @@ MyApplet.prototype = {
                 this._seconds = 0;
                 this._sessionCount += 1;
                 this._isPause = true;
-
+                this._stopTimerSound();
             }
         }
+        
         this._updateSessionCount();
     },
 
