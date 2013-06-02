@@ -428,8 +428,10 @@ MyApplet.prototype = {
             {
                 let remaining_seconds = this._pauseTime - this._timeSpent;
                 let remaining_minutes = parseInt(Math.abs(remaining_seconds) / 60);
-                if (remaining_seconds < 0)
+                if (remaining_seconds < -59)
                     this._descriptionLabel.text = _("You exceeded the break of %d minutes\n").format(remaining_minutes);
+                else if (remaining_seconds < 0)
+                    this._descriptionLabel.text = _("You exceeded the break of %d seconds\n").format(Math.abs(remaining_seconds));
                 else if (remaining_seconds < 60)
                     this._descriptionLabel.text = _("Take a break! You have %d seconds\n").format(remaining_seconds);
                 else
