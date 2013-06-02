@@ -40,6 +40,7 @@ MyApplet.prototype = {
         this._labelMsg = new St.Label({ text: 'Stopped'}); // unused ?
         this._notification = null; // the last notification, kept in a variable to delete it when a new one is created
         this._dialog = null; // the modal dialog window, used to close and open it
+        this._askStart = false; // defined if the user explicitly ask for a new pomodoro, used if _autoStartAfterBreak is set to false
 
         this._setTimerLabel("[00] 00:00");
 
@@ -81,7 +82,10 @@ MyApplet.prototype = {
             "show_notification_messages", "_showNotificationMessages", this.on_settings_changed, null); 
 
         this.settings.bindProperty(Settings.BindingDirection.IN,
-            "show_dialog_messages", "_showDialogMessages", this.on_settings_changed, null); 
+            "show_dialog_messages", "_showDialogMessages", this.on_settings_changed, null);
+            
+        this.settings.bindProperty(Settings.BindingDirection.IN,
+            "auto_start_after_break_ends", "_autoStartAfterBreak", this.on_settings_changed, null); 
 
         this.settings.bindProperty(Settings.BindingDirection.IN,
             "sound_notifications", "_playSound", this.on_settings_changed, null);
@@ -153,8 +157,8 @@ MyApplet.prototype = {
         });
 
         this._descriptionLabel = new St.Label({
-                style_class: 'polkit-dialog-description',
-                text: '' }
+            style_class: 'polkit-dialog-description',
+            text: '' }
         );
         this._descriptionLabel.clutter_text.ellipsize = Pango.EllipsizeMode.NONE;
         this._descriptionLabel.clutter_text.line_wrap = true;
@@ -189,8 +193,10 @@ MyApplet.prototype = {
 
     // Skip break or reset current pomodoro
     _startNewPomodoro: function() {
-        if (this._isPause)
+        if (this._isPause) {
+            this._askStart = true;
             this._timeSpent = 99999;
+        }
         else
             this._timeSpent = 0;
 
@@ -250,21 +256,20 @@ MyApplet.prototype = {
             this._notification.destroy(MessageTray.NotificationDestroyedReason.SOURCE_CLOSED);
             this._notification = null;
         }
+        
         if (this._showNotificationMessages || hideDialog) {
-            let source = this._createNotificationSource ();
+            let source = this._createNotificationSource();
             this._notification = new MessageTray.Notification(source, text, null);
             this._notification.setResident(true);
             this._notification.addButton(1, _('Start a new Pomodoro'));
             this._notification.connect('action-invoked', Lang.bind(this, function(param) {
-                this._startNewPomodoro();
-            })
+                this._startNewPomodoro(); })
             );
             source.notify(this._notification);
         }
-        if (this._showDialogMessages && hideDialog != true)
+        
+        if (this._showDialogMessages && !hideDialog)
             this._dialog.open();
-            
-        this._stopTimerSound();
     },
 
     _playNotificationSound: function() {
@@ -344,28 +349,27 @@ MyApplet.prototype = {
 
     // Checks if timer needs to change state
     _checkTimerState: function() {
-        if (this._stopTimer == false) {
-            // Check if a pause is running..
-            if (this._isPause == true) {
-                // Check if the pause is over
-                if (this._timeSpent >= this._pauseTime) {
-                    this._timeSpent = 0;
-                    this._isPause = false;
-                    this._notifyPomodoroStart(_('Pause finished, a new pomodoro is starting!'));
+        if (!this._stopTimer) { // if timer is running
+            if (this._isPause) { // if a pause is running
+                if (this._timeSpent >= this._pauseTime) { // if the pause is over
+                    if (this._autoStartAfterBreak || this._askStart) {
+                        this._timeSpent = 0;
+                        this._isPause = false;
+                        this._askStart = false;
+                        this._notifyPomodoroStart(_('Pause finished, a new pomodoro is starting!'));
+                    }
                 }
                 else {
-                    if (this._pauseCount == 0) {
+                    if (this._pauseCount == 0) { // _pauseCount is set to 0 every 4 pauses
                         this._pauseTime = this._longPauseTime;
                     } else {
                         this._pauseTime = this._shortPauseTime;
                     }
                 }
             }
-            // ..or if a pomodoro is running and a pause is needed :)
-            else if (this._timeSpent >= this._pomodoroTime) {
+            else if (this._timeSpent >= this._pomodoroTime) { // if a pomodoro is running and a pause is needed :)
                 this._pauseCount += 1;
-                this._pauseTime = this._shortPauseTime;
-
+                
                 // Check if it's time of a longer pause
                 if (this._pauseCount == 4) {
                     this._pauseCount = 0;
@@ -373,6 +377,7 @@ MyApplet.prototype = {
                     this._notifyPomodoroEnd(_('4th pomodoro in a row finished, starting a long pause...'));
                 }
                 else {
+                    this._pauseTime = this._shortPauseTime;
                     this._notifyPomodoroEnd(_('Pomodoro finished, take a break!'));
                 }
 
@@ -381,9 +386,10 @@ MyApplet.prototype = {
                 this._seconds = 0;
                 this._sessionCount += 1;
                 this._isPause = true;
-
+                this._stopTimerSound();
             }
         }
+        
         this._updateSessionCount();
     },
 
@@ -404,24 +410,33 @@ MyApplet.prototype = {
 
     // Update timer_ui
     _updateTimer: function() {
-        if (this._stopTimer == false) {
+        if (!this._stopTimer) {
             let seconds = this._timeSpent;
-            if (this._showCountdownTimer == true)
+            
+            if (this._showCountdownTimer) // if timer is used in countdown mode
                 seconds = (this._isPause ? this._pauseTime : this._pomodoroTime) - this._timeSpent;
 
             this._minutes = parseInt(seconds / 60);
             this._seconds = parseInt(seconds % 60);
 
-            timer_text = "[%02d] %02d:%02d".format(this._sessionCount, this._minutes, this._seconds);
+            timer_text = "[%02d] ".format(this._sessionCount);
+            if (this._minutes < 0 || this._seconds < 0)
+                timer_text += "-";
+            timer_text += "%02d:%02d".format(Math.abs(this._minutes), Math.abs(this._seconds));
             this._setTimerLabel(timer_text);
 
             if (this._isPause && this._showDialogMessages)
             {
-                seconds = this._pauseTime - this._timeSpent;
-                if (seconds < 47)
-                    this._descriptionLabel.text = _("Take a break! You have %d seconds\n").format(Math.round(seconds / 5) * 5);
+                let remaining_seconds = this._pauseTime - this._timeSpent;
+                let remaining_minutes = parseInt(Math.abs(remaining_seconds) / 60);
+                if (remaining_seconds < -59)
+                    this._descriptionLabel.text = _("You exceeded the break of %d minutes\n").format(remaining_minutes);
+                else if (remaining_seconds < 0)
+                    this._descriptionLabel.text = _("You exceeded the break of %d seconds\n").format(Math.abs(remaining_seconds));
+                else if (remaining_seconds < 60)
+                    this._descriptionLabel.text = _("Take a break! You have %d seconds\n").format(remaining_seconds);
                 else
-                    this._descriptionLabel.text = _("Take a break! You have %d minutes\n").format(Math.round(seconds / 60));
+                    this._descriptionLabel.text = _("Take a break! You have %d minutes\n").format(remaining_minutes);
             }
         }
     },

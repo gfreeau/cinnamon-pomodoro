@@ -53,6 +53,17 @@
         "description" : "Show Dialog Messages",
         "default" : true
     },
+    
+    "auto_start_after_break_ends" : {
+        "type" : "checkbox",
+        "description" : "Auto start a new pomodoro after a break ends",
+        "default" : true
+    },
+    
+    "head_sounds": {
+        "type": "header",
+        "description": "Sounds"
+    },
 
     "sound_notifications" : {
         "type" : "checkbox",
