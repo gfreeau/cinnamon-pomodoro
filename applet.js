@@ -403,7 +403,8 @@ MyApplet.prototype = {
     _updateTimer: function() {
         if (!this._stopTimer) {
             let seconds = this._timeSpent;
-            if (this._showCountdownTimer)
+            
+            if (this._showCountdownTimer) // if timer is used in countdown mode
                 seconds = (this._isPause ? this._pauseTime : this._pomodoroTime) - this._timeSpent;
 
             this._minutes = parseInt(seconds / 60);
@@ -418,7 +419,7 @@ MyApplet.prototype = {
                 if (remaining_seconds < 60)
                     this._descriptionLabel.text = _("Take a break! You have %d seconds\n").format(remaining_seconds);
                 else
-                    this._descriptionLabel.text = _("Take a break! You have %d minutes\n").format(this._minutes);
+                    this._descriptionLabel.text = _("Take a break! You have %d minutes\n").format(parseInt(remaining_seconds / 60));
             }
         }
     },
