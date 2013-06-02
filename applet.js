@@ -19,6 +19,8 @@ const appletPath = imports.ui.appletManager._find_applet(appletUUID).get_path();
 const startSound = 'start.wav';
 var timerSound = GLib.shell_quote(appletPath + '/EggTimer.ogg');
 
+const autoStartAfterBreak = false;
+
 function MyApplet(orientation, panel_height, instance_id) {
     this._init(orientation, panel_height, instance_id);
 }
@@ -40,6 +42,7 @@ MyApplet.prototype = {
         this._labelMsg = new St.Label({ text: 'Stopped'}); // unused ?
         this._notification = null; // the last notification, kept in a variable to delete it when a new one is created
         this._dialog = null; // the modal dialog window, used to close and open it
+        this._askStart = false; // defined if the user explicitly ask for a new pomodoro, used if autoStartAfterBreak is set to false
 
         this._setTimerLabel("[00] 00:00");
 
@@ -189,8 +192,10 @@ MyApplet.prototype = {
 
     // Skip break or reset current pomodoro
     _startNewPomodoro: function() {
-        if (this._isPause)
+        if (this._isPause) {
+            this._askStart = true;
             this._timeSpent = 99999;
+        }
         else
             this._timeSpent = 0;
 
@@ -346,9 +351,12 @@ MyApplet.prototype = {
         if (!this._stopTimer) { // if timer is running
             if (this._isPause) { // if a pause is running
                 if (this._timeSpent >= this._pauseTime) { // if the pause is over
-                    this._timeSpent = 0;
-                    this._isPause = false;
-                    this._notifyPomodoroStart(_('Pause finished, a new pomodoro is starting!'));
+                    if (autoStartAfterBreak || this._askStart) {
+                        this._timeSpent = 0;
+                        this._isPause = false;
+                        this._askStart = false;
+                        this._notifyPomodoroStart(_('Pause finished, a new pomodoro is starting!'));
+                    }
                 }
                 else {
                     if (this._pauseCount == 0) { // _pauseCount is set to 0 every 4 pauses
@@ -410,16 +418,22 @@ MyApplet.prototype = {
             this._minutes = parseInt(seconds / 60);
             this._seconds = parseInt(seconds % 60);
 
-            timer_text = "[%02d] %02d:%02d".format(this._sessionCount, this._minutes, this._seconds);
+            timer_text = "[%02d] ".format(this._sessionCount);
+            if (this._minutes < 0 || this._seconds < 0)
+                timer_text += "-";
+            timer_text += "%02d:%02d".format(Math.abs(this._minutes), Math.abs(this._seconds));
             this._setTimerLabel(timer_text);
 
             if (this._isPause && this._showDialogMessages)
             {
                 let remaining_seconds = this._pauseTime - this._timeSpent;
-                if (remaining_seconds < 60)
+                let remaining_minutes = parseInt(Math.abs(remaining_seconds) / 60);
+                if (remaining_seconds < 0)
+                    this._descriptionLabel.text = _("You exceeded the break of %d minutes\n").format(remaining_minutes);
+                else if (remaining_seconds < 60)
                     this._descriptionLabel.text = _("Take a break! You have %d seconds\n").format(remaining_seconds);
                 else
-                    this._descriptionLabel.text = _("Take a break! You have %d minutes\n").format(parseInt(remaining_seconds / 60));
+                    this._descriptionLabel.text = _("Take a break! You have %d minutes\n").format(remaining_minutes);
             }
         }
     },
