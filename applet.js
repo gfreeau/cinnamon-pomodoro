@@ -153,8 +153,8 @@ MyApplet.prototype = {
         });
 
         this._descriptionLabel = new St.Label({
-                style_class: 'polkit-dialog-description',
-                text: '' }
+            style_class: 'polkit-dialog-description',
+            text: '' }
         );
         this._descriptionLabel.clutter_text.ellipsize = Pango.EllipsizeMode.NONE;
         this._descriptionLabel.clutter_text.line_wrap = true;
@@ -401,9 +401,9 @@ MyApplet.prototype = {
 
     // Update timer_ui
     _updateTimer: function() {
-        if (this._stopTimer == false) {
+        if (!this._stopTimer) {
             let seconds = this._timeSpent;
-            if (this._showCountdownTimer == true)
+            if (this._showCountdownTimer)
                 seconds = (this._isPause ? this._pauseTime : this._pomodoroTime) - this._timeSpent;
 
             this._minutes = parseInt(seconds / 60);
@@ -414,11 +414,11 @@ MyApplet.prototype = {
 
             if (this._isPause && this._showDialogMessages)
             {
-                seconds = this._pauseTime - this._timeSpent;
-                if (seconds < 47)
-                    this._descriptionLabel.text = _("Take a break! You have %d seconds\n").format(Math.round(seconds / 5) * 5);
+                let remaining_seconds = this._pauseTime - this._timeSpent;
+                if (remaining_seconds < 60)
+                    this._descriptionLabel.text = _("Take a break! You have %d seconds\n").format(remaining_seconds);
                 else
-                    this._descriptionLabel.text = _("Take a break! You have %d minutes\n").format(Math.round(seconds / 60));
+                    this._descriptionLabel.text = _("Take a break! You have %d minutes\n").format(this._minutes);
             }
         }
     },
