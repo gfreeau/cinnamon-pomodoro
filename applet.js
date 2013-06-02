@@ -19,8 +19,6 @@ const appletPath = imports.ui.appletManager._find_applet(appletUUID).get_path();
 const startSound = 'start.wav';
 var timerSound = GLib.shell_quote(appletPath + '/EggTimer.ogg');
 
-const autoStartAfterBreak = false;
-
 function MyApplet(orientation, panel_height, instance_id) {
     this._init(orientation, panel_height, instance_id);
 }
@@ -42,7 +40,7 @@ MyApplet.prototype = {
         this._labelMsg = new St.Label({ text: 'Stopped'}); // unused ?
         this._notification = null; // the last notification, kept in a variable to delete it when a new one is created
         this._dialog = null; // the modal dialog window, used to close and open it
-        this._askStart = false; // defined if the user explicitly ask for a new pomodoro, used if autoStartAfterBreak is set to false
+        this._askStart = false; // defined if the user explicitly ask for a new pomodoro, used if _autoStartAfterBreak is set to false
 
         this._setTimerLabel("[00] 00:00");
 
@@ -84,7 +82,10 @@ MyApplet.prototype = {
             "show_notification_messages", "_showNotificationMessages", this.on_settings_changed, null); 
 
         this.settings.bindProperty(Settings.BindingDirection.IN,
-            "show_dialog_messages", "_showDialogMessages", this.on_settings_changed, null); 
+            "show_dialog_messages", "_showDialogMessages", this.on_settings_changed, null);
+            
+        this.settings.bindProperty(Settings.BindingDirection.IN,
+            "auto_start_after_break_ends", "_autoStartAfterBreak", this.on_settings_changed, null); 
 
         this.settings.bindProperty(Settings.BindingDirection.IN,
             "sound_notifications", "_playSound", this.on_settings_changed, null);
@@ -351,7 +352,7 @@ MyApplet.prototype = {
         if (!this._stopTimer) { // if timer is running
             if (this._isPause) { // if a pause is running
                 if (this._timeSpent >= this._pauseTime) { // if the pause is over
-                    if (autoStartAfterBreak || this._askStart) {
+                    if (this._autoStartAfterBreak || this._askStart) {
                         this._timeSpent = 0;
                         this._isPause = false;
                         this._askStart = false;
