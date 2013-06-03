@@ -41,6 +41,7 @@ MyApplet.prototype = {
 
         this._timerSound = GLib.shell_quote(appletPath + '/EggTimer.ogg');
         this._breakSound = GLib.shell_quote(appletPath + '/deskbell.wav');
+        this._warnSound = GLib.shell_quote(appletPath + '/warn.wav');
 
         this._setTimerLabel("[00] 00:00");
 
@@ -98,6 +99,15 @@ MyApplet.prototype = {
         
         this.settings.bindProperty(Settings.BindingDirection.IN,
             "timer_sound_file", "timer_sound_filepath", this.on_timer_sound_file_changed, null);
+            
+        this.settings.bindProperty(Settings.BindingDirection.IN,
+            "warn_sound", "play_warn_sound", this.on_settings_changed, null);
+            
+        this.settings.bindProperty(Settings.BindingDirection.IN,
+            "warn_sound_delay", "warn_sound_delay", this.on_settings_changed, null);
+        
+        this.settings.bindProperty(Settings.BindingDirection.IN,
+            "warn_sound_file", "warn_sound_filepath", this.on_warn_sound_file_changed, null);
     },
 
     _createPanelMenu: function() {
@@ -359,28 +369,34 @@ MyApplet.prototype = {
                     }
                 }
             }
-            else if (this._timeSpent >= this._pomodoroTime) { // if a pomodoro is running and a pause is needed :)
-                this._pauseCount += 1;
+            else { // if a pomodoro is running
+                if (this.play_warn_sound && (this._pomodoroTime - this._timeSpent) == this.warn_sound_delay) { // if a pomodoro is running and warn sound is activated
+                    this._playSound(this._warnSound, "");
+                }
                 
-                // Check if it's time of a longer pause
-                if (this._pauseCount == 4) {
-                    this._pauseCount = 0;
-                    this._pauseTime = this._longPauseTime;
-                    this._notifyPomodoroEnd(_('4th pomodoro in a row finished, starting a long pause...'));
-                }
-                else {
-                    this._pauseTime = this._shortPauseTime;
-                    this._notifyPomodoroEnd(_('Pomodoro finished, take a break!'));
-                }
+                if (this._timeSpent >= this._pomodoroTime) { // if a pomodoro is running and a pause is needed :)
+                    this._pauseCount += 1;
+                    
+                    // Check if it's time of a longer pause
+                    if (this._pauseCount == 4) {
+                        this._pauseCount = 0;
+                        this._pauseTime = this._longPauseTime;
+                        this._notifyPomodoroEnd(_('4th pomodoro in a row finished, starting a long pause...'));
+                    }
+                    else {
+                        this._pauseTime = this._shortPauseTime;
+                        this._notifyPomodoroEnd(_('Pomodoro finished, take a break!'));
+                    }
 
-                this._timeSpent = 0;
-                this._minutes = 0;
-                this._seconds = 0;
-                this._sessionCount += 1;
-                this._isPause = true;
-                
-                this._stopTimerSound();
-                this._playBreakSound();
+                    this._timeSpent = 0;
+                    this._minutes = 0;
+                    this._seconds = 0;
+                    this._sessionCount += 1;
+                    this._isPause = true;
+                    
+                    this._stopTimerSound();
+                    this._playBreakSound();
+                }
             }
         }
         
@@ -496,6 +512,14 @@ MyApplet.prototype = {
         let gFile = Gio.file_new_for_path(this.timer_sound_filepath);
         if(gFile.query_exists(null)) {
             this._timerSound = GLib.shell_quote(this.timer_sound_filepath);
+        }
+    },
+    
+    // check if the new sound file is valid before setting it
+    on_warn_sound_file_changed: function() {       
+        let gFile = Gio.file_new_for_path(this.warn_sound_filepath);
+        if(gFile.query_exists(null)) {
+            this._warnSound = GLib.shell_quote(this.warn_sound_filepath);
         }
     },
 

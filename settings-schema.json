@@ -91,6 +91,30 @@
         "default" : "EggTimer.ogg",
         "select-dir" : false,
         "dependency" : "timer_sound"
+    },
+    
+    "warn_sound" : {
+        "type" : "checkbox",
+        "description" : "Play Warn Sound",
+        "default" : false
+    },
+    
+    "warn_sound_delay": {
+        "type": "scale",
+        "default": 30,
+        "min": 5,
+        "max": 600,
+        "step": 5,
+        "description": "Warn Delay (in secs):  ",
+        "dependency" : "warn_sound"
+    },
+    
+    "warn_sound_file" : {
+        "type" : "filechooser",
+        "description" : "Warn Sound File ",
+        "default" : "warn.wav",
+        "select-dir" : false,
+        "dependency" : "warn_sound"
     }
 }
 
