@@ -255,7 +255,6 @@ MyApplet.prototype = {
             source.notify(this._notification);
         }
 
-        this._playNotificationSound();
         this._playTimerSound();
     },
 
@@ -279,23 +278,6 @@ MyApplet.prototype = {
         
         if (this._showDialogMessages && !hideDialog)
             this._dialog.open();
-    },
-
-    _playNotificationSound: function() {
-        let uri = GLib.filename_to_uri(appletPath + "/" + startSound, null);
-        let gstPath = "gst-launch";
-
-        try {
-            if (GLib.find_program_in_path(gstPath) == null) {
-                gstPath = GLib.find_program_in_path("gst-launch-0.10");
-            }
-            
-            if (gstPath != null) {
-                Util.trySpawnCommandLine(gstPath + " --quiet playbin2 uri=" + GLib.shell_quote(uri));
-            }
-        } catch (err) {
-            global.logError("Pomodoro: Error playing a sound: " + err.message);
-        }
     },
     
     _playTimerSound: function() {
