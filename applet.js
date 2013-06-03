@@ -16,8 +16,6 @@ const Pango = imports.gi.Pango;
 const appletUUID = 'pomodoro@gregfreeman.org';
 const appletPath = imports.ui.appletManager._find_applet(appletUUID).get_path();
 
-const startSound = 'start.wav';
-var timerSound = GLib.shell_quote(appletPath + '/EggTimer.ogg');
 
 function MyApplet(orientation, panel_height, instance_id) {
     this._init(orientation, panel_height, instance_id);
@@ -40,6 +38,9 @@ MyApplet.prototype = {
         this._notification = null; // the last notification, kept in a variable to delete it when a new one is created
         this._dialog = null; // the modal dialog window, used to close and open it
         this._askStart = false; // defined if the user explicitly ask for a new pomodoro, used if _autoStartAfterBreak is set to false
+
+        this._timerSound = GLib.shell_quote(appletPath + '/EggTimer.ogg');
+        this._breakSound = GLib.shell_quote(appletPath + '/deskbell.wav');
 
         this._setTimerLabel("[00] 00:00");
 
@@ -85,9 +86,12 @@ MyApplet.prototype = {
             
         this.settings.bindProperty(Settings.BindingDirection.IN,
             "auto_start_after_break_ends", "_autoStartAfterBreak", this.on_settings_changed, null); 
-
+        
         this.settings.bindProperty(Settings.BindingDirection.IN,
-            "sound_notifications", "_playSound", this.on_settings_changed, null);
+            "break_sound", "play_break_sound", this.on_settings_changed, null);
+        
+        this.settings.bindProperty(Settings.BindingDirection.IN,
+            "break_sound_file", "break_sound_filepath", this.on_break_sound_file_changed, null);
         
         this.settings.bindProperty(Settings.BindingDirection.IN,
             "timer_sound", "play_timer_sound", this.on_settings_changed, null);
@@ -280,16 +284,18 @@ MyApplet.prototype = {
             this._dialog.open();
     },
     
+    _playSound: function(soundPath, args) {
+        if (GLib.find_program_in_path('play') != null) {
+            Util.trySpawnCommandLine("play -q " + soundPath + " " + args);
+        }
+        else {
+            global.logError("Pomodoro: Unable to find the 'play' binary. Check 'sox' is well installed.");
+        }
+    },
+    
     _playTimerSound: function() {
         if (this.play_timer_sound)
-        {
-            if (GLib.find_program_in_path('play') != null) {
-                Util.trySpawnCommandLine("play -q " + timerSound + " repeat 9999");
-            }
-            else {
-                global.logError("Pomodoro: Unable to find the 'play' binary. Check 'sox' is well installed.");
-            }
-        }
+            this._playSound(this._timerSound, "repeat 9999");
     },
     
     _stopTimerSound: function() {
@@ -299,6 +305,11 @@ MyApplet.prototype = {
         else {
             global.logError("Pomodoro: Unable to find the 'pkill' binary.");
         }
+    },
+    
+    _playBreakSound: function() {
+        if (this.play_break_sound)
+            this._playSound(this._breakSound, "");
     },
 
     // Toggle timer state
@@ -367,7 +378,9 @@ MyApplet.prototype = {
                 this._seconds = 0;
                 this._sessionCount += 1;
                 this._isPause = true;
+                
                 this._stopTimerSound();
+                this._playBreakSound();
             }
         }
         
@@ -470,10 +483,19 @@ MyApplet.prototype = {
         this._resetTimerDurations();
     },
     
+    // check if the new sound file is valid before setting it
+    on_break_sound_file_changed: function() {       
+        let gFile = Gio.file_new_for_path(this.break_sound_filepath);
+        if(gFile.query_exists(null)) {
+            this._breakSound = GLib.shell_quote(this.break_sound_filepath);
+        }
+    },
+    
+    // check if the new sound file is valid before setting it
     on_timer_sound_file_changed: function() {       
         let gFile = Gio.file_new_for_path(this.timer_sound_filepath);
         if(gFile.query_exists(null)) {
-            timerSound = GLib.shell_quote(this.timer_sound_filepath);
+            this._timerSound = GLib.shell_quote(this.timer_sound_filepath);
         }
     },
 
@@ -486,5 +508,3 @@ function main(metadata, orientation, panel_height, instance_id) {
     let myApplet = new MyApplet(orientation, panel_height, instance_id);
     return myApplet;
 }
-
-
