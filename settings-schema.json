@@ -35,12 +35,6 @@
         "type": "header",
         "description": "Options"
     },
-    
-    "show_countdown_timer" : {
-        "type" : "checkbox",
-        "description" : "Show Countdown Timer on Panel",
-        "default" : true
-    },
 
     "show_notification_messages" : {
         "type" : "checkbox",

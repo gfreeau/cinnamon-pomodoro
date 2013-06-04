@@ -79,9 +79,6 @@ MyApplet.prototype = {
         this.settings.bindProperty(Settings.BindingDirection.IN,
             "long_break_duration", "_longPauseTime", this.on_long_break_duration_changed, null); 
 
-        this.settings.bindProperty(Settings.BindingDirection.IN,
-            "show_countdown_timer", "_showCountdownTimer", this.on_settings_changed, null); 
-
         this.settings.bindProperty(Settings.BindingDirection.IN, 
             "show_notification_messages", "_showNotificationMessages", this.on_settings_changed, null); 
 
@@ -438,10 +435,7 @@ MyApplet.prototype = {
 
     // Update timer_ui
     _updateTimer: function() {
-        let seconds = this._timeSpent;
-        
-        if (this._showCountdownTimer) // if timer is used in countdown mode
-            seconds = (this._isPause ? this._pauseTime : this._pomodoroTime) - this._timeSpent;
+        let seconds = (this._isPause ? this._pauseTime : this._pomodoroTime) - this._timeSpent;
 
         this._minutes = parseInt(seconds / 60);
         this._seconds = parseInt(seconds % 60);
