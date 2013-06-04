@@ -101,7 +101,7 @@ MyApplet.prototype = {
             "break_sound_file", "break_sound_filepath", this.on_break_sound_file_changed, null);
         
         this.settings.bindProperty(Settings.BindingDirection.IN,
-            "timer_sound", "play_timer_sound", this.on_settings_changed, null);
+            "timer_sound", "play_timer_sound", this.on_play_timer_sound_changed, null);
         
         this.settings.bindProperty(Settings.BindingDirection.IN,
             "timer_sound_file", "timer_sound_filepath", this.on_timer_sound_file_changed, null);
@@ -523,6 +523,20 @@ MyApplet.prototype = {
         let gFile = Gio.file_new_for_path(this.break_sound_filepath);
         if(gFile.query_exists(null)) {
             this._breakSound = GLib.shell_quote(this.break_sound_filepath);
+        }
+    },
+
+    on_play_timer_sound_changed: function() {
+        if (this._stopTimer) {
+            // timer is stopped -- do nothing
+            return;
+        }
+
+        if (this.play_timer_sound) {
+            this._playTimerSound();
+        }
+        else {
+            this._stopTimerSound();
         }
     },
     
