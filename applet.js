@@ -504,18 +504,14 @@ MyApplet.prototype = {
 
     on_pomodoro_duration_changed: function() {
         this._convertPomodoroDurationToSeconds();
-        this._timeSpent = 0;
-        this._resetTimerDurations();
     },
 
     on_short_break_duration_changed: function() {
         this._convertShortBreakDurationToSeconds();
-        this._resetTimerDurations();
     },
 
     on_long_break_duration_changed: function() {
         this._convertLongBreakDurationToSeconds();
-        this._resetTimerDurations();
     },
     
     // check if the new sound file is valid before setting it
