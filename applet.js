@@ -204,6 +204,13 @@ MyApplet.prototype = {
                 action: Lang.bind(this, function(param) {
                     this._startNewPomodoro();
                 })
+            },
+            {
+                label: _("Switch Off Pomodoro"),
+                action: Lang.bind(this, function(param) {
+                    this._dialog.close();
+                    this._toggleTimerState();
+                })
             }
         ]);
     },
