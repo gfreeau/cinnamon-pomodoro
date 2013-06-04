@@ -480,15 +480,15 @@ MyApplet.prototype = {
     },
 
     _convertPomodoroDurationToSeconds: function() {
-        this._pomodoroTime = Math.ceil(this._pomodoroTime * 60);
+        this._pomodoroTime = this._pomodoroTime * 60;
     },
 
     _convertShortBreakDurationToSeconds: function() {
-        this._shortPauseTime = Math.ceil(this._shortPauseTime * 60);
+        this._shortPauseTime = this._shortPauseTime * 60;
     },
 
     _convertLongBreakDurationToSeconds: function() {
-        this._longPauseTime = Math.ceil(this._longPauseTime * 60);
+        this._longPauseTime = this._longPauseTime * 60;
     },
 
     on_applet_clicked: function(event) {
@@ -500,6 +500,7 @@ MyApplet.prototype = {
 
     on_pomodoro_duration_changed: function() {
         this._convertPomodoroDurationToSeconds();
+        this._timeSpent = 0;
         this._resetTimerDurations();
     },
 
