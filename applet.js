@@ -486,6 +486,7 @@ MyApplet.prototype = {
 
     on_pomodoro_duration_changed: function() {
         this._convertPomodoroDurationToSeconds();
+        this._timeSpent = 0;
         this._resetTimerDurations();
     },
 
