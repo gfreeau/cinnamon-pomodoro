@@ -43,7 +43,7 @@ MyApplet.prototype = {
         this._breakSound = GLib.shell_quote(appletPath + '/deskbell.wav');
         this._warnSound = GLib.shell_quote(appletPath + '/warn.wav');
 
-        this._setTimerLabel("[00] 00:00");
+        this._setTimerLabel("0\u00B7 00:00");
 
         this.menuManager = new PopupMenu.PopupMenuManager(this);
         this.menu = new Applet.AppletPopupMenu(this, orientation);
@@ -51,6 +51,9 @@ MyApplet.prototype = {
 
         this.settings = new Settings.AppletSettings(this, appletUUID, instance_id);
         this._bindSettings();
+        
+        if (this._displayIcon)
+            this.set_applet_icon_path(appletPath + "/icon.png");
 
         // convert settings values stored in minutes into seconds
         this._convertPomodoroDurationToSeconds();
@@ -86,7 +89,10 @@ MyApplet.prototype = {
             "show_dialog_messages", "_showDialogMessages", this.on_settings_changed, null);
             
         this.settings.bindProperty(Settings.BindingDirection.IN,
-            "auto_start_after_break_ends", "_autoStartAfterBreak", this.on_settings_changed, null); 
+            "auto_start_after_break_ends", "_autoStartAfterBreak", this.on_settings_changed, null);
+            
+        this.settings.bindProperty(Settings.BindingDirection.IN,
+            "display_icon", "_displayIcon", this.on_icon_changed, null);
         
         this.settings.bindProperty(Settings.BindingDirection.IN,
             "break_sound", "play_break_sound", this.on_settings_changed, null);
@@ -338,7 +344,7 @@ MyApplet.prototype = {
         if (item != null && !item.state) { // if the timer was on
             this._stopTimer = true;
             this._isPause = false;
-            this._setTimerLabel("[%02d] 00:00".format(this._sessionCount));
+            this._setTimerLabel("%d\u00B7 00:00".format(this._sessionCount));
             this._stopTimerSound();
         }
         else { // if the timer was off
@@ -436,7 +442,7 @@ MyApplet.prototype = {
         this._minutes = parseInt(seconds / 60);
         this._seconds = parseInt(seconds % 60);
 
-        timer_text = "[%02d] ".format(this._sessionCount);
+        timer_text = "%d\u00B7 ".format(this._sessionCount);
         if (this._minutes < 0 || this._seconds < 0)
             timer_text += "-";
         timer_text += "%02d:%02d".format(Math.abs(this._minutes), Math.abs(this._seconds));
@@ -529,6 +535,13 @@ MyApplet.prototype = {
         if(gFile.query_exists(null)) {
             this._warnSound = GLib.shell_quote(this.warn_sound_filepath);
         }
+    },
+    
+    on_icon_changed: function() {
+        if (this._displayIcon)
+            this.set_applet_icon_path(appletPath + "/icon.png");
+        else if (this._applet_icon_box.child)
+            this._applet_icon_box.child.destroy();
     },
 
     on_applet_removed_from_panel: function() {
