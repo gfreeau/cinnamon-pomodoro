@@ -223,12 +223,16 @@ MyApplet.prototype = {
 
     // Reset all counters and timers
     _resetCount: function() {
-        this._timeSpent = 0;
-        this._isPause = false;
-        this._sessionCount = 0;
-        this._pauseCount = 0;
-        this._checkTimerState(); // in that case reset the Collected field
-        this._updateTimer();
+        // allow to reset counters and timer only outside of a break
+        // because there is no sense to reset during a break
+        // and reset restarts the timer and the timer sound is not played here
+        if (!this._isPause) {
+            this._timeSpent = 0;
+            this._sessionCount = 0;
+            this._pauseCount = 0;
+            this._checkTimerState(); // in that case reset the Collected field
+            this._updateTimer();
+        }
     },
     
     // Reset the current running timer
