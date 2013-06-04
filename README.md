@@ -29,7 +29,5 @@ In order to install cinnamon-pomodoro you have to execute following steps:
 TODO
 ============
 * In the settings, find a way to use the applet path in the default file path values in filechooser
-* If countdown is deactivated, there no way to make the difference between timer time and break time
-* Do not allow to deactivate both Notification Message and Dialog Message (because if in addition autostart is deactivated there won't be any possibility to start a new pomodoro after a break)
 * Center text in DialogWindow
 * Get the pid of the play command to avoid the use of pkill

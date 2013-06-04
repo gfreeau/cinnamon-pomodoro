@@ -36,12 +36,6 @@
         "description": "Options"
     },
 
-    "show_notification_messages" : {
-        "type" : "checkbox",
-        "description" : "Show Notification Messages",
-        "default" : true
-    },
-
     "show_dialog_messages" : {
         "type" : "checkbox",
         "description" : "Show Dialog Messages",
