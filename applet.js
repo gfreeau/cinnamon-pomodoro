@@ -192,12 +192,11 @@ MyApplet.prototype = {
 
         this._dialog.setButtons([
             {
-                label: _("Hide"),
+                label: _("Switch Off Pomodoro"),
                 action: Lang.bind(this, function(param) {
                     this._dialog.close();
-                    this._notifyPomodoroEnd(_('Pomodoro finished, take a break!'), true);
-                }),
-                key: Clutter.Escape
+                    this._toggleTimerState();
+                })
             },
             {
                 label: _("Start a new Pomodoro"),
@@ -206,11 +205,12 @@ MyApplet.prototype = {
                 })
             },
             {
-                label: _("Switch Off Pomodoro"),
+                label: _("Hide"),
                 action: Lang.bind(this, function(param) {
                     this._dialog.close();
-                    this._toggleTimerState();
-                })
+                    this._notifyPomodoroEnd(_('Pomodoro finished, take a break!'), true);
+                }),
+                key: Clutter.Escape
             }
         ]);
     },
