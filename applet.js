@@ -44,6 +44,7 @@ MyApplet.prototype = {
         this._warnSound = GLib.shell_quote(appletPath + '/warn.wav');
 
         this._setTimerLabel("[00] 00:00");
+        this.set_applet_icon_path(appletPath + "/icon.png");
 
         this.menuManager = new PopupMenu.PopupMenuManager(this);
         this.menu = new Applet.AppletPopupMenu(this, orientation);
