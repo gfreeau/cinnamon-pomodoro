@@ -192,18 +192,26 @@ MyApplet.prototype = {
 
         this._dialog.setButtons([
             {
-                label: _("Hide"),
+                label: _("Switch Off Pomodoro"),
                 action: Lang.bind(this, function(param) {
                     this._dialog.close();
-                    this._notifyPomodoroEnd(_('Pomodoro finished, take a break!'), true);
-                }),
-                key: Clutter.Escape
+                    this._timerToggle.setToggleState(false);
+                    this._toggleTimerState(this._timerToggle);
+                })
             },
             {
                 label: _("Start a new Pomodoro"),
                 action: Lang.bind(this, function(param) {
                     this._startNewPomodoro();
                 })
+            },
+            {
+                label: _("Hide"),
+                action: Lang.bind(this, function(param) {
+                    this._dialog.close();
+                    this._notifyPomodoroEnd(_('Pomodoro finished, take a break!'), true);
+                }),
+                key: Clutter.Escape
             }
         ]);
     },
@@ -324,17 +332,16 @@ MyApplet.prototype = {
 
     // Toggle timer state
     _toggleTimerState: function(item) {
-        if (item != null) {
-            this._stopTimer = item.state;
-        }
+        // item is a PopupSwitchMenuItem
+        // item.state is the state of the PopupSwitchMenuItem: true or false
 
-        if (this._stopTimer == false) {
+        if (item != null && !item.state) { // if the timer was on
             this._stopTimer = true;
             this._isPause = false;
             this._setTimerLabel("[%02d] 00:00".format(this._sessionCount));
             this._stopTimerSound();
         }
-        else {
+        else { // if the timer was off
             this._timeSpent = -1;
             this._minutes = 0;
             this._seconds = 0;
@@ -343,6 +350,7 @@ MyApplet.prototype = {
             this._refreshTimer();
             this._playTimerSound();
         }
+        
         this._checkTimerState();
     },
 
