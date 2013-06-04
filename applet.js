@@ -43,7 +43,7 @@ MyApplet.prototype = {
         this._breakSound = GLib.shell_quote(appletPath + '/deskbell.wav');
         this._warnSound = GLib.shell_quote(appletPath + '/warn.wav');
 
-        this._setTimerLabel("[00] 00:00");
+        this._setTimerLabel("0· 00:00");
 
         this.menuManager = new PopupMenu.PopupMenuManager(this);
         this.menu = new Applet.AppletPopupMenu(this, orientation);
@@ -337,7 +337,7 @@ MyApplet.prototype = {
         if (this._stopTimer == false) {
             this._stopTimer = true;
             this._isPause = false;
-            this._setTimerLabel("[%02d] 00:00".format(this._sessionCount));
+            this._setTimerLabel("%d· 00:00".format(this._sessionCount));
             this._stopTimerSound();
         }
         else {
@@ -434,7 +434,7 @@ MyApplet.prototype = {
         this._minutes = parseInt(seconds / 60);
         this._seconds = parseInt(seconds % 60);
 
-        timer_text = "[%02d] ".format(this._sessionCount);
+        timer_text = "%d· ".format(this._sessionCount);
         if (this._minutes < 0 || this._seconds < 0)
             timer_text += "-";
         timer_text += "%02d:%02d".format(Math.abs(this._minutes), Math.abs(this._seconds));
