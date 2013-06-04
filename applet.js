@@ -77,10 +77,7 @@ MyApplet.prototype = {
             "short_break_duration", "_shortPauseTime", this.on_short_break_duration_changed, null); 
 
         this.settings.bindProperty(Settings.BindingDirection.IN,
-            "long_break_duration", "_longPauseTime", this.on_long_break_duration_changed, null); 
-
-        this.settings.bindProperty(Settings.BindingDirection.IN, 
-            "show_notification_messages", "_showNotificationMessages", this.on_settings_changed, null); 
+            "long_break_duration", "_longPauseTime", this.on_long_break_duration_changed, null);  
 
         this.settings.bindProperty(Settings.BindingDirection.IN,
             "show_dialog_messages", "_showDialogMessages", this.on_settings_changed, null);
@@ -276,7 +273,7 @@ MyApplet.prototype = {
         }
         this._dialog.close();
 
-        if (this._showNotificationMessages) {
+        if (!this._showDialogMessages) {
             let source = this._createNotificationSource ();
             this._notification = new MessageTray.Notification(source, text);
             this._notification.setTransient(true);
@@ -294,7 +291,7 @@ MyApplet.prototype = {
             this._notification = null;
         }
         
-        if (this._showNotificationMessages || hideDialog) {
+        if (!this._showDialogMessages || hideDialog) {
             let source = this._createNotificationSource();
             this._notification = new MessageTray.Notification(source, text, null);
             this._notification.setResident(true);
