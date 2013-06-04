@@ -44,7 +44,6 @@ MyApplet.prototype = {
         this._warnSound = GLib.shell_quote(appletPath + '/warn.wav');
 
         this._setTimerLabel("[00] 00:00");
-        this.set_applet_icon_path(appletPath + "/icon.png");
 
         this.menuManager = new PopupMenu.PopupMenuManager(this);
         this.menu = new Applet.AppletPopupMenu(this, orientation);
@@ -52,6 +51,9 @@ MyApplet.prototype = {
 
         this.settings = new Settings.AppletSettings(this, appletUUID, instance_id);
         this._bindSettings();
+        
+        if (this._displayIcon)
+            this.set_applet_icon_path(appletPath + "/icon.png");
 
         // convert settings values stored in minutes into seconds
         this._convertPomodoroDurationToSeconds();
@@ -87,7 +89,10 @@ MyApplet.prototype = {
             "show_dialog_messages", "_showDialogMessages", this.on_settings_changed, null);
             
         this.settings.bindProperty(Settings.BindingDirection.IN,
-            "auto_start_after_break_ends", "_autoStartAfterBreak", this.on_settings_changed, null); 
+            "auto_start_after_break_ends", "_autoStartAfterBreak", this.on_settings_changed, null);
+            
+        this.settings.bindProperty(Settings.BindingDirection.IN,
+            "display_icon", "_displayIcon", this.on_icon_changed, null);
         
         this.settings.bindProperty(Settings.BindingDirection.IN,
             "break_sound", "play_break_sound", this.on_settings_changed, null);
@@ -522,6 +527,13 @@ MyApplet.prototype = {
         if(gFile.query_exists(null)) {
             this._warnSound = GLib.shell_quote(this.warn_sound_filepath);
         }
+    },
+    
+    on_icon_changed: function() {
+        if (this._displayIcon)
+            this.set_applet_icon_path(appletPath + "/icon.png");
+        else if (this._applet_icon_box.child)
+            this._applet_icon_box.child.destroy();
     },
 
     on_applet_removed_from_panel: function() {

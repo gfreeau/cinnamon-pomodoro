@@ -60,6 +60,12 @@
         "default" : true
     },
     
+    "display_icon" : {
+        "type" : "checkbox",
+        "description" : "Display the pomodoro icon in the applet panel",
+        "default" : true
+    },
+    
     "head_sounds": {
         "type": "header",
         "description": "Sounds"
