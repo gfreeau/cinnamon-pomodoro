@@ -185,11 +185,6 @@ MyApplet.prototype = {
             y_align: St.Align.START
         });
 
-        this._dialog.contentLayout.add(this._descriptionLabel, {
-            x_fill: true,
-            y_fill: true
-        });
-
         this._dialog.setButtons([
             {
                 label: _("Switch Off Pomodoro"),
