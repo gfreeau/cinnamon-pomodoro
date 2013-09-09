@@ -185,11 +185,6 @@ MyApplet.prototype = {
             y_align: St.Align.START
         });
 
-        this._dialog.contentLayout.add(this._descriptionLabel, {
-            x_fill: true,
-            y_fill: true
-        });
-
         this._dialog.setButtons([
             {
                 label: _("Switch Off Pomodoro"),
@@ -437,7 +432,7 @@ MyApplet.prototype = {
         this._minutes = parseInt(seconds / 60);
         this._seconds = parseInt(seconds % 60);
 
-        timer_text = "%d\u00B7 ".format(this._sessionCount);
+        let timer_text = "%d\u00B7 ".format(this._sessionCount);
         if (this._minutes < 0 || this._seconds < 0)
             timer_text += "-";
         timer_text += "%02d:%02d".format(Math.abs(this._minutes), Math.abs(this._seconds));
