@@ -74,6 +74,9 @@ MyApplet.prototype = {
             "pomodoro_duration", "_pomodoroTime", this.on_pomodoro_duration_changed, null); 
 
         this.settings.bindProperty(Settings.BindingDirection.IN,
+            "pomodori_number", "_pomodoriNumber", this.on_settings_changed, null); 
+
+        this.settings.bindProperty(Settings.BindingDirection.IN,
             "short_break_duration", "_shortPauseTime", this.on_short_break_duration_changed, null); 
 
         this.settings.bindProperty(Settings.BindingDirection.IN,
@@ -183,6 +186,11 @@ MyApplet.prototype = {
         messageBox.add(this._descriptionLabel, {
             y_fill: true,
             y_align: St.Align.START
+        });
+
+        this._dialog.contentLayout.add(this._descriptionLabel, {
+            x_fill: true,
+            y_fill: true
         });
 
         this._dialog.setButtons([
@@ -385,7 +393,7 @@ MyApplet.prototype = {
                     this._pauseCount += 1;
                     
                     // Check if it's time of a longer pause
-                    if (this._pauseCount == 4) {
+       		    if (this._pauseCount == this._pomodoriNumber) {
                         this._pauseCount = 0;
                         this._pauseTime = this._longPauseTime;
                         this._notifyPomodoroEnd(_('4th pomodoro in a row finished, starting a long pause...'));
@@ -432,7 +440,7 @@ MyApplet.prototype = {
         this._minutes = parseInt(seconds / 60);
         this._seconds = parseInt(seconds % 60);
 
-        let timer_text = "%d\u00B7 ".format(this._sessionCount);
+        timer_text = "%d\u00B7 ".format(this._sessionCount);
         if (this._minutes < 0 || this._seconds < 0)
             timer_text += "-";
         timer_text += "%02d:%02d".format(Math.abs(this._minutes), Math.abs(this._seconds));
