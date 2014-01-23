@@ -31,6 +31,15 @@
         "description": "Long Break Duration:  "
     },
 
+    "pomodori_number": {
+        "type": "scale",
+        "default": 4,
+        "min": 1,
+        "max": 63,
+        "step": 1,
+        "description": "Number of pomidori before long break:  "
+    },
+
     "head_options": {
         "type": "header",
         "description": "Options"
