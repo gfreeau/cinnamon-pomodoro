@@ -12,9 +12,7 @@ function TimerQueue() {
 
 TimerQueue.prototype = {
     _init: function() {
-        this._isFirstStart = true;
-        this._queue = [];
-        this._queuePos = 0;
+        this._clearQueue();
         this._timerFinishedHandler = null;
     },
 
@@ -42,12 +40,15 @@ TimerQueue.prototype = {
     },
 
     reset: function() {
-        this.stop();
-        this._isFirstStart = true;
-        this._queuePos = 0;
-        this._queue.forEach(function(timer) {
-           timer.reset();
-        });
+        this._resetTimers();
+        this._rewindQueue();
+
+        this.emit('timer-queue-reset');
+    },
+
+    clear: function() {
+        this._resetTimers();
+        this._clearQueue();
     },
 
     getCurrentTimer: function() {
@@ -88,6 +89,24 @@ TimerQueue.prototype = {
 
     _queueIsFinished: function() {
         return this._queuePos == (this._queue.length - 1);
+    },
+
+    _clearQueue: function() {
+        this._queue = [];
+        this._rewindQueue();
+    },
+
+    _rewindQueue: function() {
+        this._isFirstStart = true;
+        this._queuePos = 0;
+    },
+
+    _resetTimers: function() {
+        this.stop();
+
+        this._queue.forEach(function(timer) {
+            timer.reset();
+        });
     }
 };
 
@@ -123,6 +142,11 @@ Timer.prototype = {
     setTimerLimit: function(timerLimit) {
         if (typeof timerLimit != 'number' || timerLimit < 1) {
             throw new Error('timerLimit must be a number greater than 0 to run timer');
+        }
+
+        if (this.isRunning()) {
+            let timeElapsed = this._timerLimit - this._currentTickCount;
+            this._currentTickCount = timerLimit - timeElapsed;
         }
 
         this._timerLimit = timerLimit;
@@ -169,22 +193,18 @@ Timer.prototype = {
         return this;
     },
 
-    /**
-     * @returns {number}
-     */
-    getTimesFinished: function() {
-        return this._timesFinished;
-    },
-
     getTicksRemaining: function() {
         return this._currentTickCount;
+    },
+
+    isRunning: function() {
+        return this._tickTimeout != null;
     },
 
     /**
      * @private
      */
     _startTimer: function(firstRun) {
-        this._isFinished = false;
         this._isFirstStart = false;
         firstRun = Boolean(firstRun);
 
@@ -195,6 +215,7 @@ Timer.prototype = {
         this.emit('timer-running');
 
         this.emit('timer-tick');
+
         this._tickTimeout = Mainloop.timeout_add_seconds(1, Lang.bind(this, this._tick));
     },
 
@@ -221,8 +242,6 @@ Timer.prototype = {
      */
     _finish: function() {
         this.stop();
-        this._isFinished = true;
-        this._timesFinished++;
         this.emit('timer-finished');
     },
 
@@ -231,9 +250,7 @@ Timer.prototype = {
      */
     _resetTimer: function() {
         this._isFirstStart = false;
-        this._isFinished = false;
         this._tickTimeout = null;
-        this._timesFinished = 0;
         this._refreshTimer();
     },
 
