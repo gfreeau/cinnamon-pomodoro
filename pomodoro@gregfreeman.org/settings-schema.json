@@ -67,6 +67,20 @@
         "type": "header",
         "description": "Sounds"
     },
+
+    "timer_sound" : {
+        "type" : "checkbox",
+        "description" : "Play Timer Sound",
+        "default" : false
+    },
+
+    "timer_sound_file" : {
+        "type" : "filechooser",
+        "description" : "Timer Sound File ",
+        "default" : "tick.ogg",
+        "select-dir" : false,
+        "dependency" : "timer_sound"
+    },
     
     "break_sound" : {
         "type" : "checkbox",
@@ -80,20 +94,6 @@
         "default" : "deskbell.wav",
         "select-dir" : false,
         "dependency" : "break_sound"
-    },
-    
-    "timer_sound" : {
-        "type" : "checkbox",
-        "description" : "Play Timer Sound",
-        "default" : false
-    },
-    
-    "timer_sound_file" : {
-        "type" : "filechooser",
-        "description" : "Timer Sound File ",
-        "default" : "tick.ogg",
-        "select-dir" : false,
-        "dependency" : "timer_sound"
     },
     
     "warn_sound" : {
