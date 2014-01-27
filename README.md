@@ -1,33 +1,22 @@
-Cinnamon applet for pomodoro based off of https://github.com/codito/gnome-shell-pomodoro v0.5
+# Pomodoro Timer for Cinnamon 2.x, 1.8.x
 
-This is for Cinnamon 1.8, there is a version available for 1.6 here: https://github.com/gfreeau/cinnamon-pomodoro/tree/1.6
+The pomodoro technique is used to boost productivity and this applet provides an easy way to use the technique right on your desktop.
+Read more about the technique here: http://en.wikipedia.org/wiki/Pomodoro_Technique
 
+## Installation
 
-Installation
-============
-
-In order to install cinnamon-pomodoro you have to execute following steps:
-* Clone the repository
+In order to install cinnamon-pomodoro you have to execute the following steps:
+* Clone the repository and install the files into the cinnamon applet directory;
 <pre>
-    $ cd ~/.local/share/cinnamon/applets
-    $ git clone https://github.com/gfreeau/cinnamon-pomodoro.git pomodoro@gregfreeman.org
-    Cloning into 'pomodoro@gregfreeman.org'...
-    remote: Counting objects: 42, done.
-    remote: Compressing objects: 100% (32/32), done.
-    remote: Total 42 (delta 12), reused 39 (delta 10)
-    Unpacking objects: 100% (42/42), done.
-    $
+    $ git clone git@github.com:gfreeau/cinnamon-pomodoro.git
+    $ cp -r cinnamon-pomodoro/pomodoro@gregfreeman.org ~/.local/share/cinnamon/applets
 </pre>
-* Alternatively, if you don't have GIT installed you can just download zip file from https://github.com/gfreeau/cinnamon-pomodoro/archive/master.zip
-    * Unpack it to the `~/.local/share/cinnamon/applets directory` directory
-    * Rename the directory `cinnamon-pomodoro-master` into `pomodoro@gregfreeman.org`
-
+* Alternatively, if you don't have GIT installed you can just download zip file
+<pre>
+    $ wget https://github.com/gfreeau/cinnamon-pomodoro/archive/master.zip -O cinnamon-pomodoro.zip
+    $ unzip cinnamon-pomodoro.zip
+    cp -r cinnamon-pomodoro/pomodoro@gregfreeman.org ~/.local/share/cinnamon/applets
+</pre>
+* You may need to restart cinnamon, press ALT-F2 and enter 'r'
 * Finally, enable the applet by going to Menu->Settings->Applets and selecting Pomodoro
 * Get productive!
-
-
-TODO
-============
-* In the settings, find a way to use the applet path in the default file path values in filechooser
-* Center text in DialogWindow
-* Get the pid of the play command to avoid the use of pkill
