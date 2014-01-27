@@ -64,6 +64,18 @@ TimerQueue.prototype = {
         return this._queue[this._queuePos];
     },
 
+    skip: function() {
+        let timer = this.getCurrentTimer();
+
+        if (timer == undefined) {
+            return false;
+        }
+
+        if (timer.isRunning() && this._timerFinishedHandler != null) {
+            this._timerFinished(timer);
+        }
+    },
+
     _startNextTimer: function() {
         let timer = this.getCurrentTimer();
 

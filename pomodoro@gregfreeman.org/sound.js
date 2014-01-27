@@ -24,7 +24,15 @@ function addPathIfRelative(soundPath, basePath) {
         return soundPath;
     }
 
-    return basePath + '/' + soundPath;
+    let fullPath = '';
+
+    if (basePath) {
+        fullPath += basePath + '/';
+    }
+
+    fullPath += soundPath;
+
+    return fullPath;
 }
 
 function SoundEffect(soundPath) {
@@ -84,5 +92,9 @@ SoundEffect.prototype = {
         Util.trySpawnCommandLine(command);
 
         this._pid = null;
+    },
+
+    isPlaying: function() {
+        return this._pid != null;
     }
 };
