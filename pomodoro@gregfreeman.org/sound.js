@@ -18,6 +18,15 @@ function spawnCommandAndGetPid(command) {
     return pid;
 }
 
+function addPathIfRelative(soundPath, basePath) {
+    // user set a custom absolute path, so lets use that
+    if (soundPath.substring(0, 1) == '/') {
+        return soundPath;
+    }
+
+    return basePath + '/' + soundPath;
+}
+
 function SoundEffect(soundPath) {
     this._init(soundPath);
 }
@@ -31,7 +40,7 @@ SoundEffect.prototype = {
         }
 
         if (!isPlayable) {
-            global.logError("Unable to play sound, make sure 'play' is available on your path" +
+            throw new Error("Unable to play sound, make sure 'play' is available on your path" +
                 " and that '%s' is a valid sound file".format(soundPath));
         }
 
