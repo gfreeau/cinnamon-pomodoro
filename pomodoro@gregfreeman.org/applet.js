@@ -65,13 +65,10 @@ PomodoroApplet.prototype = {
         this._settingsProvider = new Settings.AppletSettings(this, metadata.uuid, instanceId);
         this._bindSettings();
 
-        const DEFAULT_SOUND_PATH = metadata.path + '/sounds';
+        this._defaultSoundPath = metadata.path + '/sounds';
 
-        this._sounds = {
-            tick: new SoundModule.SoundEffect(SoundModule.addPathIfRelative(this._opt_tickerSoundPath, DEFAULT_SOUND_PATH)),
-            break: new SoundModule.SoundEffect(SoundModule.addPathIfRelative(this._opt_breakSoundPath, DEFAULT_SOUND_PATH)),
-            warn: new SoundModule.SoundEffect(SoundModule.addPathIfRelative(this._opt_warnSoundPath, DEFAULT_SOUND_PATH))
-        };
+        this._sounds = {};
+        this._loadSoundEffects();
 
         this._timers = {
             pomodoro: new TimerModule.Timer({ timerLimit: convertMinutesToSeconds(this._opt_pomodoroTimeMinutes) }),
@@ -85,7 +82,7 @@ PomodoroApplet.prototype = {
         this._longBreakdialog = this._createLongBreakDialog();
         this._appletMenu = this._createMenu(orientation);
 
-        this.__connectTimerSignals();
+        this._connectTimerSignals();
 
         // trigger for initial setting
         this._onAppletIconChanged();
@@ -131,11 +128,24 @@ PomodoroApplet.prototype = {
                 // otherwise wait until next pomodoro to take effect
 
                 if (this._timerQueue.isRunning()) {
+                    this.__pomodoriNumberChangedWhileRunning = true;
                     return;
                 }
 
                 this._setPomodoroTimerQueue();
             }
+        );
+
+        this._settingsProvider.bindProperty(
+            Settings.BindingDirection.IN,
+            "show_dialog_messages",
+            "_opt_showDialogMessages"
+        );
+
+        this._settingsProvider.bindProperty(
+            Settings.BindingDirection.IN,
+            "auto_start_after_break_ends",
+            "_opt_autoStartNewAfterFinish"
         );
 
         this._settingsProvider.bindProperty(
@@ -153,35 +163,48 @@ PomodoroApplet.prototype = {
         );
 
         this._settingsProvider.bindProperty(
-            Settings.BindingDirection.IN, "show_dialog_messages", "_opt_showDialogMessages"
+            Settings.BindingDirection.IN,
+            "timer_sound_file",
+            "_opt_tickerSoundPath",
+            function() {
+                this.__soundEffectSettingsChanged = true;
+            }
         );
 
         this._settingsProvider.bindProperty(
-            Settings.BindingDirection.IN, "auto_start_after_break_ends", "_opt_autoStartNewAfterFinish"
+            Settings.BindingDirection.IN,
+            "break_sound",
+            "_opt_playBreakSound"
         );
 
         this._settingsProvider.bindProperty(
-            Settings.BindingDirection.IN, "timer_sound_file", "_opt_tickerSoundPath"
+            Settings.BindingDirection.IN,
+            "break_sound_file",
+            "_opt_breakSoundPath",
+            function() {
+                this.__soundEffectSettingsChanged = true;
+            }
         );
 
         this._settingsProvider.bindProperty(
-            Settings.BindingDirection.IN, "break_sound", "_opt_playBreakSound"
+            Settings.BindingDirection.IN,
+            "warn_sound",
+            "_opt_playWarnSound"
         );
 
         this._settingsProvider.bindProperty(
-            Settings.BindingDirection.IN, "break_sound_file", "_opt_breakSoundPath"
+            Settings.BindingDirection.IN,
+            "warn_sound_delay",
+            "_opt_warnSoundDelay"
         );
 
         this._settingsProvider.bindProperty(
-            Settings.BindingDirection.IN, "warn_sound", "_opt_playWarnSound"
-        );
-
-        this._settingsProvider.bindProperty(
-            Settings.BindingDirection.IN, "warn_sound_delay", "_opt_warnSoundDelay"
-        );
-
-        this._settingsProvider.bindProperty(
-            Settings.BindingDirection.IN, "warn_sound_file", "_opt_warnSoundPath"
+            Settings.BindingDirection.IN,
+            "warn_sound_file",
+            "_opt_warnSoundPath",
+            function() {
+                this.__soundEffectSettingsChanged = true;
+            }
         );
     },
 
@@ -222,7 +245,7 @@ PomodoroApplet.prototype = {
         }
     },
 
-    __connectTimerSignals: function() {
+    _connectTimerSignals: function() {
         let timerQueue = this._timerQueue;
         let pomodoroTimer = this._timers.pomodoro;
         let shortBreakTimer = this._timers.shortBreak;
@@ -286,7 +309,18 @@ PomodoroApplet.prototype = {
     },
 
     _startNewTimer: function() {
-        this._setPomodoroTimerQueue();
+        if (this.__soundEffectSettingsChanged) {
+            this._loadSoundEffects();
+            delete this.__soundEffectSettingsChanged;
+        }
+
+        if (!this.__pomodoriNumberChangedWhileRunning) {
+            this._timerQueue.reset();
+        } else {
+            this._setPomodoroTimerQueue();
+            delete this.__pomodoriNumberChangedWhileRunning;
+        }
+
         this._timerQueue.start();
     },
 
@@ -312,6 +346,18 @@ PomodoroApplet.prototype = {
     _playBreakSound: function() {
         if (this._opt_playBreakSound) {
             this._sounds.break.play();
+        }
+    },
+
+    _loadSoundEffects: function() {
+        this._sounds = this._sounds || {};
+
+        try {
+            this._sounds.tick = new SoundModule.SoundEffect(SoundModule.addPathIfRelative(this._opt_tickerSoundPath, this._defaultSoundPath));
+            this._sounds.break = new SoundModule.SoundEffect(SoundModule.addPathIfRelative(this._opt_breakSoundPath, this._defaultSoundPath));
+            this._sounds.warn = new SoundModule.SoundEffect(SoundModule.addPathIfRelative(this._opt_warnSoundPath, this._defaultSoundPath));
+        } catch (e) {
+            global.logError(e);
         }
     },
 
@@ -368,8 +414,14 @@ PomodoroApplet.prototype = {
         }));
 
         dialog.connect('start-new-pomodoro', Lang.bind(this, function() {
-            this._longBreakdialog.close();
-            this._startNewTimer();
+            // skipping the timer will make the timer-queue-finished event fire
+            this._timerQueue.skip();
+
+            // if auto start is enabled, the timer will be restarted automatically after the skip
+            // so we only need to start new one if it's disabled and the user specifically requested it
+            if (!this._opt_autoStartNewAfterFinish) {
+                this._startNewTimer();
+            }
         }));
 
         dialog.connect('hide', Lang.bind(this, function() {
