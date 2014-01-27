@@ -144,7 +144,7 @@ PomodoroApplet.prototype = {
         shortBreakTimer.connect('timer-tick', Lang.bind(this, this._timerTickUpdate));
 
         longBreakTimer.connect('timer-tick', Lang.bind(this, this._timerTickUpdate));
-        //longBreakTimer.connect('timer-tick', Lang.bind(this._dialog, this._dialog.updateTimeRemaining));
+        longBreakTimer.connect('timer-tick', Lang.bind(this._dialog, this._dialog.updateTimeRemaining));
 
         let soundTick = new SoundModule.SoundEffect(APPLET_PATH + "/sounds/tick.ogg");
         let soundFinish = new SoundModule.SoundEffect(APPLET_PATH + "/sounds/deskbell.wav");
@@ -402,7 +402,7 @@ PomodoroMenu.prototype = {
         let text = Array(this._pomodoriCompleted + 1).join('\u25cf');
 
         this._pomodoriCountLabel.set_text(text);
-    },
+    }
 };
 
 function PomodoroFinishedDialog() {
@@ -415,16 +415,13 @@ PomodoroFinishedDialog.prototype = {
     _init: function() {
         ModalDialog.ModalDialog.prototype._init.call(this);
 
-        let subjectLabel = new St.Label({
-            text: _("Pomodoro finished, you deserve a break!")
-        });
-
-        this.contentLayout.add(subjectLabel);
-
-        let space = new St.Label({text: " "});
-        this.contentLayout.add(space);
+        this.contentLayout.add(new St.Label({
+            text: _("Pomodoro finished, you deserve a break!") + "\n"
+        }));
 
         this._timeLabel = new St.Label();
+
+        this.contentLayout.add(this._timeLabel);
 
         this.setButtons([
             {
@@ -451,6 +448,10 @@ PomodoroFinishedDialog.prototype = {
 
     updateTimeRemaining: function(timer) {
         let tickCount = timer.getTicksRemaining();
-        this._timeLabel.set_text(_("Time remaining: ") + tickCount);
+        this._setTimeLabelText(_("Time remaining: ") + tickCount)
+    },
+
+    _setTimeLabelText: function(label) {
+        this._timeLabel.set_text(label + "\n");
     }
 };
