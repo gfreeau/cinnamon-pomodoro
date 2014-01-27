@@ -37,7 +37,7 @@
         "min": 1,
         "max": 63,
         "step": 1,
-        "description": "Number of pomidori before long break:  "
+        "description": "Number of pomodori before long break:  "
     },
 
     "head_options": {
@@ -91,7 +91,7 @@
     "timer_sound_file" : {
         "type" : "filechooser",
         "description" : "Timer Sound File ",
-        "default" : "EggTimer.ogg",
+        "default" : "tick.ogg",
         "select-dir" : false,
         "dependency" : "timer_sound"
     },
