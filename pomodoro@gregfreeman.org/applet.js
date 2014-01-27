@@ -6,6 +6,7 @@ const Lang = imports.lang;
 const ModalDialog = imports.ui.modalDialog;
 const PopupMenu = imports.ui.popupMenu;
 const Settings = imports.ui.settings;
+const Util = imports.misc.util;
 
 // set in main()
 let TimerModule;
