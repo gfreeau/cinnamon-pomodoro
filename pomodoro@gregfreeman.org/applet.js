@@ -77,7 +77,7 @@ PomodoroApplet.prototype = {
         };
 
         this._timerQueue = new TimerModule.TimerQueue();
-        this._setPomodoroTimerQueue();
+        this._resetPomodoroTimerQueue();
 
         this._longBreakdialog = this._createLongBreakDialog();
         this._appletMenu = this._createMenu(orientation);
@@ -132,7 +132,7 @@ PomodoroApplet.prototype = {
                     return;
                 }
 
-                this._setPomodoroTimerQueue();
+                this._resetPomodoroTimerQueue();
             }
         );
 
@@ -231,7 +231,7 @@ PomodoroApplet.prototype = {
      * is called every time a new pomodoro is started
      * @private
      */
-    _setPomodoroTimerQueue: function() {
+    _resetPomodoroTimerQueue: function() {
         this._timerQueue.clear();
 
         for (let i = 1; i < this._opt_pomodoriNumber + 1; i++) {
@@ -260,14 +260,13 @@ PomodoroApplet.prototype = {
             this._appletMenu.updatePomodoroCount(this._numPomodoroFinished);
 
             if (this._opt_autoStartNewAfterFinish) {
-
                 if (this._longBreakdialog.state == ModalDialog.State.OPENED) {
                     this._longBreakdialog.close();
                 }
 
                 this._startNewTimer();
             } else {
-                Main.notify(_('Pomodoro finished, take a break!'));
+                this._longBreakdialog.open();
             }
         }));
 
@@ -286,7 +285,7 @@ PomodoroApplet.prototype = {
         shortBreakTimer.connect('timer-tick', Lang.bind(this, this._timerTickUpdate));
 
         longBreakTimer.connect('timer-tick', Lang.bind(this, this._timerTickUpdate));
-        longBreakTimer.connect('timer-tick', Lang.bind(this._longBreakdialog, this._longBreakdialog.updateTimeRemaining));
+        longBreakTimer.connect('timer-tick', Lang.bind(this._longBreakdialog, this._longBreakdialog.setTimeRemaining));
 
         pomodoroTimer.connect('timer-running', Lang.bind(this, function() {
             this._playTickerSound();
@@ -303,6 +302,7 @@ PomodoroApplet.prototype = {
 
         longBreakTimer.connect('timer-started', Lang.bind(this, function() {
             if (this._opt_showDialogMessages) {
+                this._longBreakdialog.setDefaultLabels();
                 this._longBreakdialog.open();
             }
         }));
@@ -317,7 +317,7 @@ PomodoroApplet.prototype = {
         if (!this.__pomodoriNumberChangedWhileRunning) {
             this._timerQueue.reset();
         } else {
-            this._setPomodoroTimerQueue();
+            this._resetPomodoroTimerQueue();
             delete this.__pomodoriNumberChangedWhileRunning;
         }
 
@@ -378,8 +378,12 @@ PomodoroApplet.prototype = {
             this._timerQueue.stop();
         }));
 
-        menu.connect('reset-all', Lang.bind(this, function() {
+        menu.connect('reset-timer', Lang.bind(this, function() {
             this._timerQueue.reset();
+            this._setTimerLabel(0);
+        }));
+
+        menu.connect('reset-counts', Lang.bind(this, function() {
             this._numPomodoroFinished = 0;
             this._appletMenu.updatePomodoroCount(0);
         }));
@@ -420,11 +424,19 @@ PomodoroApplet.prototype = {
             // if auto start is enabled, the timer will be restarted automatically after the skip
             // so we only need to start new one if it's disabled and the user specifically requested it
             if (!this._opt_autoStartNewAfterFinish) {
+                this._longBreakdialog.close();
                 this._startNewTimer();
             }
         }));
 
         dialog.connect('hide', Lang.bind(this, function() {
+            if (!this._timerQueue.isRunning() && !this._opt_autoStartNewAfterFinish) {
+                // we are not auto starting a new timer and the timer is finished
+                // so we'll reset it and turn it off
+                this._timerQueue.reset();
+                this._appletMenu.toggleTimerState(false);
+            }
+
             this._longBreakdialog.close();
         }));
 
@@ -508,17 +520,30 @@ PomodoroMenu.prototype = {
 
         this.addMenuItem(completed);
 
-        // "Reset All"
+        // "Reset Timer"
 
-        let reset = new PopupMenu.PopupMenuItem(_('Reset All'));
+        let reset = new PopupMenu.PopupMenuItem(_('Reset Timer'));
 
         reset.connect('activate', Lang.bind(this, function() {
             this.toggleTimerState(false);
 
-            this.emit('reset-all');
+            this.emit('reset-timer');
         }));
 
         this.addMenuItem(reset);
+
+        // "Reset Counts and Timer"
+
+        let resetAll = new PopupMenu.PopupMenuItem(_('Reset Counts and Timer'));
+
+        resetAll.connect('activate', Lang.bind(this, function() {
+            this.toggleTimerState(false);
+
+            this.emit('reset-timer');
+            this.emit('reset-counts');
+        }));
+
+        this.addMenuItem(resetAll);
 
         // "Settings"
 
@@ -582,9 +607,9 @@ PomodoroFinishedDialog.prototype = {
     _init: function() {
         ModalDialog.ModalDialog.prototype._init.call(this);
 
-        this.contentLayout.add(new St.Label({
-            text: _("Pomodoro finished, you deserve a break!") + "\n"
-        }));
+        this._subjectLabel = new St.Label();
+
+        this.contentLayout.add(this._subjectLabel);
 
         this._timeLabel = new St.Label();
 
@@ -611,11 +636,25 @@ PomodoroFinishedDialog.prototype = {
                 key: Clutter.Escape
             }
         ]);
+
+        this.setDefaultLabels();
     },
 
-    updateTimeRemaining: function(timer) {
+    setDefaultLabels: function() {
+        this._subjectLabel.set_text(_("Pomodoro finished, you deserve a break!") + "\n");
+        this._timeLabel.text = '';
+    },
+
+    setTimeRemaining: function(timer) {
         let tickCount = timer.getTicksRemaining();
-        this._setTimeLabelText(_("A new pomodoro will begin in ") + this._getTimeString(tickCount))
+
+        if (tickCount == 0) {
+            this._subjectLabel.text = _("Your break is over, start another pomodoro!") + "\n";
+            this._timeLabel.text = '';
+            return;
+        }
+
+        this._setTimeLabelText(_("A new pomodoro begins in ") + this._getTimeString(tickCount)) + "\n"
     },
 
     _setTimeLabelText: function(label) {
