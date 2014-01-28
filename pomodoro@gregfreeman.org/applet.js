@@ -257,6 +257,7 @@ PomodoroApplet.prototype = {
 
         timerQueue.connect('timer-queue-started', Lang.bind(this, function() {
             this._appletMenu.showPomodoroInProgress();
+            Main.notify(_('Pomodoro started'));
         }));
 
         timerQueue.connect('timer-queue-finished', Lang.bind(this, function() {
@@ -268,9 +269,13 @@ PomodoroApplet.prototype = {
                     this._longBreakdialog.close();
                 }
 
-                this._startNewTimer();
-            } else {
+                this._startNewTimerQueue();
+            } else if (this._opt_showDialogMessages) {
                 this._longBreakdialog.open();
+            } else {
+                // user is not auto starting a new one and has dialog disabled
+                // so we'll disable the applet
+                this._turnOff();
             }
         }));
 
@@ -305,13 +310,22 @@ PomodoroApplet.prototype = {
         }));
 
         longBreakTimer.connect('timer-started', Lang.bind(this, function() {
+            this._playBreakSound();
+
             if (this._opt_showDialogMessages) {
                 this._longBreakdialog.open();
+            } else {
+                Main.notify(_('Take a long break'));
             }
         }));
     },
 
-    _startNewTimer: function() {
+    _startNewTimerQueue: function() {
+        this._resetTimerQueueState();
+        this._timerQueue.start();
+    },
+
+    _resetTimerQueueState: function() {
         if (this.__soundEffectSettingsChanged) {
             this._loadSoundEffects();
             delete this.__soundEffectSettingsChanged;
@@ -325,8 +339,13 @@ PomodoroApplet.prototype = {
         }
 
         this._longBreakdialog.setDefaultLabels();
+    },
 
-        this._timerQueue.start();
+    _turnOff: function() {
+        this._resetTimerQueueState();
+        this._appletMenu.toggleTimerState(false);
+
+        Main.notify(_('Pomodoro ended'));
     },
 
     /**
@@ -430,7 +449,7 @@ PomodoroApplet.prototype = {
             // so we only need to start new one if it's disabled and the user specifically requested it
             if (!this._opt_autoStartNewAfterFinish) {
                 this._longBreakdialog.close();
-                this._startNewTimer();
+                this._startNewTimerQueue();
             }
         }));
 
@@ -438,8 +457,7 @@ PomodoroApplet.prototype = {
             if (!this._timerQueue.isRunning() && !this._opt_autoStartNewAfterFinish) {
                 // we are not auto starting a new timer and the timer is finished
                 // so we'll reset it and turn it off
-                this._timerQueue.reset();
-                this._appletMenu.toggleTimerState(false);
+                this._turnOff();
             }
 
             this._longBreakdialog.close();
