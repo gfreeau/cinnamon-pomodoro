@@ -7,15 +7,15 @@ const ModalDialog = imports.ui.modalDialog;
 const PopupMenu = imports.ui.popupMenu;
 const Settings = imports.ui.settings;
 const Util = imports.misc.util;
-const GLib = imports.gi.GLib
+const GLib = imports.gi.GLib;
 
 const UUID = "pomodoro@gregfreeman.org";
 
-const Gettext = imports.gettext
+const Gettext = imports.gettext;
 Gettext.bindtextdomain(UUID, GLib.get_home_dir() + "/.local/share/locale");
 
 function _(str) {
-    return Gettext.dgettext(UUID, str)
+    return Gettext.dgettext(UUID, str);
 }
 
 // set in main()
