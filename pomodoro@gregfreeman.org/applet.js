@@ -303,7 +303,6 @@ PomodoroApplet.prototype = {
 
         longBreakTimer.connect('timer-started', Lang.bind(this, function() {
             if (this._opt_showDialogMessages) {
-                this._longBreakdialog.setDefaultLabels();
                 this._longBreakdialog.open();
             }
         }));
@@ -321,6 +320,8 @@ PomodoroApplet.prototype = {
             this._resetPomodoroTimerQueue();
             delete this.__pomodoriNumberChangedWhileRunning;
         }
+
+        this._longBreakdialog.setDefaultLabels();
 
         this._timerQueue.start();
     },
