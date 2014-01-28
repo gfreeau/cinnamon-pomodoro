@@ -93,6 +93,8 @@ PomodoroApplet.prototype = {
     },
 
     _bindSettings: function() {
+        let emptyCallback = function() {}; // for cinnamon 1.8
+
         this._settingsProvider.bindProperty(
             Settings.BindingDirection.IN,
             "pomodoro_duration",
@@ -143,13 +145,15 @@ PomodoroApplet.prototype = {
         this._settingsProvider.bindProperty(
             Settings.BindingDirection.IN,
             "show_dialog_messages",
-            "_opt_showDialogMessages"
+            "_opt_showDialogMessages",
+            emptyCallback
         );
 
         this._settingsProvider.bindProperty(
             Settings.BindingDirection.IN,
             "auto_start_after_break_ends",
-            "_opt_autoStartNewAfterFinish"
+            "_opt_autoStartNewAfterFinish",
+            emptyCallback
         );
 
         this._settingsProvider.bindProperty(
@@ -178,7 +182,8 @@ PomodoroApplet.prototype = {
         this._settingsProvider.bindProperty(
             Settings.BindingDirection.IN,
             "break_sound",
-            "_opt_playBreakSound"
+            "_opt_playBreakSound",
+            emptyCallback
         );
 
         this._settingsProvider.bindProperty(
@@ -193,13 +198,15 @@ PomodoroApplet.prototype = {
         this._settingsProvider.bindProperty(
             Settings.BindingDirection.IN,
             "warn_sound",
-            "_opt_playWarnSound"
+            "_opt_playWarnSound",
+            emptyCallback
         );
 
         this._settingsProvider.bindProperty(
             Settings.BindingDirection.IN,
             "warn_sound_delay",
-            "_opt_warnSoundDelay"
+            "_opt_warnSoundDelay",
+            emptyCallback
         );
 
         this._settingsProvider.bindProperty(
