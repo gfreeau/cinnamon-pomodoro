@@ -7,6 +7,16 @@ const ModalDialog = imports.ui.modalDialog;
 const PopupMenu = imports.ui.popupMenu;
 const Settings = imports.ui.settings;
 const Util = imports.misc.util;
+const GLib = imports.gi.GLib
+
+const UUID = "pomodoro@gregfreeman.org";
+
+const Gettext = imports.gettext
+Gettext.bindtextdomain(UUID, GLib.get_home_dir() + "/.local/share/locale");
+
+function _(str) {
+    return Gettext.dgettext(UUID, str)
+}
 
 // set in main()
 let TimerModule;
@@ -264,7 +274,7 @@ PomodoroApplet.prototype = {
 
         timerQueue.connect('timer-queue-started', Lang.bind(this, function() {
             this._appletMenu.showPomodoroInProgress();
-            Main.notify(_('Pomodoro started'));
+            Main.notify(_("Pomodoro started"));
         }));
 
         timerQueue.connect('timer-queue-finished', Lang.bind(this, function() {
@@ -313,7 +323,7 @@ PomodoroApplet.prototype = {
 
         shortBreakTimer.connect('timer-started', Lang.bind(this, function() {
             this._playBreakSound();
-            Main.notify(_('Take a short break'));
+            Main.notify(_("Take a short break"));
         }));
 
         longBreakTimer.connect('timer-started', Lang.bind(this, function() {
@@ -322,7 +332,7 @@ PomodoroApplet.prototype = {
             if (this._opt_showDialogMessages) {
                 this._longBreakdialog.open();
             } else {
-                Main.notify(_('Take a long break'));
+                Main.notify(_("Take a long break"));
             }
         }));
     },
@@ -352,7 +362,7 @@ PomodoroApplet.prototype = {
         this._resetTimerQueueState();
         this._appletMenu.toggleTimerState(false);
 
-        Main.notify(_('Pomodoro ended'));
+        Main.notify(_("Pomodoro ended"));
     },
 
     /**
@@ -552,7 +562,7 @@ PomodoroMenu.prototype = {
 
         // "Reset Timer"
 
-        let reset = new PopupMenu.PopupMenuItem(_('Reset Timer'));
+        let reset = new PopupMenu.PopupMenuItem(_("Reset Timer"));
 
         reset.connect('activate', Lang.bind(this, function() {
             this.toggleTimerState(false);
@@ -564,7 +574,7 @@ PomodoroMenu.prototype = {
 
         // "Reset Counts and Timer"
 
-        let resetAll = new PopupMenu.PopupMenuItem(_('Reset Counts and Timer'));
+        let resetAll = new PopupMenu.PopupMenuItem(_("Reset Counts and Timer"));
 
         resetAll.connect('activate', Lang.bind(this, function() {
             this.toggleTimerState(false);
@@ -618,7 +628,7 @@ PomodoroMenu.prototype = {
         this._pomodoroCount = count;
 
         if (count == 0) {
-            text = _('None');
+            text = _("None");
         } else {
             text = Array(count + 1).join('\u25cf');
         }
@@ -695,6 +705,6 @@ PomodoroFinishedDialog.prototype = {
         let minutes = parseInt(totalSeconds / 60);
         let seconds = parseInt(totalSeconds % 60);
 
-        return "%d minutes and %d seconds".format(minutes, seconds);
+        return _("%d minutes and %d seconds").format(minutes, seconds);
     }
 };

@@ -20,3 +20,20 @@ In order to install cinnamon-pomodoro you have to execute the following steps:
 * You may need to restart cinnamon, press ALT-F2 and enter 'r'
 * Finally, enable the applet by going to Menu->Settings->Applets and selecting Pomodoro
 * Get productive!
+
+## Make a translation
+
+```shell
+$ cd po
+$ msginit
+```
+
+You can also specify the locale and pot file
+
+```shell
+$ msginit --locale=fr --input=pomodoro@gregfreeman.org.pot
+```
+
+* Edit the newly created .po file and change msgstr to translated text.
+* Please add your translations to this repository.
+* Use cinnamon-json-makepot to test your translations
