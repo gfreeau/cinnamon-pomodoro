@@ -69,6 +69,7 @@ PomodoroApplet.prototype = {
 
         this._sounds = {};
         this._loadSoundEffects();
+        this._sounds.tick.killAnyPlaying();
 
         this._timers = {
             pomodoro: new TimerModule.Timer({ timerLimit: convertMinutesToSeconds(this._opt_pomodoroTimeMinutes) }),

@@ -96,5 +96,18 @@ SoundEffect.prototype = {
 
     isPlaying: function() {
         return this._pid != null;
+    },
+
+    /**
+     * Kill any looping sound if it exists
+     * Useful if cinnamon crashes or it restarts
+     */
+    killAnyPlaying: function() {
+        // best solution for now, in case cinnamon crashes or you restart it, need to make sure no sounds are played
+        // I was unable to get GLib.spawn_async_with_pipes working correctly
+        // I would prefer to run something like
+        // "ps aux | grep 'play -q' | grep '%s' | awk '{print $2}' | xargs kill -9".format(this._soundPath);
+
+        Util.trySpawnCommandLine('pkill play');
     }
 };
