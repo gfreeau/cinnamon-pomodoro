@@ -6,6 +6,15 @@ Read more about the technique here: http://en.wikipedia.org/wiki/Pomodoro_Techni
 ## Installation
 
 In order to install cinnamon-pomodoro you have to execute the following steps:
+* You need SoX play to play sound files, it is pre-installed on Linux Mint / Ubuntu, you can easily check:
+<pre>
+$ which play
+$ man play
+</pre>
+If you do not have it, you will need to install it for your distribution, for debian it is:
+<pre>
+$ sudo apt-get install sox
+</pre>
 * Clone the repository and install the files into the cinnamon applet directory;
 <pre>
     $ git clone git@github.com:gfreeau/cinnamon-pomodoro.git
