@@ -17,7 +17,7 @@
         "type": "scale",
         "default": 5,
         "min": 1,
-        "max": 12,
+        "max": 15,
         "step": 1,
         "description": "Short Break Duration:  "
     },
@@ -26,7 +26,7 @@
         "type": "scale",
         "default": 15,
         "min": 1,
-        "max": 36,
+        "max": 60,
         "step": 1,
         "description": "Long Break Duration:  "
     },
@@ -35,7 +35,7 @@
         "type": "scale",
         "default": 4,
         "min": 1,
-        "max": 63,
+        "max": 10,
         "step": 1,
         "description": "Number of pomodori before long break:  "
     },
