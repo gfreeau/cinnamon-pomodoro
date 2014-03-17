@@ -391,15 +391,15 @@ PomodoroApplet.prototype = {
     },
 
     _loadSoundEffects: function() {
+        if (!SoundModule.isPlayable()) {
+            global.logError("Unable to play sound, make sure 'play' is available on your path");
+        }
+
         this._sounds = this._sounds || {};
 
-        try {
-            this._sounds.tick = new SoundModule.SoundEffect(SoundModule.addPathIfRelative(this._opt_tickerSoundPath, this._defaultSoundPath));
-            this._sounds.break = new SoundModule.SoundEffect(SoundModule.addPathIfRelative(this._opt_breakSoundPath, this._defaultSoundPath));
-            this._sounds.warn = new SoundModule.SoundEffect(SoundModule.addPathIfRelative(this._opt_warnSoundPath, this._defaultSoundPath));
-        } catch (e) {
-            global.logError(e);
-        }
+        this._sounds.tick = new SoundModule.SoundEffect(SoundModule.addPathIfRelative(this._opt_tickerSoundPath, this._defaultSoundPath));
+        this._sounds.break = new SoundModule.SoundEffect(SoundModule.addPathIfRelative(this._opt_breakSoundPath, this._defaultSoundPath));
+        this._sounds.warn = new SoundModule.SoundEffect(SoundModule.addPathIfRelative(this._opt_warnSoundPath, this._defaultSoundPath));
     },
 
     /**

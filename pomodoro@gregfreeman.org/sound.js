@@ -35,21 +35,20 @@ function addPathIfRelative(soundPath, basePath) {
     return fullPath;
 }
 
+function isPlayable() {
+    return GLib.find_program_in_path('play') != null;
+}
+
 function SoundEffect(soundPath) {
     this._init(soundPath);
 }
 
 SoundEffect.prototype = {
     _init: function(soundPath) {
-        let isPlayable = GLib.find_program_in_path('play') != null;
+        let isPlayable = this._playerExists();
 
         if (!GLib.file_test(soundPath, GLib.FileTest.EXISTS)) {
             isPlayable = false;
-        }
-
-        if (!isPlayable) {
-            throw new Error("Unable to play sound, make sure 'play' is available on your path" +
-                " and that '%s' is a valid sound file".format(soundPath));
         }
 
         this._isPlayable = isPlayable;
@@ -102,3 +101,5 @@ SoundEffect.prototype = {
         return this._soundPath;
     }
 };
+
+SoundEffect.prototype._playerExists = isPlayable;
