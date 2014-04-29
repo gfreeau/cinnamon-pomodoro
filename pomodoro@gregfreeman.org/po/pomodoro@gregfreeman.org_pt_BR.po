@@ -161,7 +161,7 @@ msgstr "Atraso no Aviso (em segundos):"
 
 #. pomodoro@gregfreeman.org->settings-schema.json->display_icon->description
 msgid "Display the pomodoro icon in the applet panel"
-msgstr "Exibir o ícone do pomodoro no painel de applets"
+msgstr "Exibir o ícone do pomodoro no painel de miniaplicativos"
 
 #. pomodoro@gregfreeman.org->settings-schema.json->head_options->description
 msgid "Options"
