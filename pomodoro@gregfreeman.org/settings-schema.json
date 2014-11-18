@@ -3,7 +3,7 @@
         "type": "header",
         "description": "Durations (minutes)"
     },
-    
+
     "pomodoro_duration": {
         "type": "scale",
         "default": 25,
@@ -21,7 +21,7 @@
         "step": 1,
         "description": "Short Break Duration:  "
     },
-    
+
     "long_break_duration": {
         "type": "scale",
         "default": 15,
@@ -50,19 +50,19 @@
         "description" : "Show Dialog Messages",
         "default" : true
     },
-    
+
     "auto_start_after_break_ends" : {
         "type" : "checkbox",
         "description" : "Auto start a new pomodoro after a break ends",
         "default" : true
     },
-    
+
     "display_icon" : {
         "type" : "checkbox",
         "description" : "Display the pomodoro icon in the applet panel",
         "default" : true
     },
-    
+
     "head_sounds": {
         "type": "header",
         "description": "Sounds"
@@ -81,13 +81,25 @@
         "select-dir" : false,
         "dependency" : "timer_sound"
     },
-    
+    "timer_command" : {
+      "type" : "filechooser",
+      "description" : "Timer Command ",
+      "default" : "",
+      "select-dir" : false
+    },
+
     "break_sound" : {
         "type" : "checkbox",
         "description" : "Play Break Sound",
         "default" : true
     },
-    
+    "break_command" : {
+      "type" : "filechooser",
+      "description" : "Break Command ",
+      "default" : "",
+      "select-dir" : false
+    },
+
     "break_sound_file" : {
         "type" : "filechooser",
         "description" : "Break Sound File ",
@@ -95,13 +107,13 @@
         "select-dir" : false,
         "dependency" : "break_sound"
     },
-    
+
     "warn_sound" : {
         "type" : "checkbox",
         "description" : "Play Warn Sound",
         "default" : false
     },
-    
+
     "warn_sound_delay": {
         "type": "scale",
         "default": 30,
@@ -111,7 +123,7 @@
         "description": "Warn Delay (in secs):  ",
         "dependency" : "warn_sound"
     },
-    
+
     "warn_sound_file" : {
         "type" : "filechooser",
         "description" : "Warn Sound File ",

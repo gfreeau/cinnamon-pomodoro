@@ -71,6 +71,8 @@ PomodoroApplet.prototype = {
         this._opt_playWarnSound = null;
         this._opt_warnSoundDelay = null;
         this._opt_warnSoundPath = null;
+        this._opt_timerCommand = null;
+        this._opt_breakCommand = null;
 
         this._settingsProvider = new Settings.AppletSettings(this, metadata.uuid, instanceId);
         this._bindSettings();
@@ -195,6 +197,18 @@ PomodoroApplet.prototype = {
             "_opt_playBreakSound",
             emptyCallback
         );
+        this._settingsProvider.bindProperty(
+            Settings.BindingDirection.IN,
+            "break_command",
+            "_opt_breakCommand",
+            emptyCallback
+        );
+        this._settingsProvider.bindProperty(
+            Settings.BindingDirection.IN,
+            "timer_command",
+            "_opt_timerCommand",
+            emptyCallback
+        );
 
         this._settingsProvider.bindProperty(
             Settings.BindingDirection.IN,
@@ -314,6 +328,7 @@ PomodoroApplet.prototype = {
         longBreakTimer.connect('timer-tick', Lang.bind(this._longBreakdialog, this._longBreakdialog.setTimeRemaining));
 
         pomodoroTimer.connect('timer-running', Lang.bind(this, function() {
+            GLib.spawn_command_line_async(this._opt_timerCommand);
             this._playTickerSound();
         }));
 
@@ -323,11 +338,13 @@ PomodoroApplet.prototype = {
 
         shortBreakTimer.connect('timer-started', Lang.bind(this, function() {
             this._playBreakSound();
+            GLib.spawn_command_line_async(this._opt_breakCommand);
             Main.notify(_("Take a short break"));
         }));
 
         longBreakTimer.connect('timer-started', Lang.bind(this, function() {
             this._playBreakSound();
+            GLib.spawn_command_line_async('/home/coteyr/iris/office.off.sh');
 
             if (this._opt_showDialogMessages) {
                 this._longBreakdialog.open();
