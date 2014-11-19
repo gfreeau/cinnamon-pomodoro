@@ -344,7 +344,7 @@ PomodoroApplet.prototype = {
 
         longBreakTimer.connect('timer-started', Lang.bind(this, function() {
             this._playBreakSound();
-            GLib.spawn_command_line_async('/home/coteyr/iris/office.off.sh');
+            GLib.spawn_command_line_async(this._opt_breakCommand);
 
             if (this._opt_showDialogMessages) {
                 this._longBreakdialog.open();
