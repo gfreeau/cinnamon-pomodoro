@@ -315,6 +315,7 @@ PomodoroApplet.prototype = {
 
         pomodoroTimer.connect('timer-running', Lang.bind(this, function() {
             this._playTickerSound();
+            this.set_applet_tooltip(_("Pomodoro %d running".format(this._numPomodoroFinished + 1)));
         }));
 
         pomodoroTimer.connect('timer-stopped', Lang.bind(this, function() {
@@ -324,6 +325,7 @@ PomodoroApplet.prototype = {
         shortBreakTimer.connect('timer-started', Lang.bind(this, function() {
             this._playBreakSound();
             Main.notify(_("Take a short break"));
+            this.set_applet_tooltip(_("Short break running"));
         }));
 
         longBreakTimer.connect('timer-started', Lang.bind(this, function() {
@@ -334,6 +336,7 @@ PomodoroApplet.prototype = {
             } else {
                 Main.notify(_("Take a long break"));
             }
+            this.set_applet_tooltip(_("Long break running"));
         }));
     },
 
