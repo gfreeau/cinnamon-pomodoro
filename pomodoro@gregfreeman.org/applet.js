@@ -252,7 +252,7 @@ PomodoroApplet.prototype = {
     /**
      * Adds all of the timers to a queue,
      * takes into account the number of pomodori per set,
-     * is called every time a new pomodoro is started.
+     * is called every time a new pomodoro set is started.
      * @private
      */
     _resetPomodoroTimerQueue: function() {
@@ -348,6 +348,7 @@ PomodoroApplet.prototype = {
     },
 
     _startNewTimerQueue: function() {
+        this._numPomodoroFinished = 0;
         this._resetTimerQueueState();
         this._timerQueue.start();
     },
@@ -438,6 +439,7 @@ PomodoroApplet.prototype = {
         }));
 
         menu.connect('reset-counts', Lang.bind(this, function() {
+            this._numPomodoroFinished = 0;
             this._numPomodoroSetFinished = 0;
             this._appletMenu.updateCounts(0, 0);
             this.set_applet_tooltip("");
@@ -646,9 +648,13 @@ PomodoroMenu.prototype = {
                 // \u25d1 = circle with right half black
                 text += '\u25d1';
             }
-            else {
+            else if (this._pomodoroCount == 3) {
                 // \u25d5 = circle with all but upper left quadrant black
                 text += '\u25d5';
+            }
+            else {
+                // \u25cf = black circle
+                text += '\u25cf';
             }
         }
         else {
