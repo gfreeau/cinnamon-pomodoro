@@ -469,10 +469,15 @@ PomodoroApplet.prototype = {
         let dialog = new PomodoroSetFinishedDialog();
 
         dialog.connect('switch-off-pomodoro', Lang.bind(this, function() {
+            if (!this._timerQueue.isRunning() && !this._opt_autoStartNewAfterFinish) {
+                this._turnOff();
+            } else {
+                this._timerQueue.stop();
+                this._appletMenu.toggleTimerState(false);
+                this.set_applet_tooltip("");
+            }
+
             this._longBreakdialog.close();
-            this._timerQueue.stop();
-            this._appletMenu.toggleTimerState(false);
-            this.set_applet_tooltip("");
         }));
 
         dialog.connect('start-new-pomodoro', Lang.bind(this, function() {
