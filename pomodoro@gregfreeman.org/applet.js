@@ -53,7 +53,7 @@ PomodoroApplet.prototype = {
         this._metadata = metadata;
 
         // Number of finished pomodori in the current set.
-        this._numPomodoroFinished = 0;
+        this._numPomodoriFinished = 0;
         // Number of finished sets.
         this._numPomodoroSetFinished = 0;
         this._setTimerLabel(0);
@@ -281,9 +281,9 @@ PomodoroApplet.prototype = {
         }));
 
         timerQueue.connect('timer-queue-finished', Lang.bind(this, function() {
-            this._numPomodoroFinished = 0;
+            this._numPomodoriFinished = 0;
             this._numPomodoroSetFinished++;
-            this._appletMenu.updateCounts(this._numPomodoroSetFinished, this._numPomodoroFinished);
+            this._appletMenu.updateCounts(this._numPomodoroSetFinished, this._numPomodoriFinished);
 
             if (this._opt_autoStartNewAfterFinish) {
                 if (this._longBreakdialog.state == ModalDialog.State.OPENED) {
@@ -319,7 +319,7 @@ PomodoroApplet.prototype = {
 
         pomodoroTimer.connect('timer-running', Lang.bind(this, function() {
             this._playTickerSound();
-            this.set_applet_tooltip(_("Pomodoro %d, set %d running".format(this._numPomodoroFinished + 1, this._numPomodoroSetFinished + 1)));
+            this.set_applet_tooltip(_("Pomodori %d, set %d running".format(this._numPomodoriFinished + 1, this._numPomodoroSetFinished + 1)));
         }));
 
         pomodoroTimer.connect('timer-stopped', Lang.bind(this, function() {
@@ -328,8 +328,8 @@ PomodoroApplet.prototype = {
 
         shortBreakTimer.connect('timer-started', Lang.bind(this, function() {
             this._playBreakSound();
-            this._numPomodoroFinished++;
-            this._appletMenu.updateCounts(this._numPomodoroSetFinished, this._numPomodoroFinished);
+            this._numPomodoriFinished++;
+            this._appletMenu.updateCounts(this._numPomodoroSetFinished, this._numPomodoriFinished);
             this._appletMenu.showPomodoroInProgress(this._opt_pomodoriNumber);
             Main.notify(_("Take a short break"));
             this.set_applet_tooltip(_("Short break running"));
@@ -348,7 +348,7 @@ PomodoroApplet.prototype = {
     },
 
     _startNewTimerQueue: function() {
-        this._numPomodoroFinished = 0;
+        this._numPomodoriFinished = 0;
         this._resetTimerQueueState();
         this._timerQueue.start();
     },
@@ -439,7 +439,7 @@ PomodoroApplet.prototype = {
         }));
 
         menu.connect('reset-counts', Lang.bind(this, function() {
-            this._numPomodoroFinished = 0;
+            this._numPomodoriFinished = 0;
             this._numPomodoroSetFinished = 0;
             this._appletMenu.updateCounts(0, 0);
             this.set_applet_tooltip("");
