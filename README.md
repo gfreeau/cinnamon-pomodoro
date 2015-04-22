@@ -3,6 +3,10 @@
 The pomodoro technique is used to boost productivity and this applet provides an easy way to use the technique right on your desktop.
 Read more about the technique here: http://en.wikipedia.org/wiki/Pomodoro_Technique
 
+## Applet page
+
+http://cinnamon-spices.linuxmint.com/applets/view/131
+
 ## Installation
 
 In order to install cinnamon-pomodoro you have to execute the following steps:
