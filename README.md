@@ -7,6 +7,9 @@
     - ToDoist
     - Asana
     - Trello
+    - Wunderlist
+    - Remember The Milk
+    - ...
 
 ---
 # Pomodoro Timer for Cinnamon 2.x, 1.8.x
