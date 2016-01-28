@@ -1,3 +1,13 @@
+#### This repo is a fork from [cinnamon-pomodoro](https://github.com/gfreeau/cinnamon-pomodoro "Cinnamon Pomodoro")
+### Addet Functions to this Pomodoro Timer
+- Translate this Applet in German
+- Addet GitHub and BitBucked issues
+- Addet popular Task- and ToDo-Lists
+    - Taskwarrior
+    - ToDoist
+    - Asana
+    - Trello
+---
 # Pomodoro Timer for Cinnamon 2.x, 1.8.x
 
 The pomodoro technique is used to boost productivity and this applet provides an easy way to use the technique right on your desktop.
