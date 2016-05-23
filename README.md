@@ -74,7 +74,7 @@ $ msginit --locale=fr --input=pomodoro@gregfreeman.org.pot
 
 # Français
 
-La technique pomodoro est utilisée pour booster la productivité et cet applet vous permet d'utiliser cette technique d'une façon simple directement sur votre bureau Cinnamon.
+La technique pomodoro est utilisée pour booster la productivité et cet applet vous permet de l'utiliser d'une façon simple et intuitive, directement sur votre bureau cinnamon.
 Pour en savoir plus sur la technique Pomodoro, je vous invite à consulter la [page Wikipedia](https://fr.wikipedia.org/wiki/Technique_Pomodoro)
 
 ## Page de l'applet
@@ -123,17 +123,6 @@ $ mv ~/.local/share/cinnamon/applets/pomodoro@gregfreeman.org/po/pomodoro@gregfr
 
 Il est possible que le repertoire "locale" n'existe pas dans "~/.locale/share", dans ce cas, créez la structure de repertoires requise ("locale/VOTRE_LOCALE_ID/LC_MESSAGES") avant d'utiliser la commande ci-dessus
 
-* Vous pourriez avoir à 
-
-### Example for the french translation file
-
-
-``` shell
-$ mv ~/.local/share/cinnamon/applets/pomodoro@gregfreeman.org/po/pomodoro@gregfreeman.org_fr.mo ~/.local/share/locale/fr/LC_MESSAGES/pomodoro@gregfreeman.org.mo
-```
-
-It is possible that the "locale" folder doesn't exists in "~/.local/share", in this case create the required folder tree ("locale/YOUR_LOCALE_ID/LC_MESSAGES") before using the command above
-
 * Vous pourriez avoir a redemarrer cinnamon, pour cela appuyez sur "ALT + F2", tapez "r" et validez
 * Profitez de la traduction française! :)
 
@@ -144,7 +133,7 @@ $ cd po
 $ msginit
 ```
 
-Vous pouvez aussi spécifier la localization et le fichier pot
+Vous pouvez aussi spécifier la localization et le fichier .pot
 
 ```shell
 $ msginit --locale=fr --input=pomodoro@gregfreeman.org.pot
