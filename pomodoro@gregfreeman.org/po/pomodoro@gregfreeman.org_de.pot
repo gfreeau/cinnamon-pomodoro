@@ -8,10 +8,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-28 11:55-0500\n"
+"POT-Creation-Date: 2016-01-25 17:05-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Last-Translator: Raoul René Melcer <raoul.rene.melcer@gmail.com>\n"
+"Language-Team: DE <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21,155 +21,155 @@ msgstr ""
 
 #: applet.js:267
 msgid "Pomodoro started"
-msgstr ""
+msgstr "Pomodoro starten"
 
 #: applet.js:316
 msgid "Take a short break"
-msgstr ""
+msgstr "Kurze Pause"
 
 #: applet.js:325
 msgid "Take a long break"
-msgstr ""
+msgstr "Lange Pause"
 
 #: applet.js:355
 msgid "Pomodoro ended"
-msgstr ""
+msgstr "Pomodoro Ende"
 
 # applet menu
 
 #: applet.js:531
 msgid "Pomodoro Timer"
-msgstr ""
+msgstr "Pomodoro Zeit"
 
 #: applet.js:542
 msgid "Completed"
-msgstr ""
+msgstr "Vollständig"
 
 #: applet.js:555
 msgid "Reset Timer"
-msgstr ""
+msgstr "Zeit zurücksetzen"
 
 #: applet.js:567
 msgid "Reset Counts and Timer"
-msgstr ""
+msgstr "Zähler und Zeit zurücksetzen"
 
 #: applet.js:580
 msgid "Settings"
-msgstr ""
+msgstr "Einstellungen"
 
 #: applet.js:590
 msgid "What is this?"
-msgstr ""
+msgstr "Was ist das?"
 
 #: applet.js:621
 msgid "None"
-msgstr ""
+msgstr "Nichts"
 
 # dialog
 
 #: applet.js:650
 msgid "Switch Off Pomodoro"
-msgstr ""
+msgstr "Pomodoro ausschalten"
 
 #: applet.js:656
 msgid "Start a new Pomodoro"
-msgstr ""
+msgstr "Neuer Pomodoro starten"
 
 #: applet.js:662
 msgid "Hide"
-msgstr ""
+msgstr "Ausblenden"
 
 #: applet.js:674
 msgid "Pomodoro finished, you deserve a break!"
-msgstr ""
+msgstr "Pomodoro beenden, du darfst eine Pause machen!"
 
 #: applet.js:682
 msgid "Your break is over, start another pomodoro!"
-msgstr ""
+msgstr "Die Pause ist zu ende, starte ein weiterer Pomodoro"
 
 #: applet.js:687
 msgid "A new pomodoro begins in "
-msgstr ""
+msgstr "Neuer Pomodoro beginnt in "
 
 #: applet.js:698
 #, c-format
 msgid "%d minutes and %d seconds"
-msgstr ""
+msgstr "%d Minuten und %d Sukunden"
 
 #. pomodoro@gregfreeman.org->settings-
 #. schema.json->pomodoro_duration->description
 msgid "Pomodoro Duration:  "
-msgstr ""
+msgstr "Pomodore Dauer: "
 
 #. pomodoro@gregfreeman.org->settings-schema.json->warn_sound->description
 msgid "Play Warn Sound"
-msgstr ""
+msgstr "Warnsignal abspielen"
 
 #. pomodoro@gregfreeman.org->settings-
 #. schema.json->long_break_duration->description
 msgid "Long Break Duration:  "
-msgstr ""
+msgstr "Länge der langen Pause"
 
 #. pomodoro@gregfreeman.org->settings-
 #. schema.json->show_dialog_messages->description
 msgid "Show Dialog Messages"
-msgstr ""
+msgstr "Blende Nachricht ein"
 
 #. pomodoro@gregfreeman.org->settings-
 #. schema.json->pomodori_number->description
 msgid "Number of pomodori before long break:  "
-msgstr ""
+msgstr "Anzahl Pomodori vor der langen Pause"
 
 #. pomodoro@gregfreeman.org->settings-
 #. schema.json->short_break_duration->description
 msgid "Short Break Duration:  "
-msgstr ""
+msgstr "Länge der kurzen Pause"
 
 #. pomodoro@gregfreeman.org->settings-schema.json->break_sound->description
 msgid "Play Break Sound"
-msgstr ""
+msgstr "Klang für Pause abspielen"
 
 #. pomodoro@gregfreeman.org->settings-
 #. schema.json->warn_sound_file->description
 msgid "Warn Sound File "
-msgstr ""
+msgstr "Klang-Datei für Warnung"
 
 #. pomodoro@gregfreeman.org->settings-schema.json->timer_sound->description
 msgid "Play Timer Sound"
-msgstr ""
+msgstr "Spiele Uhr Klang"
 
 #. pomodoro@gregfreeman.org->settings-
 #. schema.json->break_sound_file->description
 msgid "Break Sound File "
-msgstr ""
+msgstr "Klang-Datei für Pause"
 
 #. pomodoro@gregfreeman.org->settings-
 #. schema.json->auto_start_after_break_ends->description
 msgid "Auto start a new pomodoro after a break ends"
-msgstr ""
+msgstr "Automatisch mit einem neuen Pomodoro nach der Pause beginnen"
 
 #. pomodoro@gregfreeman.org->settings-
 #. schema.json->timer_sound_file->description
 msgid "Timer Sound File "
-msgstr ""
+msgstr "Zeit Klang-Datei"
 
 #. pomodoro@gregfreeman.org->settings-schema.json->head_sounds->description
 msgid "Sounds"
-msgstr ""
+msgstr "Klang"
 
 #. pomodoro@gregfreeman.org->settings-
 #. schema.json->warn_sound_delay->description
 msgid "Warn Delay (in secs):  "
-msgstr ""
+msgstr "Warnung in (in Sek.)"
 
 #. pomodoro@gregfreeman.org->settings-schema.json->display_icon->description
 msgid "Display the pomodoro icon in the applet panel"
-msgstr ""
+msgstr "Pomodoro Icon in der Benutzerleiste anzeigen"
 
 #. pomodoro@gregfreeman.org->settings-schema.json->head_options->description
 msgid "Options"
-msgstr ""
+msgstr "Optionen"
 
 #. pomodoro@gregfreeman.org->settings-schema.json->head_durations->description
 msgid "Durations (minutes)"
-msgstr ""
+msgstr "Länge (Minuten)"
