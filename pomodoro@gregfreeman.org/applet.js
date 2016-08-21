@@ -337,7 +337,7 @@ PomodoroApplet.prototype = {
 
         pomodoroTimer.connect('timer-running', Lang.bind(this, function() {
             this._playTickerSound();
-            this.set_applet_tooltip(_("Pomodori %d, set %d running".format(this._numPomodoriFinished + 1, this._numPomodoroSetFinished + 1)));
+            this.set_applet_tooltip(_("Pomodori %d, set %d running").format(this._numPomodoriFinished + 1, this._numPomodoroSetFinished + 1));
         }));
 
         pomodoroTimer.connect('timer-started', Lang.bind(this, function() {
