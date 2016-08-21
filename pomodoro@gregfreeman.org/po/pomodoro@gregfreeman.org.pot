@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-28 11:55-0500\n"
+"POT-Creation-Date: 2016-08-21 15:56+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,83 +17,99 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: \n"
 
-# notifications
-
-#: applet.js:267
+#: applet.js:298
 msgid "Pomodoro started"
 msgstr ""
 
-#: applet.js:316
+#: applet.js:340
+#, c-format
+msgid "Pomodori %d, set %d running"
+msgstr ""
+
+#: applet.js:345
+msgid "Let's go to work !"
+msgstr ""
+
+#: applet.js:357
 msgid "Take a short break"
 msgstr ""
 
-#: applet.js:325
+#: applet.js:358
+msgid "Short break running"
+msgstr ""
+
+#: applet.js:367
 msgid "Take a long break"
 msgstr ""
 
-#: applet.js:355
+#: applet.js:369
+msgid "Long break running"
+msgstr ""
+
+#: applet.js:400
 msgid "Pomodoro ended"
 msgstr ""
 
-# applet menu
-
-#: applet.js:531
+#. pomodoro@gregfreeman.org->metadata.json->name
+#: applet.js:594
 msgid "Pomodoro Timer"
 msgstr ""
 
-#: applet.js:542
+#: applet.js:605
 msgid "Completed"
 msgstr ""
 
-#: applet.js:555
+#: applet.js:618
 msgid "Reset Timer"
 msgstr ""
 
-#: applet.js:567
+#: applet.js:630
 msgid "Reset Counts and Timer"
 msgstr ""
 
-#: applet.js:580
+#: applet.js:643
 msgid "Settings"
 msgstr ""
 
-#: applet.js:590
+#: applet.js:653
 msgid "What is this?"
 msgstr ""
 
-#: applet.js:621
+#: applet.js:710
 msgid "None"
 msgstr ""
 
-# dialog
-
-#: applet.js:650
+#: applet.js:740
 msgid "Switch Off Pomodoro"
 msgstr ""
 
-#: applet.js:656
+#: applet.js:746
 msgid "Start a new Pomodoro"
 msgstr ""
 
-#: applet.js:662
+#: applet.js:752
 msgid "Hide"
 msgstr ""
 
-#: applet.js:674
-msgid "Pomodoro finished, you deserve a break!"
+#: applet.js:764
+msgid "Pomodoro set finished, you deserve a break!"
 msgstr ""
 
-#: applet.js:682
+#: applet.js:772
 msgid "Your break is over, start another pomodoro!"
 msgstr ""
 
-#: applet.js:687
+#: applet.js:777
 msgid "A new pomodoro begins in "
 msgstr ""
 
-#: applet.js:698
+#: applet.js:788
 #, c-format
 msgid "%d minutes and %d seconds"
+msgstr ""
+
+#. pomodoro@gregfreeman.org->metadata.json->description
+msgid "Great tool for boosted productivity!"
 msgstr ""
 
 #. pomodoro@gregfreeman.org->settings-
@@ -118,6 +134,10 @@ msgstr ""
 #. pomodoro@gregfreeman.org->settings-
 #. schema.json->pomodori_number->description
 msgid "Number of pomodori before long break:  "
+msgstr ""
+
+#. pomodoro@gregfreeman.org->settings-schema.json->start_sound->description
+msgid "Play Start Sound"
 msgstr ""
 
 #. pomodoro@gregfreeman.org->settings-
@@ -160,6 +180,11 @@ msgstr ""
 #. pomodoro@gregfreeman.org->settings-
 #. schema.json->warn_sound_delay->description
 msgid "Warn Delay (in secs):  "
+msgstr ""
+
+#. pomodoro@gregfreeman.org->settings-
+#. schema.json->start_sound_file->description
+msgid "Start Sound File "
 msgstr ""
 
 #. pomodoro@gregfreeman.org->settings-schema.json->display_icon->description
