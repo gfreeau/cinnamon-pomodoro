@@ -86,7 +86,7 @@ msgstr "Su descanso se ha terminado, ¡empiece otro Pomodoro!"
 
 #: applet.js:687
 msgid "A new pomodoro begins in "
-msgstr "Un Pomodoro Nuevo Comenzará en "
+msgstr "Un pomodoro nuevo comenzará en "
 
 #: applet.js:698
 #, c-format
@@ -143,8 +143,7 @@ msgstr "Archivo de Sonido de Descanso"
 #. pomodoro@gregfreeman.org->settings-
 #. schema.json->auto_start_after_break_ends->description
 msgid "Auto start a new pomodoro after a break ends"
-msgstr ""
-"Comenzar un pomodoro nuevo automáticamente después del fin de un descanso"
+msgstr "Comenzar un pomodoro nuevo automáticamente después del fin de un descanso"
 
 #. pomodoro@gregfreeman.org->settings-
 #. schema.json->timer_sound_file->description
@@ -162,7 +161,7 @@ msgstr "Retraso para Avisos (en segundos):  "
 
 #. pomodoro@gregfreeman.org->settings-schema.json->display_icon->description
 msgid "Display the pomodoro icon in the applet panel"
-msgstr "Mostrar el icono de pomodoro en el panel de applets"
+msgstr "Mostrar el ícono de pomodoro en el panel de applets"
 
 #. pomodoro@gregfreeman.org->settings-schema.json->head_options->description
 msgid "Options"
