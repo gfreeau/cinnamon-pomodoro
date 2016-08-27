@@ -62,6 +62,12 @@
         "description" : "Display the pomodoro icon in the applet panel",
         "default" : true
     },
+    
+    "show_timer" : {
+        "type" : "checkbox",
+        "description" : "Show the pomodoro timer in the applet panel",
+        "default" : true
+    },
 
     "head_sounds": {
         "type": "header",
