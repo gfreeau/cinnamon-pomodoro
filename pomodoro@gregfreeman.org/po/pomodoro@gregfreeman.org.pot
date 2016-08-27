@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-21 15:56+0200\n"
+"POT-Creation-Date: 2016-08-27 12:17+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,93 +17,93 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: \n"
 
-#: applet.js:298
+#: applet.js:311
 msgid "Pomodoro started"
 msgstr ""
 
-#: applet.js:340
+#: applet.js:353
 #, c-format
 msgid "Pomodori %d, set %d running"
 msgstr ""
 
-#: applet.js:345
+#: applet.js:358
 msgid "Let's go to work !"
 msgstr ""
 
-#: applet.js:357
+#: applet.js:370
 msgid "Take a short break"
 msgstr ""
 
-#: applet.js:358
+#: applet.js:371
 msgid "Short break running"
 msgstr ""
 
-#: applet.js:367
+#: applet.js:380
 msgid "Take a long break"
 msgstr ""
 
-#: applet.js:369
+#: applet.js:382
 msgid "Long break running"
 msgstr ""
 
-#: applet.js:400
+#: applet.js:413
 msgid "Pomodoro ended"
 msgstr ""
 
 #. pomodoro@gregfreeman.org->metadata.json->name
-#: applet.js:594
+#: applet.js:611
 msgid "Pomodoro Timer"
 msgstr ""
 
-#: applet.js:605
+#: applet.js:622
 msgid "Completed"
 msgstr ""
 
-#: applet.js:618
+#: applet.js:635
 msgid "Reset Timer"
 msgstr ""
 
-#: applet.js:630
+#: applet.js:647
 msgid "Reset Counts and Timer"
 msgstr ""
 
-#: applet.js:643
+#: applet.js:660
 msgid "Settings"
 msgstr ""
 
-#: applet.js:653
+#: applet.js:670
 msgid "What is this?"
 msgstr ""
 
-#: applet.js:710
+#: applet.js:727
 msgid "None"
 msgstr ""
 
-#: applet.js:740
+#: applet.js:757
 msgid "Switch Off Pomodoro"
 msgstr ""
 
-#: applet.js:746
+#: applet.js:763
 msgid "Start a new Pomodoro"
 msgstr ""
 
-#: applet.js:752
+#: applet.js:769
 msgid "Hide"
 msgstr ""
 
-#: applet.js:764
+#: applet.js:781
 msgid "Pomodoro set finished, you deserve a break!"
 msgstr ""
 
-#: applet.js:772
+#: applet.js:789
 msgid "Your break is over, start another pomodoro!"
 msgstr ""
 
-#: applet.js:777
+#: applet.js:794
 msgid "A new pomodoro begins in "
 msgstr ""
 
-#: applet.js:788
+#: applet.js:805
 #, c-format
 msgid "%d minutes and %d seconds"
 msgstr ""
@@ -189,6 +189,10 @@ msgstr ""
 
 #. pomodoro@gregfreeman.org->settings-schema.json->display_icon->description
 msgid "Display the pomodoro icon in the applet panel"
+msgstr ""
+
+#. pomodoro@gregfreeman.org->settings-schema.json->show_timer->description
+msgid "Show the pomodoro timer in the applet panel"
 msgstr ""
 
 #. pomodoro@gregfreeman.org->settings-schema.json->head_options->description

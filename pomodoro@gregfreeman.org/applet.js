@@ -67,6 +67,7 @@ PomodoroApplet.prototype = {
         this._opt_showDialogMessages = null;
         this._opt_autoStartNewAfterFinish = null;
         this._opt_displayIconInPanel = null;
+        this._opt_showTimerInPanel = null;
         this._opt_playTickerSound = null;
         this._opt_tickerSoundPath = null;
         this._opt_playBreakSound = null;
@@ -105,6 +106,7 @@ PomodoroApplet.prototype = {
 
         // trigger for initial setting
         this._onAppletIconChanged();
+        this._onShowTimerChanged();
     },
 
     _bindSettings: function() {
@@ -176,6 +178,13 @@ PomodoroApplet.prototype = {
             "display_icon",
             "_opt_displayIconInPanel",
             this._onAppletIconChanged
+        );
+        
+        this._settingsProvider.bindProperty(
+        	Settings.BindingDirection.IN,
+        	"show_timer",
+        	"_opt_showTimerInPanel",
+        	this._onShowTimerChanged
         );
 
         this._settingsProvider.bindProperty(
@@ -261,9 +270,13 @@ PomodoroApplet.prototype = {
             seconds = parseInt(ticks % 60);
         }
 
-        let timerText = "%d\u00B7 ".format(this._numPomodoroSetFinished);
-        timerText += "%02d:%02d".format(Math.abs(minutes), Math.abs(seconds));
+        let timerText = "%d".format(this._numPomodoroSetFinished);
 
+        if (this._opt_showTimerInPanel) {
+        	timerText += " \u00B7 "; // Separator
+        	timerText += "%02d:%02d".format(Math.abs(minutes), Math.abs(seconds));
+        }
+        
         this.set_applet_label(timerText);
     },
 
@@ -544,6 +557,10 @@ PomodoroApplet.prototype = {
         else if (this._applet_icon_box.child) {
             this._applet_icon_box.child.destroy();
         }
+    },
+    
+    _onShowTimerChanged: function() {  
+    	this._setTimerLabel(this._timerQueue.getCurrentTimer().getTicksRemaining());
     },
 
     _onPlayTickedSoundChanged: function() {
