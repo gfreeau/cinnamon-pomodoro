@@ -100,6 +100,7 @@ PomodoroApplet.prototype = {
         this._resetPomodoroTimerQueue();
 
         this._longBreakdialog = this._createLongBreakDialog();
+        this._shortBreakdialog = this._createShortBreakDialog()
         this._appletMenu = this._createMenu(orientation);
 
         this._connectTimerSignals();
@@ -163,6 +164,13 @@ PomodoroApplet.prototype = {
             Settings.BindingDirection.IN,
             "show_dialog_messages",
             "_opt_showDialogMessages",
+            emptyCallback
+        );
+
+        this._settingsProvider.bindProperty(
+            Settings.BindingDirection.IN,
+            "auto_start_after_short_break_ends",
+            "_opt_autoContinueAfterShortBreak",
             emptyCallback
         );
 
@@ -343,6 +351,24 @@ PomodoroApplet.prototype = {
             }
         }));
 
+        timerQueue.connect('timer-queue-before-next-timer', Lang.bind(this, function() {
+
+            let timer = timerQueue.getCurrentTimer()
+
+            if (!this._opt_autoContinueAfterShortBreak && timer === pomodoroTimer) {
+                timerQueue.preventStart(true);
+                timerQueue.stop();
+                this._appletMenu.toggleTimerState(false);
+                this.set_applet_tooltip(_("Waiting to start"));
+
+                if (this._opt_showDialogMessages) {
+                    this._playStartSound();
+                    this._shortBreakdialog.open();
+                }
+            }
+
+        }));
+
         shortBreakTimer.connect('timer-tick', Lang.bind(this, this._timerTickUpdate));
 
         longBreakTimer.connect('timer-tick', Lang.bind(this, this._timerTickUpdate));
@@ -467,6 +493,7 @@ PomodoroApplet.prototype = {
         let menu = new PomodoroMenu(this, orientation);
 
         menu.connect('start-timer', Lang.bind(this, function() {
+            this._timerQueue.preventStart(false);
             this._timerQueue.start();
         }));
 
@@ -543,6 +570,32 @@ PomodoroApplet.prototype = {
             }
 
             this._longBreakdialog.close();
+        }));
+
+        return dialog;
+    },
+
+    /**
+     *
+     * @returns {PomodoroBreakFinishedDialog}
+     * @private
+     */
+    _createShortBreakDialog: function() {
+        let dialog = new PomodoroBreakFinishedDialog();
+
+        dialog.connect('continue-current-pomodoro', Lang.bind(this, function() {
+            this._shortBreakdialog.close();
+            this._timerQueue.preventStart(false);
+            this._appletMenu.toggleTimerState(true);
+            this._timerQueue.start();
+        }));
+
+        dialog.connect('pause-pomodoro', Lang.bind(this, function() {
+            this._timerQueue.stop();
+            this._appletMenu.toggleTimerState(false);
+            this.set_applet_tooltip(_("Waiting to start"));
+
+            this._shortBreakdialog.close();
         }));
 
         return dialog;
@@ -803,5 +856,47 @@ PomodoroSetFinishedDialog.prototype = {
         let seconds = parseInt(totalSeconds % 60);
 
         return _("%d minutes and %d seconds").format(minutes, seconds);
+    }
+};
+
+function PomodoroBreakFinishedDialog() {
+    this._init.call(this);
+}
+
+PomodoroBreakFinishedDialog.prototype = {
+    __proto__: ModalDialog.ModalDialog.prototype,
+
+    _init: function() {
+        ModalDialog.ModalDialog.prototype._init.call(this);
+
+        this._subjectLabel = new St.Label();
+
+        this.contentLayout.add(this._subjectLabel);
+
+        this._timeLabel = new St.Label();
+
+        this.contentLayout.add(this._timeLabel);
+
+        this.setButtons([
+            {
+                label: _("Continue Current Pomodoro"),
+                action: Lang.bind(this, function() {
+                    this.emit('continue-current-pomodoro')
+                })
+            },
+            {
+                label: _("Pause Pomodoro"),
+                action: Lang.bind(this, function() {
+                    this.emit('pause-pomodoro');
+                })
+            }
+        ]);
+
+        this.setDefaultLabels();
+    },
+
+    setDefaultLabels: function() {
+        this._subjectLabel.set_text(_("Short break finished, ready to continue?") + "\n");
+        this._timeLabel.text = '';
     }
 };
