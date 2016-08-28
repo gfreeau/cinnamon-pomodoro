@@ -45,7 +45,7 @@ $ sudo apt-get install sox
 
 
 ``` shell
-$ mv ~/.local/share/cinnamon/applets/pomodoro@gregfreeman.org/po/pomodoro@gregfreeman.org_fr.mo ~/.local/share/locale/fr/LC_MESSAGES/pomodoro@gregfreeman.org.mo
+$ mv ~/.local/share/cinnamon/applets/pomodoro@gregfreeman.org/po/fr.mo ~/.local/share/locale/fr/LC_MESSAGES/pomodoro@gregfreeman.org.mo
 ```
 
 It is possible that the "locale" folder doesn't exists in "~/.local/share", in this case create the required folder tree ("locale/YOUR_LOCALE_ID/LC_MESSAGES") before using the command above
@@ -118,7 +118,7 @@ $ sudo apt-get install sox
 ### Exemple avec le fichier de traduction pour la langue française
 
 ``` shell
-$ mv ~/.local/share/cinnamon/applets/pomodoro@gregfreeman.org/po/pomodoro@gregfreeman.org_fr.mo ~/.local/share/locale/fr/LC_MESSAGES/pomodoro@gregfreeman.org.mo
+$ mv ~/.local/share/cinnamon/applets/pomodoro@gregfreeman.org/po/fr.mo ~/.local/share/locale/fr/LC_MESSAGES/pomodoro@gregfreeman.org.mo
 ```
 
 Il est possible que le répertoire "locale" n'existe pas dans "~/.locale/share", dans ce cas, créez la structure de répertoire requise ("locale/VOTRE_LOCALE_ID/LC_MESSAGES") avant d'utiliser la commande ci-dessus.
