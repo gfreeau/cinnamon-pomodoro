@@ -15,6 +15,7 @@ TimerQueue.prototype = {
         this._clearQueue();
         this._timerRunning = false;
         this._timerFinishedHandler = null;
+        this._timerPreventNextStart = false;
     },
 
     addTimer: function(timer) {
@@ -23,6 +24,10 @@ TimerQueue.prototype = {
 
     isRunning: function() {
         return this._timerRunning;
+    },
+
+    isStartPrevented: function() {
+        return this._timerPreventNextStart;
     },
 
     start: function() {
@@ -76,10 +81,18 @@ TimerQueue.prototype = {
         }
     },
 
+    preventStart: function (y) {
+        this._timerPreventNextStart = y
+    },
+
     _startNextTimer: function() {
         let timer = this.getCurrentTimer();
 
         if (timer == undefined) {
+            return false;
+        }
+
+        if (this.isStartPrevented()) {
             return false;
         }
 
@@ -107,6 +120,7 @@ TimerQueue.prototype = {
         }
 
         this._queuePos++;
+        this.emit('timer-queue-before-next-timer');
         this._startNextTimer();
     },
 
