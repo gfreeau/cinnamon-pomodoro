@@ -636,6 +636,7 @@ PomodoroApplet.prototype = {
     },
 
     on_applet_removed_from_panel: function() {
+        this._resetTimerQueueState();
         this._settingsProvider.finalize();
     }
 };
