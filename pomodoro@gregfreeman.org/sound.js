@@ -45,6 +45,12 @@ function SoundEffect(soundPath) {
 
 SoundEffect.prototype = {
     _init: function(soundPath) {
+        this._pid = null;
+
+        this.setSoundPath(soundPath);
+    },
+
+    setSoundPath: function(soundPath) {
         let isPlayable = this._playerExists();
 
         if (!GLib.file_test(soundPath, GLib.FileTest.EXISTS)) {
@@ -53,9 +59,15 @@ SoundEffect.prototype = {
 
         this._isPlayable = isPlayable;
         this._soundPath = soundPath;
-        this._pid = null;
     },
 
+    /**
+     * @param {Object} [params] Parameters
+     * @param {boolean} [params.loop=false] play the sound in loop
+     * @param {boolean} [params.preview=false] only play a 2 seconds preview of the sound
+     * @param {number} [params.volume=1] sound volume from 0 to 1
+     * @private
+     */
     play: function(params) {
         if (!this._isPlayable) {
             return false;
@@ -65,12 +77,22 @@ SoundEffect.prototype = {
             this.stop();
         }
 
-        params = Params.parse(params, { loop: false });
+        params = Params.parse(params, { preview: false, volume: 1, loop: false });
 
-        let command = "play -q '%s'".format(this._soundPath);
+        let command = "play";
+
+        // Volume
+        command += " --volume %.2f".format(params.volume);
+
+        // File to play
+        command += " -q %s".format(GLib.shell_quote(this._soundPath));
 
         if (params.loop) {
             command += " repeat 9999";
+        }
+
+        if (params.preview) {
+            command += " trim 0 00:00:02.0";
         }
 
         this._pid = spawnCommandAndGetPid(command);
