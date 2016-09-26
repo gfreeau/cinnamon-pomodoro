@@ -312,7 +312,7 @@ PomodoroApplet.prototype = {
     },
 
     /**
-     * @param {string} 'pomodoro' | 'short-break' | 'long-break'
+     * @param {string} newState 'pomodoro' | 'short-break' | 'long-break'
      * @private
      */
     _setCurrentState: function(newState) {
