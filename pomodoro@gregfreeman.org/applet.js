@@ -52,6 +52,9 @@ PomodoroApplet.prototype = {
 
         this._metadata = metadata;
 
+        // 'pomodoro', 'short-break', 'long-break'
+        this._currentState = 'pomodoro';
+
         // Number of finished pomodori in the current set.
         this._numPomodoriFinished = 0;
         // Number of finished sets.
@@ -352,6 +355,15 @@ PomodoroApplet.prototype = {
         }
     },
 
+    /**
+     * @param {string} newState 'pomodoro' | 'short-break' | 'long-break'
+     * @private
+     */
+    _setCurrentState: function(newState) {
+        this._currentState = newState;
+        this._onAppletIconChanged();
+    },
+
     _connectTimerSignals: function() {
         let timerQueue = this._timerQueue;
         let pomodoroTimer = this._timers.pomodoro;
@@ -424,6 +436,8 @@ PomodoroApplet.prototype = {
         }));
 
         pomodoroTimer.connect('timer-started', Lang.bind(this, function() {
+            this._setCurrentState('pomodoro');
+
             this._playStartSound();
             Main.notify(_("Let's go to work !"));
         }));
@@ -433,6 +447,8 @@ PomodoroApplet.prototype = {
         }));
 
         shortBreakTimer.connect('timer-started', Lang.bind(this, function() {
+            this._setCurrentState('short-break');
+
             this._playBreakSound();
             this._numPomodoriFinished++;
             this._appletMenu.updateCounts(this._numPomodoroSetFinished, this._numPomodoriFinished);
@@ -442,6 +458,8 @@ PomodoroApplet.prototype = {
         }));
 
         longBreakTimer.connect('timer-started', Lang.bind(this, function() {
+            this._setCurrentState('long-break');
+
             this._playBreakSound();
 
             if (this._opt_showDialogMessages) {
@@ -696,7 +714,16 @@ PomodoroApplet.prototype = {
 
     _onAppletIconChanged: function() {
         if (this._opt_displayIconInPanel) {
-            this.set_applet_icon_path(this._metadata.path + "/icon.png");
+            switch (this._currentState) {
+            case 'short-break':
+            case 'long-break':
+                this.set_applet_icon_path(this._metadata.path + "/icon-break.png");
+                break;
+            case 'pomodoro':
+            default:
+                this.set_applet_icon_path(this._metadata.path + "/icon.png");
+                break;
+            }
         }
         else if (this._applet_icon_box.child) {
             this._applet_icon_box.child.destroy();
