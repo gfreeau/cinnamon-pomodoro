@@ -94,6 +94,16 @@
         "dependency" : "timer_sound"
     },
 
+    "timer_sound_volume": {
+        "type": "scale",
+        "default": 100,
+        "min": 1,
+        "max": 100,
+        "step": 1,
+        "description": "Sound volume:  ",
+        "dependency" : "timer_sound"
+    },
+
     "break_sound" : {
         "type" : "checkbox",
         "description" : "Play Break Sound",
@@ -105,6 +115,16 @@
         "description" : "Break Sound File ",
         "default" : "deskbell.wav",
         "select-dir" : false,
+        "dependency" : "break_sound"
+    },
+
+    "break_sound_volume": {
+        "type": "scale",
+        "default": 100,
+        "min": 1,
+        "max": 100,
+        "step": 1,
+        "description": "Sound volume:  ",
         "dependency" : "break_sound"
     },
 
@@ -132,6 +152,17 @@
         "dependency" : "warn_sound"
     },
 
+    "warn_sound_volume": {
+        "type": "scale",
+        "default": 100,
+        "min": 1,
+        "max": 100,
+        "step": 1,
+        "description": "Sound volume:  ",
+        "dependency" : "warn_sound"
+    },
+
+
     "start_sound" : {
         "type" : "checkbox",
         "description" : "Play Start Sound",
@@ -143,6 +174,16 @@
         "description" : "Start Sound File ",
         "default" : "deskbell.wav",
         "select-dir" : false,
+        "dependency" : "start_sound"
+    },
+
+    "start_sound_volume": {
+        "type": "scale",
+        "default": 100,
+        "min": 1,
+        "max": 100,
+        "step": 1,
+        "description": "Sound volume:  ",
         "dependency" : "start_sound"
     }
 }

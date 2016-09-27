@@ -70,13 +70,17 @@ PomodoroApplet.prototype = {
         this._opt_showTimerInPanel = null;
         this._opt_playTickerSound = null;
         this._opt_tickerSoundPath = null;
+        this._opt_tickerSoundVolume = null;
         this._opt_playBreakSound = null;
         this._opt_breakSoundPath = null;
+        this._opt_breakSoundVolume = null;
         this._opt_playWarnSound = null;
         this._opt_warnSoundDelay = null;
         this._opt_warnSoundPath = null;
+        this._opt_warnSoundVolume = null;
         this._opt_playStartSound = null;
         this._opt_startSoundPath = null;
+        this._opt_startSoundVolume = null;
 
         this._settingsProvider = new Settings.AppletSettings(this, metadata.uuid, instanceId);
         this._bindSettings();
@@ -207,7 +211,20 @@ PomodoroApplet.prototype = {
             "timer_sound_file",
             "_opt_tickerSoundPath",
             function() {
-                this.__soundEffectSettingsChanged = true;
+                this._loadSoundEffects();
+                this._onPlayTickedSoundChanged();
+            }
+        );
+
+        this._settingsProvider.bindProperty(
+            Settings.BindingDirection.IN,
+            "timer_sound_volume",
+            "_opt_tickerSoundVolume",
+            function() {
+                // If not playing, play a preview
+                if (this._onPlayTickedSoundChanged() === false) {
+                    this._playTickerSound(true);
+                }
             }
         );
 
@@ -223,7 +240,16 @@ PomodoroApplet.prototype = {
             "break_sound_file",
             "_opt_breakSoundPath",
             function() {
-                this.__soundEffectSettingsChanged = true;
+                this._loadSoundEffects();
+            }
+        );
+
+        this._settingsProvider.bindProperty(
+            Settings.BindingDirection.IN,
+            "break_sound_volume",
+            "_opt_breakSoundVolume",
+            function() {
+                this._playBreakSound(true);
             }
         );
 
@@ -246,7 +272,16 @@ PomodoroApplet.prototype = {
             "warn_sound_file",
             "_opt_warnSoundPath",
             function() {
-                this.__soundEffectSettingsChanged = true;
+                this._loadSoundEffects();
+            }
+        );
+
+        this._settingsProvider.bindProperty(
+            Settings.BindingDirection.IN,
+            "warn_sound_volume",
+            "_opt_warnSoundVolume",
+            function() {
+                this._playWarnSound(true);
             }
         );
 
@@ -262,7 +297,16 @@ PomodoroApplet.prototype = {
             "start_sound_file",
             "_opt_startSoundPath",
             function() {
-                this.__soundEffectSettingsChanged = true;
+                this._loadSoundEffects();
+            }
+        );
+
+        this._settingsProvider.bindProperty(
+            Settings.BindingDirection.IN,
+            "start_sound_volume",
+            "_opt_startSoundVolume",
+            function() {
+                this._playStartSound(true);
             }
         );
     },
@@ -346,8 +390,8 @@ PomodoroApplet.prototype = {
         pomodoroTimer.connect('timer-tick', Lang.bind(this, function(timer) {
             this._timerTickUpdate(timer);
 
-            if (this._opt_playWarnSound && timer.getTicksRemaining() == this._opt_warnSoundDelay) {
-                this._sounds.warn.play();
+            if (timer.getTicksRemaining() == this._opt_warnSoundDelay) {
+                this._playWarnSound();
             }
         }));
 
@@ -416,11 +460,6 @@ PomodoroApplet.prototype = {
     },
 
     _resetTimerQueueState: function() {
-        if (this.__soundEffectSettingsChanged) {
-            this._loadSoundEffects();
-            delete this.__soundEffectSettingsChanged;
-        }
-
         if (!this.__pomodoriNumberChangedWhileRunning) {
             this._timerQueue.reset();
         } else {
@@ -448,9 +487,16 @@ PomodoroApplet.prototype = {
         this._setTimerLabel(timer.getTicksRemaining());
     },
 
-    _playTickerSound: function() {
+    /**
+     *
+     * @param {boolean} [previewOnly=false] only play a preview of the sound?
+     * @private
+     */
+    _playTickerSound: function(previewOnly) {
+        previewOnly = previewOnly || false;
+
         if (this._opt_playTickerSound) {
-            this._sounds.tick.play({ loop: true });
+            this._sounds.tick.play({ loop: true, volume: this._opt_tickerSoundVolume / 100, preview: previewOnly });
         }
     },
 
@@ -458,16 +504,61 @@ PomodoroApplet.prototype = {
         this._sounds.tick.stop();
     },
 
-    _playBreakSound: function() {
+    /**
+     *
+     * @param {boolean} [previewOnly=false] only play a preview of the sound?
+     * @private
+     */
+    _playBreakSound: function(previewOnly) {
+        previewOnly = previewOnly || false;
+
         if (this._opt_playBreakSound) {
-            this._sounds.break.play();
+            this._sounds.break.play({ volume: this._opt_breakSoundVolume / 100, preview: previewOnly });
         }
     },
 
-    _playStartSound: function() {
-        if (this._opt_playStartSound) {
-            this._sounds.start.play();
+    /**
+     *
+     * @param {boolean} [previewOnly=false] only play a preview of the sound?
+     * @private
+     */
+    _playWarnSound: function(previewOnly) {
+        previewOnly = previewOnly || false;
+
+        if (this._opt_playWarnSound) {
+            this._sounds.warn.play({ volume: this._opt_warnSoundVolume / 100, preview: previewOnly });
         }
+    },
+
+    /**
+     *
+     * @param {boolean} [previewOnly=false] only play a preview of the sound?
+     * @private
+     */
+    _playStartSound: function(previewOnly) {
+        previewOnly = previewOnly || false;
+
+        if (this._opt_playStartSound) {
+            this._sounds.start.play({ volume: this._opt_startSoundVolume / 100, preview: previewOnly });
+        }
+    },
+
+    /**
+     *
+     * @param {(SoundModule.SoundEffect|undefined|null)} soundEffectInstance original SoundEffect instance
+     * @param {string} soundPath
+     * @returns {SoundModule.SoundEffect}
+     * @private
+     */
+    _loadSoundEffect: function(soundEffectInstance, soundPath) {
+        soundPath = SoundModule.addPathIfRelative(soundPath, this._defaultSoundPath);
+        if (typeof soundEffectInstance === 'undefined' || soundEffectInstance === null) {
+            soundEffectInstance = new SoundModule.SoundEffect(soundPath);
+        } else {
+            soundEffectInstance.setSoundPath(soundPath);
+        }
+
+        return soundEffectInstance;
     },
 
     _loadSoundEffects: function() {
@@ -477,10 +568,10 @@ PomodoroApplet.prototype = {
 
         this._sounds = this._sounds || {};
 
-        this._sounds.tick = new SoundModule.SoundEffect(SoundModule.addPathIfRelative(this._opt_tickerSoundPath, this._defaultSoundPath));
-        this._sounds.break = new SoundModule.SoundEffect(SoundModule.addPathIfRelative(this._opt_breakSoundPath, this._defaultSoundPath));
-        this._sounds.warn = new SoundModule.SoundEffect(SoundModule.addPathIfRelative(this._opt_warnSoundPath, this._defaultSoundPath));
-        this._sounds.start = new SoundModule.SoundEffect(SoundModule.addPathIfRelative(this._opt_startSoundPath, this._defaultSoundPath));
+        this._sounds.tick = this._loadSoundEffect(this._sounds.tick, this._opt_tickerSoundPath);
+        this._sounds.break = this._loadSoundEffect(this._sounds.break, this._opt_breakSoundPath);
+        this._sounds.warn = this._loadSoundEffect(this._sounds.warn, this._opt_warnSoundPath);
+        this._sounds.start = this._loadSoundEffect(this._sounds.start, this._opt_startSoundPath);
     },
 
     /**
@@ -616,9 +707,14 @@ PomodoroApplet.prototype = {
     	this._setTimerLabel(this._timerQueue.getCurrentTimer().getTicksRemaining());
     },
 
+    /**
+     *
+     * @returns {boolean} true if the ticker sound was playing, false otherwise
+     * @private
+     */
     _onPlayTickedSoundChanged: function() {
         if (!this._timers.pomodoro.isRunning()) {
-            return;
+            return false;
         }
 
         if (this._opt_playTickerSound) {
@@ -627,6 +723,8 @@ PomodoroApplet.prototype = {
         else {
             this._stopTickerSound();
         }
+
+        return true;
     },
 
     // Applet listeners
