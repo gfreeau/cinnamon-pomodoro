@@ -213,7 +213,7 @@ Timer.prototype = {
             this._tickTimeout = null;
             this.emit('timer-stopped');
 
-            if (this._currentTickCount > 0) {
+            if (this._currentTickCount >= 0) {
                 this._isFirstStart = true;
             }
         }
