@@ -49,6 +49,7 @@ TimerQueue.prototype = {
         }
 
         timer.stop();
+        this._clearTimerFinishedHandler(timer);
 
         this._timerRunning = false;
     },
@@ -109,7 +110,7 @@ TimerQueue.prototype = {
      * @private
      */
     _timerFinished: function(timer) {
-        timer.disconnect(this._timerFinishedHandler);
+        this._clearTimerFinishedHandler(timer);
 
         if (this._queueIsFinished()) {
             this._timerRunning = false;
@@ -131,6 +132,13 @@ TimerQueue.prototype = {
     _clearQueue: function() {
         this._queue = [];
         this._rewindQueue();
+    },
+
+    _clearTimerFinishedHandler: function(timer) {
+        if (this._timerFinishedHandler !== null) {
+            timer.disconnect(this._timerFinishedHandler);
+            this._timerFinishedHandler = null;
+        }
     },
 
     _rewindQueue: function() {
@@ -164,6 +172,7 @@ Timer.prototype = {
         params = Params.parse(params, { name: null, timerLimit: null });
 
         this._name = params.name;
+        this._tickTimeout = null;
         this.setTimerLimit(params.timerLimit);
         this._resetTimer();
     },
@@ -209,11 +218,10 @@ Timer.prototype = {
      */
     stop: function() {
         if (null != this._tickTimeout) {
-            Mainloop.source_remove(this._tickTimeout);
-            this._tickTimeout = null;
+            this._clearTickTimeout();
             this.emit('timer-stopped');
 
-            if (this._currentTickCount > 0) {
+            if (this._currentTickCount >= 0) {
                 this._isFirstStart = true;
             }
         }
@@ -287,12 +295,19 @@ Timer.prototype = {
      */
     _resetTimer: function() {
         this._isFirstStart = false;
-        this._tickTimeout = null;
+        this._clearTickTimeout();
         this._refreshTimer();
     },
 
     _refreshTimer: function() {
         this._currentTickCount = this._timerLimit;
+    },
+
+    _clearTickTimeout: function() {
+        if (this._tickTimeout !== null) {
+            Mainloop.source_remove(this._tickTimeout);
+            this._tickTimeout = null;
+        }
     }
 };
 
