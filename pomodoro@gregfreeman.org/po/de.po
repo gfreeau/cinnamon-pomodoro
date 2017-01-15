@@ -1,162 +1,160 @@
-# Spanish translation for Pomodoro applet.
-# Copyright (C) 2015 Richard Decal
-# This file is distributed under The MIT License (MIT)
-# Richard Decal <decal@uw.edu>, 2015.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-14 17:08+0100\n"
-"PO-Revision-Date: 2017-01-15 10:57+0100\n"
-"Last-Translator: Ben Southall <stellarpower@googlemail.com>\n"
-"Language-Team: Richard Decal <decal@uw.edu>\n"
-"Language: es\n"
+"POT-Creation-Date: 2017-01-14 17:10+0100\n"
+"PO-Revision-Date: 2017-01-16 00:38+0100\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.8.7.1\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: de\n"
 
-# notifications
 #: applet.js:375
 msgid "Pomodoro started"
-msgstr "Pomodoro iniciado"
+msgstr "Pomodoro gestartet"
 
 #: applet.js:418 applet.js:705
 msgid "Waiting to start"
-msgstr ""
+msgstr "Auf Start warten"
 
 #: applet.js:435
 #, c-format
 msgid "Pomodori %d, set %d running"
-msgstr ""
+msgstr "Pomodori %d, Arbeitsphase %d läuft"
 
 #: applet.js:442
 msgid "Let's go to work !"
-msgstr ""
+msgstr "Auf zur Arbeit!"
 
 #: applet.js:456
 msgid "Take a short break"
-msgstr "Tome un descanso corto"
+msgstr "Machen sie eine kurze Pause"
 
 #: applet.js:457
 msgid "Short break running"
-msgstr ""
+msgstr "Kurze Pause läuft"
 
 #: applet.js:468
 msgid "Take a long break"
-msgstr "Tome un descanso largo"
+msgstr "Machen sie eine lange Pause"
 
 #: applet.js:470
 msgid "Long break running"
-msgstr ""
+msgstr "Lange Pause läuft"
 
 #: applet.js:496
 msgid "Pomodoro ended"
-msgstr "Fin del pomodoro"
+msgstr "Pomodoro beendet"
 
 #: applet.js:633
 msgid "http://en.wikipedia.org/wiki/Pomodoro_Technique"
-msgstr "https://es.wikipedia.org/wiki/T%C3%A9cnica_Pomodoro"
+msgstr "https://de.wikipedia.org/wiki/Pomodoro-Technik"
 
-# applet menu
 #. pomodoro@gregfreeman.org->metadata.json->name
 #: applet.js:790
 msgid "Pomodoro Timer"
-msgstr "Temporizador pomodoro"
+msgstr "Pomodoro-Kurzzeitwecker"
 
 #: applet.js:801
 msgid "Completed"
-msgstr "Completado"
+msgstr "Abgeschlossen"
 
 #: applet.js:814
 msgid "Reset Timer"
-msgstr "Reestablecer el reloj"
+msgstr "Kurzzeitwecker zurücksetzen"
 
 #: applet.js:826
 msgid "Reset Counts and Timer"
-msgstr "Reestablecer las cuentas y el reloj"
+msgstr "Zähler und Kurzzeitwecker zurücksetzen"
 
 #: applet.js:839
 msgid "Settings"
-msgstr "Configuración"
+msgstr "Einstellungen"
 
 #: applet.js:849
 msgid "What is this?"
-msgstr "¿Qué es esto?"
+msgstr "Was ist das?"
 
 #: applet.js:906
 msgid "None"
-msgstr "Ninguno"
+msgstr "Keine"
 
-# dialog
 #: applet.js:936
 msgid "Switch Off Pomodoro"
-msgstr "Apagar pomodoro"
+msgstr "Pomodoro ausschalten"
 
 #: applet.js:942
 msgid "Start a new Pomodoro"
-msgstr "Comenzar un pomodoro nuevo"
+msgstr "Eine neue Pomodoro beginnen"
 
 #: applet.js:948
 msgid "Hide"
-msgstr "Esconder"
+msgstr "Ausblenden"
 
 #: applet.js:960
 msgid "Pomodoro set finished, you deserve a break!"
-msgstr ""
+msgstr "Pomodoro-Einheit beendet, Sie verdienen eine Pause!"
 
 #: applet.js:968
 msgid "Your break is over, start another pomodoro!"
-msgstr "Su descanso se ha terminado, ¡empiece otro Pomodoro!"
+msgstr "Ihre Pause ist vorbei, starten Sie eine weitere Pomodoro!"
 
 #: applet.js:973
 msgid "A new pomodoro begins in "
-msgstr "Un pomodoro nuevo comenzará en "
+msgstr "Eine neue Pomodoro beginnt in"
 
 #: applet.js:984
 #, c-format
 msgid "%d minutes and %d seconds"
-msgstr "%d minutos y %d segundos"
+msgstr "%d Minuten und %d Sekunden"
 
 #: applet.js:1008
 msgid "Continue Current Pomodoro"
-msgstr ""
+msgstr "Aktuelle Pomodoro fortsetzen"
 
 #: applet.js:1014
 msgid "Pause Pomodoro"
-msgstr ""
+msgstr "Pomodoro anhalten"
 
 #: applet.js:1025
 msgid "Short break finished, ready to continue?"
-msgstr ""
+msgstr "Kurze Pause beendet, bereit um weiterzumachen?"
 
 #. pomodoro@gregfreeman.org->settings-schema.json->start_sound->description
 msgid "Play Start Sound"
-msgstr ""
+msgstr "Startton abspielen"
 
 #. pomodoro@gregfreeman.org->settings-
 #. schema.json->short_break_duration->description
 msgid "Short Break Duration:  "
-msgstr "Duración de descansos cortos:  "
+msgstr "Dauer der kurzen Pause:"
 
 #. pomodoro@gregfreeman.org->settings-
 #. schema.json->auto_start_after_break_ends->description
 msgid "Auto start a new pomodoro after a break ends"
-msgstr "Comenzar un pomodoro nuevo automáticamente después del fin de un descanso"
+msgstr "Eine neue Pomodoro nach Ende einer Pause automatisch starten"
 
 #. pomodoro@gregfreeman.org->settings-schema.json->head_sounds->description
 msgid "Sounds"
-msgstr "Sonidos"
+msgstr "Töne"
 
 #. pomodoro@gregfreeman.org->settings-
 #. schema.json->start_sound_file->description
 msgid "Start Sound File "
-msgstr ""
+msgstr "Startton-Datei"
 
 #. pomodoro@gregfreeman.org->settings-schema.json->head_options->description
 msgid "Options"
-msgstr "Opciones"
+msgstr "Optionen"
 
 #. pomodoro@gregfreeman.org->settings-
 #. schema.json->start_sound_volume->description
@@ -167,80 +165,77 @@ msgstr "Opciones"
 #. pomodoro@gregfreeman.org->settings-
 #. schema.json->timer_sound_volume->description
 msgid "Sound volume:  "
-msgstr ""
+msgstr "Lautstärke:"
 
 #. pomodoro@gregfreeman.org->settings-
 #. schema.json->pomodoro_duration->description
 msgid "Pomodoro Duration:  "
-msgstr "Duración del pomodoro:  "
+msgstr "Pomodoro Dauer:"
 
 #. pomodoro@gregfreeman.org->settings-
 #. schema.json->long_break_duration->description
 msgid "Long Break Duration:  "
-msgstr "Duración de descansos largos: "
+msgstr "Dauer der langen Pause:"
 
 #. pomodoro@gregfreeman.org->settings-
 #. schema.json->break_sound_file->description
 msgid "Break Sound File "
-msgstr "Archivo de sonido de descanso"
+msgstr "Pausenton-Datei"
 
 #. pomodoro@gregfreeman.org->settings-
 #. schema.json->auto_start_after_short_break_ends->description
 msgid "Auto start after a short break ends"
-msgstr ""
+msgstr "Nach Ende einer kurzen Pause automatisch starten"
 
 #. pomodoro@gregfreeman.org->settings-schema.json->display_icon->description
 msgid "Display the pomodoro icon in the applet panel"
-msgstr "Mostrar el ícono de pomodoro en el panel de applets"
+msgstr "Das Pomodoro-Symbol in der Applet-Leiste anzeigen"
 
 #. pomodoro@gregfreeman.org->settings-schema.json->show_timer->description
 msgid "Show the pomodoro timer in the applet panel"
-msgstr ""
+msgstr "Die Pomodoro-Zeit in der Applet-Leiste anzeigen"
 
 #. pomodoro@gregfreeman.org->settings-schema.json->head_durations->description
 msgid "Durations (minutes)"
-msgstr "Duraciones (minutos)"
+msgstr "Zeitdauern (Minuten)"
 
 #. pomodoro@gregfreeman.org->settings-
 #. schema.json->pomodori_number->description
 msgid "Number of pomodori before long break:  "
-msgstr "Número de pomodori antes de un descanso largo:  "
+msgstr "Anzahl der Pomodori vor der langen Pause:"
 
 #. pomodoro@gregfreeman.org->settings-schema.json->break_sound->description
 msgid "Play Break Sound"
-msgstr "Reproducir sonido de descanso"
+msgstr "Pausenton abspielen"
 
 #. pomodoro@gregfreeman.org->settings-
 #. schema.json->warn_sound_delay->description
 msgid "Warn Delay (in secs):  "
-msgstr "Retraso para avisos (en segundos):  "
+msgstr "Zeitpunkt des Warntons (in Sekunden):"
 
 #. pomodoro@gregfreeman.org->settings-
 #. schema.json->show_dialog_messages->description
 msgid "Show Dialog Messages"
-msgstr "Mostrar mensajes de diálogo"
+msgstr "Dialogmeldungen einblenden"
 
 #. pomodoro@gregfreeman.org->settings-
 #. schema.json->warn_sound_file->description
 msgid "Warn Sound File "
-msgstr "Archivo de sonido de aviso"
+msgstr "Warnton-Datei"
 
 #. pomodoro@gregfreeman.org->settings-schema.json->warn_sound->description
 msgid "Play Warn Sound"
-msgstr "Reproducir sonido de aviso"
+msgstr "Warnton abspielen"
 
 #. pomodoro@gregfreeman.org->settings-schema.json->timer_sound->description
 msgid "Play Timer Sound"
-msgstr "Reproducir sonido de temporizador"
+msgstr "Ticktack-Geräusch abspielen"
 
 #. pomodoro@gregfreeman.org->settings-
 #. schema.json->timer_sound_file->description
 msgid "Timer Sound File "
-msgstr "Archivo de sonido de temporizador"
+msgstr "Ticktack-Geräusch-Datei"
 
 #. pomodoro@gregfreeman.org->metadata.json->description
 msgid "Great tool for boosted productivity!"
-msgstr ""
-
-#~ msgid "Pomodoro finished, you deserve a break!"
-#~ msgstr "Pomodoro terminado, ¡merece un descanso!"
+msgstr "Tolles Tool für erhöhte Produktivität!"
