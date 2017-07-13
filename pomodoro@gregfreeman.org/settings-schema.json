@@ -5,7 +5,7 @@
     },
 
     "pomodoro_duration": {
-        "type": "scale",
+        "type": "spinbutton",
         "default": 25,
         "min": 1,
         "max": 60,
@@ -14,7 +14,7 @@
     },
 
     "short_break_duration": {
-        "type": "scale",
+        "type": "spinbutton",
         "default": 5,
         "min": 1,
         "max": 15,
@@ -23,7 +23,7 @@
     },
 
     "long_break_duration": {
-        "type": "scale",
+        "type": "spinbutton",
         "default": 15,
         "min": 1,
         "max": 60,
@@ -32,7 +32,7 @@
     },
 
     "pomodori_number": {
-        "type": "scale",
+        "type": "spinbutton",
         "default": 4,
         "min": 1,
         "max": 10,
@@ -135,7 +135,7 @@
     },
 
     "warn_sound_delay": {
-        "type": "scale",
+        "type": "spinbutton",
         "default": 30,
         "min": 5,
         "max": 600,
