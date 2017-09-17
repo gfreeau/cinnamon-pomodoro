@@ -630,7 +630,7 @@ PomodoroApplet.prototype = {
         }));
 
         menu.connect('what-is-this', Lang.bind(this, function() {
-            let command = "gnome-open '%s'".format(_("http://en.wikipedia.org/wiki/Pomodoro_Technique"));
+            let command = "gnome-open '%s'".format("http://en.wikipedia.org/wiki/Pomodoro_Technique");
             Util.trySpawnCommandLine(command);
         }));
 
