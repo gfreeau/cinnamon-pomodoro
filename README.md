@@ -1,4 +1,4 @@
-# Pomodoro Timer for Cinnamon 2.x, 1.8.x
+# Pomodoro Timer for Cinnamon Desktop
 
 # English
 
