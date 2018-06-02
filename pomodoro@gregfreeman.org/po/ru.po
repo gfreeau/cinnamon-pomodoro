@@ -1,0 +1,241 @@
+# Russian translation for Pomodoro applet.
+# Copyright (C) 2015 Max Vetrov
+# This file is distributed under The MIT License (MIT)
+# Max Vetrov <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-06-02 17:10+0100\n"
+"PO-Revision-Date: 2017-06-02 17:10+0100\n"
+"Language-Team: tigertv.ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.7.1\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: ru\n"
+
+#: applet.js:375
+msgid "Pomodoro started"
+msgstr "Pomodoro запустился"
+
+#: applet.js:418 applet.js:705
+msgid "Waiting to start"
+msgstr "Ожидание перед стартом"
+
+#: applet.js:435
+#, c-format
+msgid "Pomodori %d, set %d running"
+msgstr ""
+
+#: applet.js:442
+msgid "Let's go to work !"
+msgstr "За работу!"
+
+#: applet.js:456
+msgid "Take a short break"
+msgstr "Сделайте короткий перерыв"
+
+#: applet.js:457
+msgid "Short break running"
+msgstr "Короткий перерыв запущен"
+
+#: applet.js:468
+msgid "Take a long break"
+msgstr "Сделайте длинный перерыв"
+
+#: applet.js:470
+msgid "Long break running"
+msgstr "Длинный перерыв запущен"
+
+#: applet.js:496
+msgid "Pomodoro ended"
+msgstr "Pomodoro закончен"
+
+#: applet.js:633
+msgid "http://en.wikipedia.org/wiki/Pomodoro_Technique"
+msgstr "https://ru.wikipedia.org/wiki/%D0%9C%D0%B5%D1%82%D0%BE%D0%B4_%D0%BF%D0%BE%D0%BC%D0%B8%D0%B4%D0%BE%D1%80%D0%B0"
+
+#. pomodoro@gregfreeman.org->metadata.json->name
+#: applet.js:790
+msgid "Pomodoro Timer"
+msgstr "Pomodoro таймер"
+
+#: applet.js:801
+msgid "Completed"
+msgstr "Завершено"
+
+#: applet.js:814
+msgid "Reset Timer"
+msgstr "Сбросить таймер"
+
+#: applet.js:826
+msgid "Reset Counts and Timer"
+msgstr "Сбросить счет и таймер"
+
+#: applet.js:839
+msgid "Settings"
+msgstr "Настройки"
+
+#: applet.js:849
+msgid "What is this?"
+msgstr "Что это?"
+
+#: applet.js:906
+msgid "None"
+msgstr "Нет"
+
+#: applet.js:936
+msgid "Switch Off Pomodoro"
+msgstr "Выключить Pomodoro"
+
+#: applet.js:942
+msgid "Start a new Pomodoro"
+msgstr "Начать новый Pomodoro"
+
+#: applet.js:948
+msgid "Hide"
+msgstr "Скрыть"
+
+#: applet.js:960
+msgid "Pomodoro set finished, you deserve a break!"
+msgstr "Pomodoro-сет завершен, Вы заслужили перерыв!"
+
+#: applet.js:968
+msgid "Your break is over, start another pomodoro!"
+msgstr "Ваш перерыв окончен, начинайте следующий Pomodoro!"
+
+#: applet.js:973
+msgid "A new pomodoro begins in "
+msgstr "Новый Pomodoro начинается в "
+
+#: applet.js:984
+#, c-format
+msgid "%d minutes and %d seconds"
+msgstr "%d минут и %d секунд"
+
+#: applet.js:1008
+msgid "Continue Current Pomodoro"
+msgstr "Продолжить текущий Pomodoro"
+
+#: applet.js:1014
+msgid "Pause Pomodoro"
+msgstr "Пауза Pomodoro"
+
+#: applet.js:1025
+msgid "Short break finished, ready to continue?"
+msgstr "Короткий перерыв завершен, готовы продолжить?"
+
+#. pomodoro@gregfreeman.org->settings-schema.json->start_sound->description
+msgid "Play Start Sound"
+msgstr "Запускать мелодию старта"
+
+#. pomodoro@gregfreeman.org->settings-
+#. schema.json->short_break_duration->description
+msgid "Short Break Duration:  "
+msgstr "Длительность короткого перерыва:"
+
+#. pomodoro@gregfreeman.org->settings-
+#. schema.json->auto_start_after_break_ends->description
+msgid "Auto start a new pomodoro after a break ends"
+msgstr "Автостарт нового Pomodoro после того как перерыв заканчивается"
+
+#. pomodoro@gregfreeman.org->settings-schema.json->head_sounds->description
+msgid "Sounds"
+msgstr "Звуки"
+
+#. pomodoro@gregfreeman.org->settings-
+#. schema.json->start_sound_file->description
+msgid "Start Sound File "
+msgstr "Запуск звукового файла"
+
+#. pomodoro@gregfreeman.org->settings-schema.json->head_options->description
+msgid "Options"
+msgstr "Опции"
+
+#. pomodoro@gregfreeman.org->settings-
+#. schema.json->start_sound_volume->description
+#. pomodoro@gregfreeman.org->settings-
+#. schema.json->break_sound_volume->description
+#. pomodoro@gregfreeman.org->settings-
+#. schema.json->warn_sound_volume->description
+#. pomodoro@gregfreeman.org->settings-
+#. schema.json->timer_sound_volume->description
+msgid "Sound volume:  "
+msgstr "Громкость звука:"
+
+#. pomodoro@gregfreeman.org->settings-
+#. schema.json->pomodoro_duration->description
+msgid "Pomodoro Duration:  "
+msgstr "Длительность Pomodoro:"
+
+#. pomodoro@gregfreeman.org->settings-
+#. schema.json->long_break_duration->description
+msgid "Long Break Duration:  "
+msgstr "Длительность длинного перерыва:"
+
+#. pomodoro@gregfreeman.org->settings-
+#. schema.json->break_sound_file->description
+msgid "Break Sound File "
+msgstr "Звуковой файл перерыва"
+
+#. pomodoro@gregfreeman.org->settings-
+#. schema.json->auto_start_after_short_break_ends->description
+msgid "Auto start after a short break ends"
+msgstr "Автозапуск после конца короткого перерыва"
+
+#. pomodoro@gregfreeman.org->settings-schema.json->display_icon->description
+msgid "Display the pomodoro icon in the applet panel"
+msgstr "Отображать Pomodoro-иконку на панели апплетов"
+
+#. pomodoro@gregfreeman.org->settings-schema.json->show_timer->description
+msgid "Show the pomodoro timer in the applet panel"
+msgstr "Показывать Pomodoro-таймер на панели апплетов"
+
+#. pomodoro@gregfreeman.org->settings-schema.json->head_durations->description
+msgid "Durations (minutes)"
+msgstr "Длительность (Минуты)"
+
+#. pomodoro@gregfreeman.org->settings-
+#. schema.json->pomodori_number->description
+msgid "Number of pomodori before long break:  "
+msgstr "Количество Pomodori перед длительным перерывом:"
+
+#. pomodoro@gregfreeman.org->settings-schema.json->break_sound->description
+msgid "Play Break Sound"
+msgstr "Запуск звука перерыва"
+
+#. pomodoro@gregfreeman.org->settings-
+#. schema.json->warn_sound_delay->description
+msgid "Warn Delay (in secs):  "
+msgstr "Предупреждать о задержке (в секундах):"
+
+#. pomodoro@gregfreeman.org->settings-
+#. schema.json->show_dialog_messages->description
+msgid "Show Dialog Messages"
+msgstr "Показывать диалоговые сообщения"
+
+#. pomodoro@gregfreeman.org->settings-
+#. schema.json->warn_sound_file->description
+msgid "Warn Sound File "
+msgstr "Предупреждать о звуковом файле"
+
+#. pomodoro@gregfreeman.org->settings-schema.json->warn_sound->description
+msgid "Play Warn Sound"
+msgstr "Проигрывать звук предупреждения"
+
+#. pomodoro@gregfreeman.org->settings-schema.json->timer_sound->description
+msgid "Play Timer Sound"
+msgstr "Проигрывать звук таймера"
+
+#. pomodoro@gregfreeman.org->settings-
+#. schema.json->timer_sound_file->description
+msgid "Timer Sound File "
+msgstr "Звуковой файл таймера"
+
+#. pomodoro@gregfreeman.org->metadata.json->description
+msgid "Great tool for boosted productivity!"
+msgstr "Великолепный инструмент для ускорения продуктивности!"
