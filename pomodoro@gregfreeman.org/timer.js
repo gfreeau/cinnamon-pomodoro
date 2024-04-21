@@ -1,6 +1,22 @@
 const Mainloop = imports.mainloop;
-const Lang = imports.lang;
 const Signals = imports.signals;
+
+/**
+ * 
+ * Components:
+ * TimerQueue: Manages a queue of timers, tracking their running state and facilitating the sequential starting of each timer in the queue.
+ * Timer: Represents an individual timer that can emit events such as timer-tick, timer-started, timer-stopped, and timer-finished.
+ * 
+ * 
+ * Mental Model of Event Flow:
+ * Queue Start: timer-queue-started
+ * Timer Start: timer-started
+ * Timer Tick: timer-tick (repeats every second)
+ * Timer Finish: timer-finished
+ * Before Next Timer: timer-queue-before-next-timer
+ * Next Timer Start (repeat back to Timer Start as needed depending on how many timers remain in the queue)
+ * Queue Finish: timer-queue-finished (when all timers have completed)
+ */
 
 class TimerQueue {
     constructor() {
@@ -71,7 +87,7 @@ class TimerQueue {
     _startNextTimer() {
         let timer = this.getCurrentTimer();
         if (timer === undefined || this.isStartPrevented()) return false;
-        this._timerFinishedHandler = timer.connect('timer-finished', Lang.bind(this, this._timerFinished));
+        this._timerFinishedHandler = timer.connect('timer-finished', this._timerFinished.bind(this));
         timer.start();
         return true;
     }
@@ -181,7 +197,7 @@ class Timer {
         }
         this.emit('timer-running');
         this.emit('timer-tick');
-        this._tickTimeout = Mainloop.timeout_add_seconds(1, Lang.bind(this, this._tick));
+        this._tickTimeout = Mainloop.timeout_add_seconds(1, this._tick.bind(this));
     }
 
     _tick() {

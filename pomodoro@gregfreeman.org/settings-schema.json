@@ -51,6 +51,12 @@
         "default" : true
     },
 
+    "auto_start_after_pomodoro_ends" : {
+        "type" : "checkbox",
+        "description" : "Auto start after a pomodoro ends",
+        "default" : true
+    },
+
     "auto_start_after_short_break_ends" : {
         "type" : "checkbox",
         "description" : "Auto start after a short break ends",
