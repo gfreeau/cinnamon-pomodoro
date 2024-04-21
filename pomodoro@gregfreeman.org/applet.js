@@ -65,6 +65,7 @@ class PomodoroApplet extends Applet.TextIconApplet {
         this._opt_autoStartNewAfterFinish = null;
         this._opt_displayIconInPanel = null;
         this._opt_showTimerInPanel = null;
+        this._opt_hotkey = null;
         this._opt_playTickerSound = null;
         this._opt_tickerSoundPath = null;
         this._opt_tickerSoundVolume = null;
@@ -108,6 +109,9 @@ class PomodoroApplet extends Applet.TextIconApplet {
         // Trigger for initial setting
         this._onAppletIconChanged();
         this._onShowTimerChanged();
+
+        // Initial setup of the hotkey
+        this._updateHotkey();
     }
 
     _bindSettings() {
@@ -157,6 +161,15 @@ class PomodoroApplet extends Applet.TextIconApplet {
                 this._resetPomodoroTimerQueue();
             }
         );
+
+        this._settingsProvider.bindProperty(
+            Settings.BindingDirection.IN,
+            "hotkey",
+            "_opt_hotkey",
+            () => {
+                this._updateHotkey();
+            }
+        );
     
         // Binding simple properties that don't require logic beyond setting the value
         this._settingsProvider.bindProperty(Settings.BindingDirection.IN, "show_dialog_messages", "_opt_showDialogMessages", emptyCallback);
@@ -166,7 +179,7 @@ class PomodoroApplet extends Applet.TextIconApplet {
         this._settingsProvider.bindProperty(Settings.BindingDirection.IN, "use_symbolic_icon", "_opt_useSymbolicIconInPanel", this._onAppletIconChanged.bind(this));
         this._settingsProvider.bindProperty(Settings.BindingDirection.IN, "show_timer", "_opt_showTimerInPanel", this._onShowTimerChanged.bind(this));
         this._settingsProvider.bindProperty(Settings.BindingDirection.IN, "timer_sound", "_opt_playTickerSound", this._onPlayTickedSoundChanged.bind(this));
-    
+
         // Binding properties that require updating or recalculating other settings
         this._settingsProvider.bindProperty(
             Settings.BindingDirection.IN,
@@ -206,6 +219,17 @@ class PomodoroApplet extends Applet.TextIconApplet {
             showSoxInfo = false;
         }
         this._settingsProvider.setValue('show_sox_info', showSoxInfo);
+    }
+
+    _updateHotkey() {
+        Main.keybindingManager.removeHotKey(UUID);
+    
+        if (this._opt_hotkey !== null) {
+            // Register the new hotkey with the current keybinding setting
+            Main.keybindingManager.addHotKey(UUID, this._opt_hotkey, () => {
+                this.on_applet_clicked();
+            });
+        }
     }
     
     _setTimerLabel(ticks) {
@@ -617,6 +641,7 @@ class PomodoroApplet extends Applet.TextIconApplet {
     }
     
     on_applet_removed_from_panel() {
+        Main.keybindingManager.removeHotKey(UUID);
         this._resetTimerQueueState();
         this._settingsProvider.finalize();
     }    
