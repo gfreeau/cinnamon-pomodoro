@@ -1,253 +1,244 @@
-# Spanish translation for Pomodoro applet.
-# Copyright (C) 2015 Richard Decal
-# This file is distributed under The MIT License (MIT)
-# Richard Decal <decal@uw.edu>, 2015.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-11-25 22:26+0100\n"
-"PO-Revision-Date: 2021-11-19 15:05-0300\n"
-"Last-Translator: Ben Southall <stellarpower@googlemail.com>\n"
-"Language-Team: Richard Decal <decal@uw.edu>\n"
-"Language: es\n"
+"PO-Revision-Date: 2022-11-28 19:38+0200\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.0\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.3\n"
+"Last-Translator: Kimmo Kujansuu <mrkujansuu@gmail.com>\n"
+"Language: fi\n"
 
-# notifications
 #: applet.js:394
 msgid "Pomodoro started"
-msgstr "Pomodoro iniciado"
+msgstr "Pomodoro alkaa"
 
 #: applet.js:437 applet.js:737
 msgid "Waiting to start"
-msgstr "Esperando para empezar"
+msgstr "Odotetaan käynnistämistä"
 
 #: applet.js:455
 #, javascript-format
 msgid "Pomodori %d, set %d running"
-msgstr "Repetición %d, ciclo %d en marcha"
+msgstr "Pomodori %d, erä %d käynnissä"
 
 #: applet.js:462
 msgid "Let's go to work!"
-msgstr "¡A trabajar!"
+msgstr "Mennään töihin!"
 
 #: applet.js:477
 msgid "Take a short break"
-msgstr "Tome un descanso corto"
+msgstr "Pidä lyhyt tauko"
 
 #: applet.js:478
 msgid "Short break running"
-msgstr "Descanso corto en marcha"
+msgstr "Lyhyt tauko meneillään"
 
 #: applet.js:497
 msgid "Take a long break"
-msgstr "Tome un descanso largo"
+msgstr "Pidä pitkä tauko"
 
 #: applet.js:499
 msgid "Long break running"
-msgstr "Descanso largo en marcha"
+msgstr "Pitkä tauko meneillään"
 
 #: applet.js:533
 msgid "Pomodoro ended"
-msgstr "Pomodoro finalizado"
+msgstr "Pomodoro päättyi"
 
 #: applet.js:665
 msgid "http://en.wikipedia.org/wiki/Pomodoro_Technique"
 msgstr "http://en.wikipedia.org/wiki/Pomodoro_Technique"
 
-# applet menu
 #. metadata.json->name
 #: applet.js:837
 msgid "Pomodoro Timer"
-msgstr "Temporizador pomodoro"
+msgstr "Pomodoro Timer"
 
 #: applet.js:848
 msgid "Completed"
-msgstr "Completado"
+msgstr "Valmis"
 
 #: applet.js:861
 msgid "Reset Timer"
-msgstr "Reiniciar el temporizador"
+msgstr "Nollaa ajastin"
 
 #: applet.js:873
 msgid "Reset Counts and Timer"
-msgstr "Reiniciar las cuentas y el temporizador"
+msgstr "Nollaa laskurit ja ajastin"
 
 #: applet.js:886
 msgid "What is this?"
-msgstr "¿Qué es Pomodoro?"
+msgstr "Mikä tämä on?"
 
 #: applet.js:943
 msgid "None"
-msgstr "Ninguno"
+msgstr "Ei mitään"
 
-# dialog
 #: applet.js:973
 msgid "Switch Off Pomodoro"
-msgstr "Apagar pomodoro"
+msgstr "Kytke Pomodoro päältä"
 
 #: applet.js:979
 msgid "Start a new Pomodoro"
-msgstr "Comenzar un nuevo pomodoro"
+msgstr "Aloita uusi Pomodoro"
 
 #: applet.js:985
 msgid "Hide"
-msgstr "Esconder"
+msgstr "Piilota"
 
 #: applet.js:997
 msgid "Pomodoro set finished, you deserve a break!"
-msgstr "Pomodoro terminado, ¡merece un descanso!"
+msgstr "Pomodoro valmis, ansaitset tauon!"
 
 #: applet.js:1005
 msgid "Your break is over, start another pomodoro!"
-msgstr "Su descanso se ha terminado, ¡empiece otro Pomodoro!"
+msgstr "Taukosi on ohi, aloita uusi pomodoro!"
 
 #: applet.js:1010
 #, javascript-format
 msgid "A new pomodoro begins in %s."
-msgstr "Un pomodoro nuevo comenzará en %s."
+msgstr "Uusi pomodoro alkaa %s."
 
 #: applet.js:1021
 #, javascript-format
 msgid "%d minute"
 msgid_plural "%d minutes"
-msgstr[0] "%d minuto"
-msgstr[1] "%d minutos"
+msgstr[0] "%d minuutti"
+msgstr[1] "%d minuuttia"
 
 #: applet.js:1022
 #, javascript-format
 msgid "%d second"
 msgid_plural "%d seconds"
-msgstr[0] "%d segundo"
-msgstr[1] "%d segundos"
+msgstr[0] "%d sekunti"
+msgstr[1] "%d sekuntia"
 
 #: applet.js:1024
 #, javascript-format
 msgid "%s and %s"
-msgstr "%s y %s"
+msgstr "%s ja %s"
 
 #: applet.js:1048
 msgid "Continue Current Pomodoro"
-msgstr "Continuar Pomodoro actual"
+msgstr "Jatka nykyistä Pomodoroa"
 
 #: applet.js:1054
 msgid "Pause Pomodoro"
-msgstr "Pausar pomodoro"
+msgstr "Pysäytä Pomodoro"
 
 #: applet.js:1065
 msgid "Short break finished, ready to continue?"
-msgstr "Se acabó el descanso corto, ¿listo para continuar?"
+msgstr "Lyhyt tauko päättynyt, oletko valmis jatkamaan?"
 
 #. settings-schema.json->head_durations->description
 msgid "Durations (minutes)"
-msgstr "Duración (minutos)"
+msgstr "Kesto (minuuttia)"
 
 #. settings-schema.json->pomodoro_duration->description
 msgid "Pomodoro Duration:"
-msgstr "Duración del pomodoro:"
+msgstr "Pomodoro kesto:"
 
 #. settings-schema.json->short_break_duration->description
 msgid "Short Break Duration:"
-msgstr "Duración de descansos cortos:"
+msgstr "Lyhyen tauon kesto:"
 
 #. settings-schema.json->long_break_duration->description
 msgid "Long Break Duration:"
-msgstr "Duración de descansos largos:"
+msgstr "Pitkän tauon kesto:"
 
 #. settings-schema.json->pomodori_number->description
 msgid "Number of pomodori before long break:"
-msgstr "Número de pomodoros antes de un descanso largo:"
+msgstr "Määrä ennen pomodorin pitkää taukoa:"
 
 #. settings-schema.json->head_options->description
 msgid "Options"
-msgstr "Opciones"
+msgstr "Valinnat"
 
 #. settings-schema.json->show_dialog_messages->description
 msgid "Show Dialog Messages"
-msgstr "Mostrar ventana de diálogo"
+msgstr "Näytä viestit ikkunassa"
 
 #. settings-schema.json->auto_start_after_short_break_ends->description
 msgid "Auto start after a short break ends"
-msgstr "Inicio automático después de un breve descanso"
+msgstr "Alkaa automaattisesti kun lyhyt tauko päättyy"
 
 #. settings-schema.json->auto_start_after_break_ends->description
 msgid "Auto start a new pomodoro after a break ends"
-msgstr "Empezar automáticamente un nuevo pomodoro al terminar un descanso"
+msgstr "Aloita uusi pomodoro automaattisesti tauon päätyttyä"
 
 #. settings-schema.json->display_icon->description
 msgid "Display the pomodoro icon in the applet panel"
-msgstr "Mostrar el ícono de pomodoro en el panel"
+msgstr "Näytä pomodoro kuvake paneelissa"
 
 #. settings-schema.json->use_symbolic_icon->description
 msgid "Use a symbolic icon in the applet panel"
-msgstr "Utilizar un ícono simbólico en el panel"
+msgstr "Käytä symbolista kuvaketta paneelissa"
 
 #. settings-schema.json->show_timer->description
 msgid "Show the pomodoro timer in the applet panel"
-msgstr "Mostrar el temporizador del pomodoro en el panel"
+msgstr "Näytä pomodoro ajastin paneelissa"
 
 #. settings-schema.json->head_sounds->description
 msgid "Sounds"
-msgstr "Sonidos"
+msgstr "Äänet"
 
 #. settings-schema.json->sox-info->description
 msgid "Please install 'sox' and restart Cinnamon to use the sound feature!"
-msgstr "¡Por favor, instale 'sox' y reinicie Cinnamon para utilizar la función de sonido!"
+msgstr "Käyttääksesi ääntä, asenna \"sox\" ja käynnistä Cinnamon uudelleen!"
 
 #. settings-schema.json->timer_sound->description
 msgid "Play Timer Sound"
-msgstr "Reproducir sonido de temporizador"
+msgstr "Toista ajastimen ääni"
 
 #. settings-schema.json->timer_sound_file->description
 msgid "Timer Sound File"
-msgstr "Archivo del sonido del temporizador"
+msgstr "Ajastimen äänitiedosto"
 
 #. settings-schema.json->timer_sound_volume->description
 #. settings-schema.json->break_sound_volume->description
 #. settings-schema.json->warn_sound_volume->description
 #. settings-schema.json->start_sound_volume->description
 msgid "Sound volume:"
-msgstr "Volumen del sonido:"
+msgstr "Voimakkuus:"
 
 #. settings-schema.json->break_sound->description
 msgid "Play Break Sound"
-msgstr "Reproducir sonido de descanso"
+msgstr "Toista tauon ääni"
 
 #. settings-schema.json->break_sound_file->description
 msgid "Break Sound File"
-msgstr "Archivo del sonido de descanso"
+msgstr "Tauko äänitiedosto"
 
 #. settings-schema.json->warn_sound->description
 msgid "Play Warn Sound"
-msgstr "Reproducir sonido de alerta"
+msgstr "Toista varoitusääni"
 
 #. settings-schema.json->warn_sound_delay->description
 msgid "Warn Delay (in secs):"
-msgstr "Retraso para alerta (en segundos):"
+msgstr "Varoituksen viive (sekunneissa):"
 
 #. settings-schema.json->warn_sound_file->description
 msgid "Warn Sound File"
-msgstr "Archivo del sonido de alerta"
+msgstr "Varoituksen äänitiedosto"
 
 #. settings-schema.json->start_sound->description
 msgid "Play Start Sound"
-msgstr "Reproducir sonido inicio"
+msgstr "Toista aloituksen ääni"
 
 #. settings-schema.json->start_sound_file->description
 msgid "Start Sound File"
-msgstr "Archivo del sonido de inicio"
+msgstr "Aloituksen äänitiedosto"
 
 #. metadata.json->description
 msgid "Great tool for boosted productivity!"
-msgstr "¡Una gran herramienta para aumentar la productividad!"
-
-#~ msgid "Settings"
-#~ msgstr "Configuración"
-
-#~ msgid "%d minutes and %d seconds"
-#~ msgstr "%d minutos y %d segundos"
+msgstr "Loistava työkalu tuottavuuden parantamiseen!"
