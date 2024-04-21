@@ -24,7 +24,10 @@ $ sudo apt-get install sox
 * Clone the repository and install the files into the Cinnamon applet directory:
 <pre>
     $ git clone git@github.com:gfreeau/cinnamon-pomodoro.git
-    $ cp -r cinnamon-pomodoro/pomodoro@gregfreeman.org ~/.local/share/cinnamon/applets
+</pre>
+* Then call `update-applet.sh` to overwrite the applet downloaded with the latest local changes
+<pre>
+    $ ./update-applet.sh
 </pre>
 * Alternatively, if you don't have GIT installed you can just download zip file:
 <pre>
@@ -32,7 +35,7 @@ $ sudo apt-get install sox
     $ unzip cinnamon-pomodoro.zip
     $ cp -r cinnamon-pomodoro/pomodoro@gregfreeman.org ~/.local/share/cinnamon/applets
 </pre>
-* You may need to restart Cinnamon, press ALT-F2 and enter 'r'
+* You will need to restart Cinnamon, press ALT-F2 and enter 'r'
 * Finally, enable the applet by going to Menu->Settings->Applets and selecting Pomodoro
 * Get productive!
 
