@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Gökhan GÖKKAYA <gokhanlnx@gmail.com>.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 msgid ""
 msgstr ""
@@ -9,209 +9,203 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/linuxmint/cinnamon-spices-applets/"
 "issues\n"
 "POT-Creation-Date: 2024-04-22 10:36+1000\n"
-"PO-Revision-Date: 2018-11-06 02:05+0300\n"
-"Last-Translator: Gökhan GÖKKAYA <gokhanlnx@gmail.com>\n"
-"Language-Team: Linux Mint Türkiye <gokhanlnx@gmail.com>\n"
-"Language: tr\n"
+"PO-Revision-Date: 2024-04-21 14:36+0200\n"
+"Last-Translator: qadzek\n"
+"Language-Team: \n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.6\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: applet.js:265
 msgid "Short break running"
-msgstr "Kısa mola yürütülüyor"
+msgstr "Korte pauze wordt uitgevoerd"
 
 #: applet.js:268
 msgid "Long break running"
-msgstr "Uzun mola yürütülüyor"
+msgstr "Lange pauze wordt uitgevoerd"
 
 #: applet.js:271
 #, javascript-format
 msgid "Pomodori %d, set %d running"
-msgstr "Pomodori %d, set %d çalışıyor"
+msgstr "Pomodori %d, set %d wordt uitgevoerd"
 
 #: applet.js:276
 msgid "Waiting to start"
-msgstr "Başlatma bekleniyor"
+msgstr "Wachten om te starten"
 
 #: applet.js:329
 msgid "Pomodoro started"
-msgstr "Pomodoro başlatıldı"
+msgstr "Pomodoro gestart"
 
 #: applet.js:394
 msgid "Let's go to work!"
-msgstr "Haydi çalışma başlayalım!"
+msgstr "Laten we aan het werk gaan!"
 
 #: applet.js:412
 msgid "Take a short break"
-msgstr "Kısa bir mola ver"
+msgstr "Neem een korte pauze"
 
 #: applet.js:432
 msgid "Take a long break"
-msgstr "Uzun bir mola ver"
+msgstr "Neem een lange pauze"
 
 #: applet.js:465
 msgid "Pomodoro ended"
-msgstr "Pomodoro sona erdi"
+msgstr "Pomodoro beëindigd"
 
 #: applet.js:551
 msgid "http://en.wikipedia.org/wiki/Pomodoro_Technique"
-msgstr ""
+msgstr "https://nl.wikipedia.org/wiki/Pomodorotechniek"
 
 #. metadata.json->name
 #: applet.js:697
 msgid "Pomodoro Timer"
-msgstr "Pomodoro Zamanlayıcı"
+msgstr "Pomodoro Timer"
 
 #: applet.js:706
 msgid "Completed"
-msgstr "Tamamlanan"
+msgstr "Voltooid"
 
 #: applet.js:714
 msgid "Reset Timer"
-msgstr "Zamanlayıcıyı Sıfırla"
+msgstr "Timer resetten"
 
 #: applet.js:722
 msgid "Reset Counts and Timer"
-msgstr "Sayıyı ve Zamanlayıcıyı Sıfırla"
+msgstr "Tellingen en timer resetten"
 
 #: applet.js:731
 msgid "What is this?"
-msgstr "Bu nedir?"
+msgstr "Wat is dit?"
 
 #: applet.js:771
 msgid "None"
-msgstr "Yok"
+msgstr "Geen"
 
 #: applet.js:787
 msgid "Switch Off Pomodoro"
-msgstr "Pomodoro'yu kapat"
+msgstr "Pomodoro uitschakelen"
 
 #: applet.js:793
 msgid "Start a new Pomodoro"
-msgstr "Yeni bir Pomodoro başlat"
+msgstr "Start een nieuwe Pomodoro"
 
 #: applet.js:799
 msgid "Hide"
-msgstr "Gizle"
+msgstr "Verbergen"
 
 #: applet.js:811
 msgid "Pomodoro set finished, you deserve a break!"
-msgstr "Pomodoro seti bitti, bir mola hakettin!"
+msgstr "Pomodoro-set voltooid, je verdient een pauze!"
 
 #: applet.js:820
 msgid "Your break is over, start another pomodoro!"
-msgstr "Mola sona erdi, başka bir pomodoro başlat!"
+msgstr "Je pauze is voorbij, begin met een nieuwe pomodoro!"
 
 #: applet.js:826
-#, fuzzy, javascript-format
+#, javascript-format
 msgid "A new pomodoro begins in %s."
-msgstr "Yeni bir pomodoro başlatma için süre "
+msgstr "Een nieuwe pomodoro begint over %s."
 
 #: applet.js:838
 #, javascript-format
 msgid "%d minute"
 msgid_plural "%d minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d minuut"
+msgstr[1] "%d minuten"
 
 #: applet.js:839
 #, javascript-format
 msgid "%d second"
 msgid_plural "%d seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d seconde"
+msgstr[1] "%d seconden"
 
 #: applet.js:841
 #, javascript-format
 msgid "%s and %s"
-msgstr ""
+msgstr "%s en %s"
 
 #: applet.js:856
 msgid "Continue Current Pomodoro"
-msgstr "Mevcut Pomodoroya Devam Et"
+msgstr "Doorgaan met huidige Pomodoro"
 
 #: applet.js:862 applet.js:895
 msgid "Pause Pomodoro"
-msgstr "Pomodoroyu Beklet"
+msgstr "Pauzeer Pomodoro"
 
 #: applet.js:873
 msgid "Short break finished, ready to continue?"
-msgstr "Kısa mola bitti, devam etmeye hazır mısın?"
+msgstr "Korte pauze voltooid, klaar om door te gaan?"
 
 #: applet.js:889
 #, fuzzy
 msgid "Start break"
-msgstr "Kısa bir mola ver"
+msgstr "Neem een korte pauze"
 
 #: applet.js:906
 #, fuzzy
 msgid "Pomodoro finished, ready to take a break?"
-msgstr "Pomodoro seti bitti, bir mola hakettin!"
+msgstr "Pomodoro-set voltooid, je verdient een pauze!"
 
 #. metadata.json->description
 msgid "Great tool for boosted productivity!"
-msgstr "Verimlilik artırma için harika bir araç!"
+msgstr "Een geweldige tool voor verhoogde productiviteit!"
 
 #. settings-schema.json->head_durations->description
 msgid "Durations (minutes)"
-msgstr "Süreler (dakika)"
+msgstr "Duur (minuten)"
 
 #. settings-schema.json->pomodoro_duration->description
-#, fuzzy
 msgid "Pomodoro Duration:"
-msgstr "Pomodoro Süresi:  "
+msgstr "Pomodoro-duur:"
 
 #. settings-schema.json->short_break_duration->description
-#, fuzzy
 msgid "Short Break Duration:"
-msgstr "Kısa Mola Süresi:  "
+msgstr "Duur van korte pauze:"
 
 #. settings-schema.json->long_break_duration->description
-#, fuzzy
 msgid "Long Break Duration:"
-msgstr "Uzun Mola Süresi:  "
+msgstr "Duur van lange pauze:"
 
 #. settings-schema.json->pomodori_number->description
-#, fuzzy
 msgid "Number of pomodori before long break:"
-msgstr "Uzun mola öncesi pomodori sayısı:  "
+msgstr "Aantal pomodori voor lange pauze:"
 
 #. settings-schema.json->head_options->description
 msgid "Options"
-msgstr "Seçenekler"
+msgstr "Opties"
 
 #. settings-schema.json->show_dialog_messages->description
 msgid "Show Dialog Messages"
-msgstr "İletişim Mesajlarını Göster"
+msgstr "Dialoogberichten weergeven"
 
 #. settings-schema.json->auto_start_after_pomodoro_ends->description
 #, fuzzy
 msgid "Auto start after a pomodoro ends"
-msgstr "Kısa bir moladan sonra otomatik başlat"
+msgstr "Automatisch starten na het einde van een korte pauze"
 
 #. settings-schema.json->auto_start_after_short_break_ends->description
 msgid "Auto start after a short break ends"
-msgstr "Kısa bir moladan sonra otomatik başlat"
+msgstr "Automatisch starten na het einde van een korte pauze"
 
 #. settings-schema.json->auto_start_after_break_ends->description
 msgid "Auto start a new pomodoro after a break ends"
-msgstr "Bir mola bittikten sonra otomatik olarak yeni bir pomodoro başlat"
+msgstr "Automatisch starten van een nieuwe pomodoro na het einde van een pauze"
 
 #. settings-schema.json->display_icon->description
 msgid "Display the pomodoro icon in the applet panel"
-msgstr "Uygulama panelinde pomodoro simgesini görüntüle"
+msgstr "Het pomodoro-pictogram weergeven in het appletpaneel"
 
 #. settings-schema.json->use_symbolic_icon->description
-#, fuzzy
 msgid "Use a symbolic icon in the applet panel"
-msgstr "Uygulama panelinde pomodoro simgesini görüntüle"
+msgstr "Een symbolisch pictogram gebruiken in het appletpaneel"
 
 #. settings-schema.json->show_timer->description
 msgid "Show the pomodoro timer in the applet panel"
-msgstr "Uygulama panelinde pomodoro zamanlayıcısını göster"
+msgstr "De pomodoro-timer weergeven in het appletpaneel"
 
 #. settings-schema.json->hotkey->description
 msgid "Set the keybinding to open the applet menu"
@@ -219,57 +213,52 @@ msgstr ""
 
 #. settings-schema.json->head_sounds->description
 msgid "Sounds"
-msgstr "Sesler"
+msgstr "Geluiden"
 
 #. settings-schema.json->sox-info->description
 msgid "Please install 'sox' and restart Cinnamon to use the sound feature!"
 msgstr ""
+"Installeer 'sox' en herstart Cinnamon om de geluidsfunctie te gebruiken!"
 
 #. settings-schema.json->timer_sound->description
 msgid "Play Timer Sound"
-msgstr "Zamanlayıcı Sesi Çal"
+msgstr "Timer geluid afspelen"
 
 #. settings-schema.json->timer_sound_file->description
-#, fuzzy
 msgid "Timer Sound File"
-msgstr "Zamanlayıcı Ses Dosyası "
+msgstr "Geluidsbestand voor timer"
 
 #. settings-schema.json->timer_sound_volume->description
 #. settings-schema.json->break_sound_volume->description
 #. settings-schema.json->warn_sound_volume->description
 #. settings-schema.json->start_sound_volume->description
-#, fuzzy
 msgid "Sound volume:"
-msgstr "Ses Seviyesi:  "
+msgstr "Geluidsvolume:"
 
 #. settings-schema.json->break_sound->description
 msgid "Play Break Sound"
-msgstr "Mola Sesi Çal"
+msgstr "Pauzegeluid afspelen"
 
 #. settings-schema.json->break_sound_file->description
-#, fuzzy
 msgid "Break Sound File"
-msgstr "Molaa Ses Dosyası "
+msgstr "Pauzegeluid bestand"
 
 #. settings-schema.json->warn_sound->description
 msgid "Play Warn Sound"
-msgstr "Uyarı Sesi Çal"
+msgstr "Waarschuwingsgeluid afspelen"
 
 #. settings-schema.json->warn_sound_delay->description
-#, fuzzy
 msgid "Warn Delay (in secs):"
-msgstr "Uyarma Gecikmesi (saniye cinsinden): "
+msgstr "Waarschuwingsvertraging (in seconden):"
 
 #. settings-schema.json->warn_sound_file->description
-#, fuzzy
 msgid "Warn Sound File"
-msgstr "Uyarı Ses Dosyası "
+msgstr "Waarschuwingsgeluid bestand"
 
 #. settings-schema.json->start_sound->description
 msgid "Play Start Sound"
-msgstr "Başlangıç Sesi Çal"
+msgstr "Startgeluid afspelen"
 
 #. settings-schema.json->start_sound_file->description
-#, fuzzy
 msgid "Start Sound File"
-msgstr "Başlangıç Sesi Dosyası "
+msgstr "Startgeluid bestand"
