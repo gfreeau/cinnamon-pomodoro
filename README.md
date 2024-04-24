@@ -36,7 +36,7 @@ The applet provides configurable settings that affect how timers transition from
 **Auto Start Options**
 - **Purpose**: Auto start settings allow for an uninterrupted workflow by automatically starting the next session—be it a Pomodoro, short break, or long break—without user interaction.
 - **Usage**: 
-  - **Pomodoro and Short Break**: If auto start is enabled for these timers, the next session will commence immediately after the current one ends, without showing any dialog, regardless if the dialog window option is enabled or disabled.
+  - **Pomodoro and Short Break**: If auto start is enabled for these timers, the next session will commence immediately after the current one ends, and it will skip any dialog prompts, regardless of whether the dialog window option is turned on.
   - **Long Break**: The auto start for a long break can work concurrently with dialog windows. When both are enabled, a dialog window will appear at the start of the long break showing a countdown. If the auto start after long break is also enabled, this dialog will automatically close when the countdown finishes, and a new Pomodoro will begin.
 
 ### Best Practices for Configuring Settings
@@ -66,15 +66,6 @@ Experiment with different configurations to find the optimal setup that enhances
 ![Applet screenshot](options_screenshot_1.png )
 
 ![Applet screenshot](options_screenshot_2.png )
-
-## Changelog
-- 1.0.1
-    - Added option to automatically start the timer on log in
-- 1.0.0
-    - Added keyboard shortcut to open the applet
-    - Added new dialog option to show after a pomodoro ends
-    - Added applet menu option to skip the current timer, useful if you want to end early
-    - Updated code to use ES6 for easier updates in future
 
 ## Local Development
 
