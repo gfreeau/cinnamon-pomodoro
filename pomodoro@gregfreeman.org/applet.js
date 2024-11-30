@@ -8,6 +8,7 @@ const Settings = imports.ui.settings;
 const Util = imports.misc.util;
 const GLib = imports.gi.GLib;
 const Gio = imports.gi.Gio;
+const Signals = imports.signals;
 
 const UUID = "pomodoro@gregfreeman.org";
 
@@ -838,7 +839,14 @@ class PomodoroMenu extends Applet.AppletPopupMenu {
 }
 
 function createPomodoroSetFinishedDialog() {
+    /* This dialog factory function creates a modal dialog that's compatible across different 
+     * Cinnamon versions. In older versions, ModalDialog was a plain object, while in newer versions 
+     * it extends St.Widget. Using inheritance caused compatibility issues between
+     * these different implementations. All pomodoro dialogs are now created this way to ensure compatibility.
+     */
     let dialog = new ModalDialog.ModalDialog();
+    
+    Signals.addSignalMethods(dialog);
     
     let subjectLabel = new St.Label();
     let timeLabel = new St.Label();
@@ -896,6 +904,8 @@ function createPomodoroSetFinishedDialog() {
 function createPomodoroShortBreakFinishedDialog() {
     let dialog = new ModalDialog.ModalDialog();
     
+    Signals.addSignalMethods(dialog);
+    
     let subjectLabel = new St.Label();
     let timeLabel = new St.Label();
     dialog.contentLayout.add(subjectLabel);
@@ -923,6 +933,8 @@ function createPomodoroShortBreakFinishedDialog() {
 
 function createPomodoroFinishedDialog() {
     let dialog = new ModalDialog.ModalDialog();
+    
+    Signals.addSignalMethods(dialog);
     
     let subjectLabel = new St.Label();
     let timeLabel = new St.Label();
