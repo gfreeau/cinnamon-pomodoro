@@ -838,8 +838,8 @@ class PomodoroMenu extends Applet.AppletPopupMenu {
 }
 
 class PomodoroSetFinishedDialog extends ModalDialog.ModalDialog {
-    constructor() {
-        super();
+    _init(params) {
+        super._init(params);
         this._subjectLabel = new St.Label();
         this.contentLayout.add(this._subjectLabel);
 
@@ -907,8 +907,8 @@ class PomodoroSetFinishedDialog extends ModalDialog.ModalDialog {
 }
 
 class PomodoroShortBreakFinishedDialog extends ModalDialog.ModalDialog {
-    constructor() {
-        super();
+    _init(params) {
+        super._init(params);
         this._subjectLabel = new St.Label();
         this.contentLayout.add(this._subjectLabel);
 
@@ -940,8 +940,8 @@ class PomodoroShortBreakFinishedDialog extends ModalDialog.ModalDialog {
 }
 
 class PomodoroFinishedDialog extends ModalDialog.ModalDialog {
-    constructor() {
-        super();
+    _init(params) {
+        super._init(params);
         this._subjectLabel = new St.Label();
         this.contentLayout.add(this._subjectLabel);
 
