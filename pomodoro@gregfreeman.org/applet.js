@@ -614,7 +614,7 @@ class PomodoroApplet extends Applet.TextIconApplet {
     }
     
     _createLongBreakDialog() {
-        this._longBreakdialog = new PomodoroSetFinishedDialog();
+        this._longBreakdialog = createPomodoroSetFinishedDialog();
     
         this._longBreakdialog.connect('switch-off-pomodoro', () => {
             if (!this._timerQueue.isRunning() && !this._opt_autoStartNewAfterFinish) {
@@ -644,15 +644,15 @@ class PomodoroApplet extends Applet.TextIconApplet {
     }
     
     _createShortBreakDialog() {
-        this._shortBreakdialog = new PomodoroShortBreakFinishedDialog();
-    
+        this._shortBreakdialog = createPomodoroShortBreakFinishedDialog();
+
         this._shortBreakdialog.connect('continue-current-pomodoro', () => {
             this._shortBreakdialog.close();
             this._timerQueue.preventStart(false);
             this._appletMenu.toggleTimerState(true);
             this._timerQueue.start();
         });
-    
+
         this._shortBreakdialog.connect('pause-pomodoro', () => {
             this._timerQueue.stop();
             this._appletMenu.toggleTimerState(false);
@@ -661,15 +661,15 @@ class PomodoroApplet extends Applet.TextIconApplet {
     }
 
     _createPomodoroFinishedDialog() {
-        this._pomodoroFinishedDialog = new PomodoroFinishedDialog();
-    
+        this._pomodoroFinishedDialog = createPomodoroFinishedDialog();
+
         this._pomodoroFinishedDialog.connect('continue-current-pomodoro', () => {
             this._pomodoroFinishedDialog.close();
             this._timerQueue.preventStart(false);
             this._appletMenu.toggleTimerState(true);
             this._timerQueue.start();
         });
-    
+
         this._pomodoroFinishedDialog.connect('pause-pomodoro', () => {
             this._timerQueue.stop();
             this._appletMenu.toggleTimerState(false);
@@ -837,65 +837,31 @@ class PomodoroMenu extends Applet.AppletPopupMenu {
     }
 }
 
-class PomodoroSetFinishedDialog extends ModalDialog.ModalDialog {
-    _init(params) {
-        super._init(params);
-        this._subjectLabel = new St.Label();
-        this.contentLayout.add(this._subjectLabel);
+function createPomodoroSetFinishedDialog() {
+    let dialog = new ModalDialog.ModalDialog();
+    
+    let subjectLabel = new St.Label();
+    let timeLabel = new St.Label();
+    dialog.contentLayout.add(subjectLabel);
+    dialog.contentLayout.add(timeLabel);
 
-        this._timeLabel = new St.Label();
-        this.contentLayout.add(this._timeLabel);
-
-        this.setButtons([
-            {
-                label: _("Switch Off Pomodoro"),
-                action: () => {
-                    this.emit('switch-off-pomodoro');
-                }
-            },
-            {
-                label: _("Start a new Pomodoro"),
-                action: () => {
-                    this.emit('start-new-pomodoro');
-                }
-            },
-            {
-                label: _("Hide"),
-                action: () => {
-                    this.emit('hide');
-                },
-                key: Clutter.Escape
-            }
-        ]);
-
-        this.setDefaultLabels();
-    }
-
-    setDefaultLabels() {
-        this._subjectLabel.set_text(_("Pomodoro set finished, you deserve a break!") + "\n");
-        // Reset the time label text
-        this._timeLabel.text = '';
-    }
-
-    setTimeRemaining(timer) {
-        let tickCount = timer.getTicksRemaining();
-
-        if (tickCount === 0) {
-            this._subjectLabel.text = _("Your break is over, start another pomodoro!") + "\n";
-            this._timeLabel.text = '';
-            return;
+    dialog.setButtons([
+        {
+            label: _("Switch Off Pomodoro"),
+            action: () => dialog.emit('switch-off-pomodoro')
+        },
+        {
+            label: _("Start a new Pomodoro"),
+            action: () => dialog.emit('start-new-pomodoro')
+        },
+        {
+            label: _("Hide"),
+            action: () => dialog.emit('hide'),
+            key: Clutter.Escape
         }
+    ]);
 
-        // Update the time label text based on the time remaining
-        this._setTimeLabelText(_("A new pomodoro begins in %s.").format(this._getTimeString(tickCount)));
-    }
-
-    _setTimeLabelText(label) {
-        this._timeLabel.set_text(label + "\n");
-    }
-
-    _getTimeString(totalSeconds) {
-        // Convert total seconds to minutes and seconds
+    function getTimeString(totalSeconds) {
         let minutes = parseInt(totalSeconds / 60);
         let seconds = parseInt(totalSeconds % 60);
 
@@ -904,71 +870,82 @@ class PomodoroSetFinishedDialog extends ModalDialog.ModalDialog {
 
         return _("%s and %s").format(min, sec);
     }
+
+    dialog.setDefaultLabels = () => {
+        subjectLabel.set_text(_("Pomodoro set finished, you deserve a break!") + "\n");
+        timeLabel.text = '';
+    };
+
+    dialog.setTimeRemaining = (timer) => {
+        let tickCount = timer.getTicksRemaining();
+
+        if (tickCount === 0) {
+            subjectLabel.text = _("Your break is over, start another pomodoro!") + "\n";
+            timeLabel.text = '';
+            return;
+        }
+
+        timeLabel.set_text(_("A new pomodoro begins in %s.").format(getTimeString(tickCount)) + "\n");
+    };
+
+    dialog.setDefaultLabels();
+
+    return dialog;
 }
 
-class PomodoroShortBreakFinishedDialog extends ModalDialog.ModalDialog {
-    _init(params) {
-        super._init(params);
-        this._subjectLabel = new St.Label();
-        this.contentLayout.add(this._subjectLabel);
+function createPomodoroShortBreakFinishedDialog() {
+    let dialog = new ModalDialog.ModalDialog();
+    
+    let subjectLabel = new St.Label();
+    let timeLabel = new St.Label();
+    dialog.contentLayout.add(subjectLabel);
+    dialog.contentLayout.add(timeLabel);
 
-        this._timeLabel = new St.Label();
-        this.contentLayout.add(this._timeLabel);
+    dialog.setButtons([
+        {
+            label: _("Continue Current Pomodoro"),
+            action: () => dialog.emit('continue-current-pomodoro')
+        },
+        {
+            label: _("Pause Pomodoro"),
+            action: () => dialog.emit('pause-pomodoro')
+        }
+    ]);
 
-        this.setButtons([
-            {
-                label: _("Continue Current Pomodoro"),
-                action: () => {
-                    this.emit('continue-current-pomodoro');
-                }
-            },
-            {
-                label: _("Pause Pomodoro"),
-                action: () => {
-                    this.emit('pause-pomodoro');
-                }
-            }
-        ]);
+    dialog.setDefaultLabels = () => {
+        subjectLabel.set_text(_("Short break finished, ready to continue?") + "\n");
+        timeLabel.text = '';
+    };
 
-        this.setDefaultLabels();
-    }
-
-    setDefaultLabels() {
-        this._subjectLabel.set_text(_("Short break finished, ready to continue?") + "\n");
-        this._timeLabel.text = '';
-    }
+    dialog.setDefaultLabels();
+    return dialog;
 }
 
-class PomodoroFinishedDialog extends ModalDialog.ModalDialog {
-    _init(params) {
-        super._init(params);
-        this._subjectLabel = new St.Label();
-        this.contentLayout.add(this._subjectLabel);
+function createPomodoroFinishedDialog() {
+    let dialog = new ModalDialog.ModalDialog();
+    
+    let subjectLabel = new St.Label();
+    let timeLabel = new St.Label();
+    dialog.contentLayout.add(subjectLabel);
+    dialog.contentLayout.add(timeLabel);
 
-        this._timeLabel = new St.Label();
-        this.contentLayout.add(this._timeLabel);
+    dialog.setButtons([
+        {
+            label: _("Start break"),
+            action: () => dialog.emit('continue-current-pomodoro')
+        },
+        {
+            label: _("Pause Pomodoro"),
+            action: () => dialog.emit('pause-pomodoro')
+        }
+    ]);
 
-        this.setButtons([
-            {
-                label: _("Start break"),
-                action: () => {
-                    this.emit('continue-current-pomodoro');
-                }
-            },
-            {
-                label: _("Pause Pomodoro"),
-                action: () => {
-                    this.emit('pause-pomodoro');
-                }
-            }
-        ]);
+    dialog.setDefaultLabels = () => {
+        subjectLabel.set_text(_("Pomodoro finished, ready to take a break?") + "\n");
+        timeLabel.text = '';
+    };
 
-        this.setDefaultLabels();
-    }
-
-    setDefaultLabels() {
-        this._subjectLabel.set_text(_("Pomodoro finished, ready to take a break?") + "\n");
-        this._timeLabel.text = '';
-    }
+    dialog.setDefaultLabels();
+    return dialog;
 }
 
